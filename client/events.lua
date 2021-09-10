@@ -458,47 +458,6 @@ AddEventHandler('renzu_customs:vehiclemod', function(vehicle)
     end
 end)
 
-RegisterNetEvent('renzu_customs:opengaragemenu')
-AddEventHandler('renzu_customs:opengaragemenu', function(id,v)
-    local garage,table = id,v
-    ESX.TriggerServerCallback("renzu_customs:isShopAvailable",function(owned,share)
-        local multimenu = {}
-        if not owned then
-            firstmenu = {
-                ['Buy Shop'] = {
-                    ['title'] = 'Buy Shop',
-                    ['fa'] = '<i class="fad fa-question-square"></i>',
-                    ['type'] = 'event', -- event / export
-                    ['content'] = 'renzu_customs:buyshop',
-                    ['variables'] = {server = true, send_entity = false, onclickcloseui = true, custom_arg = {garage,table}, arg_unpack = true},
-                },
-            }
-            multimenu['Garage Menu'] = firstmenu
-            TriggerEvent('renzu_contextmenu:insertmulti',multimenu,"Garage Menu",false)
-            TriggerEvent('renzu_contextmenu:show')
-        elseif not owned and IsPedInAnyVehicle(PlayerPedId()) then
-            TriggerEvent('renzu_notify:Notify', 'error','Garage', 'You dont owned this garage')
-        elseif owned and IsPedInAnyVehicle(PlayerPedId()) then
-            local prop = GetVehicleProperties(GetVehiclePedIsIn(PlayerPedId()))
-            ReqAndDelete(GetVehiclePedIsIn(PlayerPedId()))
-            TriggerServerEvent('renzu_customs:storeprivate',id,v, prop)
-        elseif owned then
-            secondmenu = {
-                ['Manage'] = {
-                    ['title'] = 'Sell Shop',
-                    ['fa'] = '<i class="fad fa-garage"></i>',
-                    ['type'] = 'event', -- event / export
-                    ['content'] = 'renzu_customs:gotogarage',
-                    ['variables'] = {server = true, send_entity = false, onclickcloseui = true, custom_arg = {garage,table}, arg_unpack = true},
-                },
-            }
-            multimenu['My Garage'] = secondmenu
-            TriggerEvent('renzu_contextmenu:insertmulti',multimenu,"Garage Menu",false)
-            TriggerEvent('renzu_contextmenu:show')
-        end
-    end,id,v)
-end)
-
 RegisterNetEvent('renzu_customs:soundsync')
 AddEventHandler('renzu_customs:soundsync', function(table)
     local volume = table['volume']
