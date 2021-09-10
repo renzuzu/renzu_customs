@@ -5,6 +5,7 @@ Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
 Config.usePopui = false -- POPUI or Drawmarker Floating Text https://github.com/renzuzu/renzu_popui
 Config.showmarker = true -- Drawmarker and FLoating Text
 Config.job = 'mechanic' -- job permmision
+Config.PlateSpace = true -- is your plate is ABC 123 format
 
 -- CUSTOM CONFIG
 Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs
