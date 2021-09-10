@@ -48,6 +48,59 @@ Config.UseCustomTireUpgrade = true -- enable disable custom tires upgrade
 Config.RepairCost = 1500 -- repair cost
 ```
 
+# Advanced Usage
+- SetVehicleProp Exports (setter)
+```
+  exports.renzu_customs:SetVehicleProp(vehicle, props) = Save Current Vehicle Props (You need this in your current garage to save and restore custom upgrades (turbo,engine,tires)
+```
+- GetVehicleProperties Exports (getter)
+```
+  exports.renzu_customs:GetVehicleProperties(vehicle) -- return Current Vehicle Props Similar to ESX GAME VEHICLE PROPS (but this return custom upgrades)
+```
+- GetVehicleEngine Exports (getter)
+```
+  exports.renzu_customs:GetVehicleEngine(vehicle) = return current Vehicle Custom Engine
+```
+- GetVehicleTurbo Exports (getter)
+```
+  exports.renzu_customs:GetVehicleTurbo(vehicle) = return current Vehicle Turbo Upgrade
+```
+- SetVehicleTurbo Exports (setter)
+```
+  exports.renzu_customs:SetVehicleTurbo(vehicle, turbo) = Change Custom Vehicle Turbo Upgrade (entity, (Sports,Street,Racing,Default))
+```
+
+- SetVehicleEngine Exports (setter)
+```
+  exports.renzu_customs:SetVehicleEngine(vehicle, engine) = Change Custom Vehicle Engine Upgrade (entity, (adder,elegy,fmj,Default))
+```
+
+- SetVehicleHandlingSpec Exports (setter)
+```
+  exports.renzu_customs:SetVehicleHandlingSpec(vehicle,model) = Change Current Vehicle Handling (or Copy Other Vehicle Model Handling) (model can be hash or modelname)
+```
+- GetHandlingfromModel Exports (getter)
+```
+  exports.renzu_customs:GetHandlingfromModel(model) = return the current Vehicle Model Specs
+  
+  example:
+local table = {
+      ['fDriveInertia'] = tonumber(v.DriveInertia),
+      ['nInitialDriveGears'] = tonumber(v.InitialDriveGears),
+      ['fInitialDriveForce'] = tonumber(v.InitialDriveForce),
+      ['fClutchChangeRateScaleUpShift'] = tonumber(v.ClutchChangeRateScaleUpShift),
+      ['fClutchChangeRateScaleDownShift'] = tonumber(v.ClutchChangeRateScaleDownShift),
+      ['fInitialDriveMaxFlatVel'] = tonumber(v.InitialDriveMaxFlatVel),
+      ['fMass'] = tonumber(v.Mass),
+      --TIRE
+      ['fLowSpeedTractionLossMult'] = tonumber(v.LowSpeedTractionLossMult),
+      ['fTractionLossMult'] = tonumber(v.TractionLossMult),
+      ['fTractionCurveMin'] = tonumber(v.TractionCurveMin),
+      ['fTractionCurveMax'] = tonumber(v.TractionCurveMax),
+      ['fTractionCurveLateral'] = tonumber(v.TractionCurveLateral),
+}
+```
+
 # Dependency
 - ESX (V1 FInal, ESX Legacy) Tested
 - POPUI https://github.com/renzuzu/renzu_popui (Optional) you can used native drawmarker and floating text (config)
