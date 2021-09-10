@@ -513,11 +513,16 @@ function DrawMarkerInput(vec,msg,event,server,name,var,u)
             cancel = false
             local ped = PlayerPedId()
             local coord = GetEntityCoords(ped)
+            local invehicle = IsPedInAnyVehicle(PlayerPedId())
             while #(vec - coord) <= 15 and not cancel and inmark do
                 Citizen.Wait(5)
                 coord = GetEntityCoords(ped)
                 if Config.showmarker then
                     DrawMarker(22, vec ,0,0,0,0,0,1.0,1.0,1.0,1.0,255, 255, 220,200,0,0,0,1)
+                end
+                if invehicle ~= IsPedInAnyVehicle(PlayerPedId()) then
+                    inmark = false
+                    markers[name] = nil
                 end
                 if not Config.usePopui and #(vec - coord) < 3.5 then
                     ShowFloatingHelpNotification("Press [E] "..msg,vec)
