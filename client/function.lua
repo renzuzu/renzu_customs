@@ -111,7 +111,7 @@ function SetVehicleProp(vehicle, props)
         if props.custom_turbo and Config.UseCustomTurboUpgrade then SetVehicleTurbo(vehicle, props.custom_turbo) end
         if props.custom_engine and Config.UseCustomEngineUpgrade then SetVehicleEngine(vehicle, props.custom_engine) end
         if props.custom_tire and Config.UseCustomTireUpgrade then SetVehicleTireType(vehicle, props.custom_tire) end
-        if props.drift_tire then SetDriftTyresEnabled(vehicle,props.drift_tire or false) end
+        if props.drift_tire and GetGameBuildNumber() >= 2372 then SetDriftTyresEnabled(vehicle,props.drift_tire or false) end --if this is buggy i will removed this but i think not
 	end
 end
 
