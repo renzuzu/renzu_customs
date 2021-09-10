@@ -1,0 +1,46 @@
+if you are reading this
+you are cool
+
+# INSTALLATION
+Step 1
+Download all Dependencies
+
+- ESX (V1 FInal, ESX Legacy) Tested
+- POPUI https://github.com/renzuzu/renzu_popui (Optional) you can used native drawmarker and floating text (config)
+- Contextmenu https://github.com/renzuzu/renzu_contextmenu (required in Interaction Menu and stock room , mod inventory)
+- Notify https://github.com/renzuzu/renzu_notify (OPTIONAL) You can used other Notification system (edit it yoursel)
+- Progressbar https://github.com/renzuzu/renzu_progressbar (OPTIONAL) 
+- Renzu_Job https://github.com/renzuzu/renzu_jobs (OPTIONAL for Job money)
+- Renzu Garage https://github.com/renzuzu/renzu_garage (OPTIONAL) - If you want the Custom Turbo ,Engine Tires are Saved in Vehicle Properties  / Can be Restored ?
+
+Step 2
+
+Configure the config.lua to your liking
+
+IMPORTANT CONFIG PART
+
+Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
+Config.usePopui = false -- POPUI or Drawmarker Floating Text
+Config.showmarker = true -- Drawmarker and FLoating Text
+Config.job = 'mechanic' -- job permmision
+Config.UseRenzu_jobs = true -- to have a profits for each upgrades
+Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
+Config.DefaultProp = 'hei_prop_heist_box' -- default prop when carrying a parts
+
+-- if you want CUSTOM ENGINE UPGRADE ,TURBO and TIRES make sure to true this all
+Config.UseCustomTurboUpgrade = true -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
+Config.useturbosound = true -- use custom BOV Sound for each turbo
+Config.turbosoundSync = true -- true = Server Sync Sound? or false = only the driver can hear it
+
+Config.UseCustomEngineUpgrade = true -- enable disable custom engine upgrade
+Config.UseCustomTireUpgrade = true -- enable disable custom tires upgrade
+
+Config.RepairCost = 1500 -- repair cost
+
+STEP 3
+start renzu_contextmenu -- IMPORTANT
+start renzu_notify -- IMPORTANT
+start renzu_jobs -- if Config.UseRenzu_job true
+start renzu_popui -- if Config.usePopui true
+start renzu_progressbar -- if you want a wait time for repairing a vehicle
+start renzu_customs

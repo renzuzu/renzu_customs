@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Renzu Vehicle Garage</title>
+    <script src="https://kit.fontawesome.com/eb73bbb7e4.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="design.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/44e6403392.js" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+  </head>
+  <body>
+    <div id="garage"></div>
+    <div id="repair" style="display: none;">
+      <header id="header" style="
+    position: absolute;
+    top: 30px;
+    right: 27px;
+    height: 5.9vh;
+    width: 485px;
+    background: #222;
+    background: rgb(4,38,71);
+    background: linear-gradient(90deg, rgba(4,38,71,1) 0%, rgba(0,42,97,0.9164040616246498) 35%, rgba(6,109,193,1) 100%);
+    z-index: 1;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+"> Repair Vehicle </header>
+      <div class="wrap" style="height: 150px;padding-top: 20px;margin-top: 20px;">
+        <article class="row" style="
+          height: 450px;
+          overflow-x: hidden;
+          /* text-align: center; */
+          padding: 20px;
+          margin: auto;
+          position: relative;
+          ">
+          <button onclick="Repair()" id="pay" class="modclass" style="float: right;float: left;position: absolute;right: 20%;top: 10%;height: 50px;width: 50%;border-radius: 10px;box-shadow: unset;/* background: #1473c5; */border: unset;">
+            <div class="mod_title" style="
+            height: 60px;
+            border-radius: 10px;
+            line-height: 31px;
+            background: #247ebd;
+            color: #f1f1f1;
+            font-weight: 600;
+            border-style: solid;
+            border-width: 2px;
+            padding-top: 15px;
+            font-size: 20px;
+            ">
+              <span>
+                <svg style="font-size: 15px;" class="svg-inline--fa fa-hammer fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="hammer" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
+                  <path fill="currentColor" d="M571.31 193.94l-22.63-22.63c-6.25-6.25-16.38-6.25-22.63 0l-11.31 11.31-28.9-28.9c5.63-21.31.36-44.9-16.35-61.61l-45.25-45.25c-62.48-62.48-163.79-62.48-226.28 0l90.51 45.25v18.75c0 16.97 6.74 33.25 18.75 45.25l49.14 49.14c16.71 16.71 40.3 21.98 61.61 16.35l28.9 28.9-11.31 11.31c-6.25 6.25-6.25 16.38 0 22.63l22.63 22.63c6.25 6.25 16.38 6.25 22.63 0l90.51-90.51c6.23-6.24 6.23-16.37-.02-22.62zm-286.72-15.2c-3.7-3.7-6.84-7.79-9.85-11.95L19.64 404.96c-25.57 23.88-26.26 64.19-1.53 88.93s65.05 24.05 88.93-1.53l238.13-255.07c-3.96-2.91-7.9-5.87-11.44-9.41l-49.14-49.14z"></path>
+                </svg>
+                <!-- <i style="font-size: 15px;" class="fas fa-hammer" aria-hidden="true"></i> Font Awesome fontawesome.com -->
+                <!-- <i class="fad fa-palette" style="font-size: 15px;" aria-hidden="true"></i> Font Awesome fontawesome.com --> REPAIR
+              </span>
+            </div>
+          </button>
+        </article>
+      </div>
+    </div>
+    <div id="custompaint" style="display: none;">
+      <header id="header" style="
+    position: absolute;
+    top: 30px;
+    right: 27px;
+    height: 14.8vh;
+    width: 485px;
+    background: #222;
+    background: rgb(4,38,71);
+    background: linear-gradient(90deg, rgba(4,38,71,1) 0%, rgba(0,42,97,0.9164040616246498) 35%, rgba(6,109,193,1) 100%);
+    z-index: 1;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+"> Custom Paint <button onclick="custompaintdone()" id="pay" class="modclass" style="float: right;float: right;position: absolute;right: 35%;top: 60%;height: 20px;border-radius: 10px;box-shadow: unset;/* background: #1473c5; */border: unset;">
+          <div class="mod_title" style="
+  height: 30px;
+  border-radius: 10px;
+  line-height: 31px;
+  background: #247ebd;
+  color: #f1f1f1;
+  font-weight: 600;
+  border-style: solid;
+  border-width: 2px;
+  ">
+            <span>
+              <i class="fad fa-palette" style="font-size: 15px;"></i> Done </span>
+          </div>
+        </button>
+      </header>
+      <div class="wrap" style="    height: 250px;padding-top: 20px;    margin-top: 120px;">
+        <article class="row" style="
+          height: 450px;
+          overflow-x: hidden;
+          /* text-align: center; */
+          padding: 20px;
+          margin: auto;
+          position: relative;
+          ">
+          <button id="colordiv" class="modclass" style="
+    width: 70%;
+    height: 40%;
+    margin: auto;
+    position: relative;
+    float: unset;
+    margin-left: 15%;
+    margin-top: 5%;
+">
+            <input type="color" id="custompaint" value="#ff0000" style="
+    width: 100px;
+    height: 100px;
+">
+            <div class="mod_title">
+              <span>Custom Color</span>
+            </div>
+          </button>
+        </article>
+      </div>
+    </div>
+    <div id="perf" style="display: none;">
+      <header style="
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    height: 100px;
+    width: 490px;
+    background: #222;
+    background: rgb(4,38,71);
+    background: linear-gradient(90deg, rgba(4,38,71,1) 0%, rgba(0,42,97,0.9164040616246498) 35%, rgba(6,109,193,1) 100%);
+    z-index: 1;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    color: #ffffff;
+    padding: 20px;
+">
+        <i style="font-size:45px;    margin-top: -14px;" class="fad fa-car-mechanic"></i> <span id="shopname">Bennys</span> <div class="section-title wow fadeInUp">
+          <h3 style="
+    font-size: 12px;
+">Cash: $ <span id="money">899,249</span>
+          </h3>
+          <h3 style="margin: 1px 5px 5px 5px;font-size: 12px;float: right;margin-top: -15px;">
+            <i class="fad fa-cash-register"></i> Total: $ <span id="cost"> 0</span>
+          </h3>
+          <button onclick="invoice()" id="pay" class="modclass" style="float: right;float: right;position: absolute;right: 6%;top: 10%;height: 20px;border-radius: 10px;box-shadow: unset;/* background: #1473c5; */border: unset;">
+            <div class="mod_title" style="
+height: 30px;
+border-radius: 10px;
+line-height: 31px;
+background: #247ebd;
+color: #f1f1f1;
+font-weight: 600;
+border-style: solid;
+border-width: 2px;
+">
+              <span>
+                <i class="fad fa-shopping-cart" style="font-size: 15px;"></i> Pay </span>
+            </div>
+          </button>
+          <span class="border"></span>
+        </div>
+      </header>
+      <div class="wrap" style="    height: 550px;padding-top: 20px;    margin-top: 120px;">
+        <article class="row" id="custom" style="height: 450px;
+        overflow-x: hidden;"></article>
+        <div style="text-align: center;position: absolute;bottom: 50px;left: 120px;display: none;">Press [E] to Disable Camera</div>
+      </div>
+    </div>
+    <div id="invoice" class="container" style="
+    position: absolute;
+    top: 0;
+    left: 40vw;
+    display: none;
+">
+      <div class="invoice" style="
+    background: #175a8a;
+    background: rgb(4,38,71);
+    background: linear-gradient( 
+90deg
+, rgba(4,38,71,1) 0%, rgba(0,42,97,0.9164040616246498) 35%, rgb(22 78 123) 100%);
+">
+        <header>
+          <section>
+            <h1 style="
+    font-size: 20px;
+    color: #fff;
+"><i style="font-size:45px;    margin-top: -14px;" class="fad fa-car-mechanic"></i> Invoice</h1>
+            <span style="
+    font-size: 10px;
+">Yourshop Name</span>
+          </section>
+        </header>
+        <main>
+          <section>
+            <span>Product</span>
+            <span>Price</span>
+          </section>
+          <section id="invoicelist" style="height: 300px;overflow-y: scroll;"></section>
+          <section>
+            <span style="color:#62ffa1">Total</span>
+            <span style="color: white;" id="totalcost2">9.90</span>
+          </section>
+        </main>
+        <footer>
+          <a href="#0" onclick="document.getElementById('invoice').style.display = 'none';">Later</a>
+          <a href="#0" style="
+    color: #62ffa1;
+" onclick="pay();">Pay Now</a>
+        </footer>
+      </div>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
