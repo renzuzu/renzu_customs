@@ -110,13 +110,14 @@ local default_routing = {}
 local current_routing = {}
 
 function Jobmoney(job)
-    local value = 0
+    local value = -1
     local job = job
+    local count = 0
     CreateThread(function()
         value = exports.renzu_jobs:JobMoney(job).money
     end)
-    Wait(1500)
-    return tonumber(value)
+    while value == -1 and count < 150 do count = count + 1 Wait(0) end
+    return value
 end
 
 ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
