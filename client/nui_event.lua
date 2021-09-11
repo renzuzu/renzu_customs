@@ -72,7 +72,7 @@ RegisterNUICallback('repair', function(data, cb)
             TriggerEvent('renzu_notify:Notify', 'error','Customs', 'Not enough money cabron $'..Config.RepairCost..' Required')
             cb(false)
         end
-    end)
+    end,currentprivate)
 end)
 
 RegisterNUICallback('SetCustomTire', function(data, cb)
@@ -280,7 +280,7 @@ RegisterNUICallback('pay', function(data, cb)
             })
             inmark = false
         end
-    end,t)
+    end,t,currentprivate)
 end)
 
 RegisterNUICallback('Reset', function(data, cb)

@@ -109,7 +109,7 @@ end)
 local default_routing = {}
 local current_routing = {}
 
-ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t)
+ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
@@ -128,7 +128,7 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t)
             xPlayer.removeMoney(cost)
             TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
             if Config.UseRenzu_jobs then
-                addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.job,source,'money',true)
+                addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
             end
             cb(true)
         else
@@ -141,12 +141,15 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t)
     end
 end)
 
-ESX.RegisterServerCallback('renzu_customs:repair', function (source, cb)
+ESX.RegisterServerCallback('renzu_customs:repair', function (source, cb, shop)
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
     local jobmoney = 0
     if xPlayer.getMoney() >= Config.RepairCost then
         xPlayer.removeMoney(Config.RepairCost)
+        if Config.UseRenzu_jobs then
+            addmoney = exports.renzu_jobs:addMoney(tonumber(Config.RepairCost),Config.Customs[shop].job,source,'money',true)
+        end
         cb(true)
     else
         cb(false)
