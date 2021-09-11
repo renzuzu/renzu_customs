@@ -109,6 +109,16 @@ end)
 local default_routing = {}
 local current_routing = {}
 
+function Jobmoney(job)
+    local value = 0
+    local job = job
+    CreateThread(function()
+        value = exports.renzu_jobs:JobMoney(job).money
+    end)
+    Wait(1500)
+    return tonumber(value)
+end
+
 ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
@@ -116,7 +126,7 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
     local prop = t.prop
     local cost = t.cost
     local jobmoney = 0
-    if xPlayer.getMoney() >= t.cost then
+    if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
         local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
@@ -127,8 +137,10 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
             })
             xPlayer.removeMoney(cost)
             TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
-            if Config.UseRenzu_jobs then
+            if Config.UseRenzu_jobs and not Config.JobPermissionAll then
                 addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+            elseif Config.UseRenzu_jobs and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name then
+                removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
             end
             cb(true)
         else
@@ -146,9 +158,11 @@ ESX.RegisterServerCallback('renzu_customs:repair', function (source, cb, shop)
     local xPlayer = ESX.GetPlayerFromId(src)
     local jobmoney = 0
     if xPlayer.getMoney() >= Config.RepairCost then
-        xPlayer.removeMoney(Config.RepairCost)
-        if Config.UseRenzu_jobs then
+        if Config.UseRenzu_jobs and Config.Customs[shop].job ~= xPlayer.job.name then -- job permission access is free repair
             addmoney = exports.renzu_jobs:addMoney(tonumber(Config.RepairCost),Config.Customs[shop].job,source,'money',true)
+        end
+        if Config.Customs[shop].job ~= xPlayer.job.name then
+            xPlayer.removeMoney(Config.RepairCost)
         end
         cb(true)
     else
