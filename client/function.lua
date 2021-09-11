@@ -10,6 +10,20 @@ function GetVehicleValue(modelhash)
     return tonumber(value)
 end
 
+function ShopPermmision(shop,type)
+    local type = type
+    local shop = shop
+    if PlayerData.job == nil then return false end
+    if Config.Customs[shop].min_grade == nil then
+        Config.Customs[shop].min_grade = Config.DefaultJobGradePermmission
+    end
+    local perms = Config.Customs[shop] ~= nil and Config.Customs[shop].job == PlayerData.job.name and PlayerData.job.grade >= Config.Customs[shop].min_grade
+    if type ~= nil then
+        perms = Config.Customs[shop] ~= nil and Config.Customs[shop].job == PlayerData.job.name and Config.Customs[shop] ~= nil and Config.Customs[shop][type] ~= nil and PlayerData.job.grade >= Config.Customs[shop][type].grade
+    end
+    return perms
+end
+
 exports('GetVehicleValue', function(modelhash)
     return GetVehicleValue(modelhash)
 end)

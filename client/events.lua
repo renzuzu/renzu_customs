@@ -8,11 +8,11 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
         local stats_show = nil
         while insidegarage do
             for k,v in pairs(Config.Customs) do
-                local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.x,v.paintmenu.y,v.paintmenu.z))
-                if Config.InteractiveFeature['paintmenu'] and distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
-                    DrawMarkerInput(vector3(v.paintmenu.x,v.paintmenu.y,v.paintmenu.z),'Spray Paint Menu','renzu_customs:openpaintmenu',false,'spray_paint')
+                local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.coord.x,v.paintmenu.coord.y,v.paintmenu.coord.z))
+                if Config.InteractiveFeature['paintmenu'] and distance < 30 and ShopPermmision(currentprivate,'paintmenu') and Config.showmarker then
+                    DrawMarkerInput(vector3(v.paintmenu.coord.x,v.paintmenu.coord.y,v.paintmenu.coord.z),'Spray Paint Menu','renzu_customs:openpaintmenu',false,'spray_paint')
                 end
-                if Config.InteractiveFeature['paintmenu'] and distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+                if Config.InteractiveFeature['paintmenu'] and distance < 3 and ShopPermmision(currentprivate,'paintmenu') and Config.usePopui then
                     local table = {
                         ['key'] = 'E', -- key
                         ['event'] = 'renzu_customs:openpaintmenu',
@@ -25,7 +25,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     }
                     TriggerEvent('renzu_popui:drawtextuiwithinput',table)
                     while distance < 3 do
-                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.x,v.paintmenu.y,v.paintmenu.z))
+                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.coord.x,v.paintmenu.coord.y,v.paintmenu.coord.z))
                         Wait(500)
                     end
                     TriggerEvent('renzu_popui:closeui')
@@ -34,7 +34,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     for k,v in pairs(v.mod) do
                         local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.coord.x,v.coord.y,v.coord.z))
                         local invehicle = IsPedInAnyVehicle(PlayerPedId())
-                        if Config.JobPermissionAll and PlayerData.job ~= nil and PlayerData.job.name == Config.job or not Config.JobPermissionAll then
+                        if Config.JobPermissionAll and ShopPermmision(currentprivate) or not Config.JobPermissionAll then
                             if distance < 30 and invehicle and Config.showmarker then
                                 DrawMarkerInput(vector3(v.coord.x,v.coord.y,v.coord.z),'Upgrade Menu','renzu_customs:openmenu',false,'mod_'..k)
                             end
@@ -59,11 +59,11 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                         end
                     end
                 end
-                local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.x,v.stockroom.y,v.stockroom.z))
-                if Config.InteractiveFeature['stockroom'] and distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
-                    DrawMarkerInput(vector3(v.stockroom.x,v.stockroom.y,v.stockroom.z),'Stock Room','renzu_customs:openstockroom',false,'stock_inventory',k)
+                local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.coord.x,v.stockroom.coord.y,v.stockroom.coord.z))
+                if Config.InteractiveFeature['stockroom'] and distance < 30 and ShopPermmision(currentprivate,'stockroom') and Config.showmarker then
+                    DrawMarkerInput(vector3(v.stockroom.coord.x,v.stockroom.coord.y,v.stockroom.coord.z),'Stock Room','renzu_customs:openstockroom',false,'stock_inventory',k)
                 end
-                if Config.InteractiveFeature['stockroom'] and distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+                if Config.InteractiveFeature['stockroom'] and distance < 3 and ShopPermmision(currentprivate,'stockroom') and Config.usePopui then
                     local table = {
                         ['key'] = 'E', -- key
                         ['event'] = 'renzu_customs:openstockroom',
@@ -76,14 +76,14 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     }
                     TriggerEvent('renzu_popui:drawtextuiwithinput',table)
                     while distance < 3 do
-                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.x,v.stockroom.y,v.stockroom.z))
+                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.coord.x,v.stockroom.coord.y,v.stockroom.coord.z))
                         Wait(500)
                     end
                     TriggerEvent('renzu_popui:closeui')
                 end
             end
             local nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.000, 0, 70)
-            if Config.InteractiveFeature['garage_inventory'] and nearveh ~= 0 and not carrymod and not spraying and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
+            if Config.InteractiveFeature['garage_inventory'] and nearveh ~= 0 and not carrymod and not spraying and ShopPermmision(currentprivate,'garage_inventory') then
                 if stats_show == nil or stats_show ~= nearveh then
                     stats_show = nearveh
                     CreateThread(function()
@@ -107,11 +107,11 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                 stats_show = nil
             end
             local inv = garage.garage_inventory
-            local inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.x,inv.y,inv.z))
-            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 10 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
-                DrawMarkerInput(vector3(inv.x,inv.y,inv.z),'Parts Inventory','renzu_customs:openinventory',false,'parts_inventory',currentprivate)
+            local inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.coord.x,inv.coord.y,inv.coord.z))
+            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 10 and not carrymode and not carrymod and ShopPermmision(currentprivate,'garage_inventory') and Config.showmarker then
+                DrawMarkerInput(vector3(inv.coord.x,inv.coord.y,inv.coord.z),'Parts Inventory','renzu_customs:openinventory',false,'parts_inventory',currentprivate)
             end
-            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 2 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 2 and not carrymode and not carrymod and ShopPermmision(currentprivate,'garage_inventory') and Config.usePopui then
                 local table = {
                     ['key'] = 'E', -- key
                     ['event'] = 'renzu_customs:openinventory',
@@ -124,13 +124,13 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                 }
                 TriggerEvent('renzu_popui:drawtextuiwithinput',table)
                 while inventorydis < 3 and not carrymode do
-                    inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.x,inv.y,inv.z))
+                    inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.coord.x,inv.coord.y,inv.coord.z))
                     Wait(500)
                 end
                 TriggerEvent('renzu_popui:closeui')
-            elseif Config.InteractiveFeature['garage_inventory'] and not carrymode and carrymod and inventorydis < 2 and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
-                if inventorydis < 2 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
-                    DrawMarkerInput(vector3(inv.x,inv.y,inv.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,Config.VehicleMod[tostore[1]],tostore[2],false,false,true},true)
+            elseif Config.InteractiveFeature['garage_inventory'] and not carrymode and carrymod and inventorydis < 2 and ShopPermmision(currentprivate,'garage_inventory') then
+                if inventorydis < 2 and ShopPermmision(currentprivate,'garage_inventory') and Config.showmarker then
+                    DrawMarkerInput(vector3(inv.coord.x,inv.coord.y,inv.coord.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,Config.VehicleMod[tostore[1]],tostore[2],false,false,true},true)
                 end
                 if Config.usePopui then
                     local table = {
@@ -146,7 +146,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     }
                     TriggerEvent('renzu_popui:drawtextuiwithinput',table)
                     while inventorydis < 3 and not carrymode and carrymod do
-                        inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.x,inv.y,inv.z))
+                        inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.coord.x,inv.coord.y,inv.coord.z))
                         Wait(500)
                     end
                     TriggerEvent('renzu_popui:closeui')
@@ -394,11 +394,11 @@ AddEventHandler('renzu_customs:removevehiclemod', function(mod,lvl,vehicle)
         while carrymode do
             newprop = GetVehicleProperties(vehicle)
             local vec = Config.Customs[currentprivate].garage_inventory
-            local distance = #(GetEntityCoords(PlayerPedId()) - vector3(vec.x,vec.y,vec.z))
-            if distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
-                DrawMarkerInput(vector3(vec.x,vec.y,vec.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,mod,lvl,newprop},true)
+            local distance = #(GetEntityCoords(PlayerPedId()) - vector3(vec.coord.x,vec.coord.y,vec.coord.z))
+            if distance < 3 and ShopPermmision(currentprivate,'garage_inventory') and Config.showmarker then
+                DrawMarkerInput(vector3(vec.coord.x,vec.coord.y,vec.coord.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,mod,lvl,newprop},true)
             end
-            if Config.UsePopUI then
+            if Config.UsePopUI and ShopPermmision(currentprivate,'garage_inventory') then
                 if distance < 3 then
                     local table = {
                         ['key'] = 'E', -- key
@@ -412,7 +412,7 @@ AddEventHandler('renzu_customs:removevehiclemod', function(mod,lvl,vehicle)
                     TriggerEvent('renzu_popui:drawtextuiwithinput',table)
                     while distance < 3 do
                         newprop = GetVehicleProperties(vehicle)
-                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(vec.x,vec.y,vec.z))
+                        distance = #(GetEntityCoords(PlayerPedId()) - vector3(vec.coord.x,vec.coord.y,vec.coord.z))
                         Wait(500)
                     end
                     TriggerEvent('renzu_popui:closeui')
@@ -545,47 +545,49 @@ AddEventHandler('renzu_customs:openmenu', function()
                 local livery = false
                 local vehicle_val = GetVehicleValue(GetEntityModel(vehicle)) * Config.VehicleValuePercent
                 for k,v in pairs(Config.VehicleMod) do
-                    if custom[v.type:upper()] == nil then custom[v.type:upper()] = {} custom[v.type:upper()].index = k end
-                    local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
-                    if k == 48 and max <= 0 then
-                        max = GetVehicleLiveryCount(vehicle) + 1
-                        livery = true
-                    end
-                    if k == 'extra' then
-                        v.extra()
-                        v.list = extras
-                    end
-                    local list = {}
-                    if max > 0 or k == 'paint1' or k == 'paint2' or k == 'neon' or k == 'plate' or k == 'headlight' or k == 'window' or k == 18 or k == 'extra' or k == 'custom_engine' or k == 'custom_turbo' or k == 'custom_tires' then
-                        if max > 0 then
-                            for i = 0, max do
-                                if livery and i >= 1 then
-                                    list[i] = GetLabelText(GetLiveryName(vehicle,i-1))
-                                elseif GetLabelText(GetModTextLabel(vehicle, v.index, i-1)) ~= 'NULL' and i >= 1 then
-                                    list[i] = GetLabelText(GetModTextLabel(vehicle, v.index, i-1))
-                                elseif i >= 1 then
-                                    list[i] = v.name.." Lvl "..i
-                                else
-                                    list[i] = 'Default'
+                    if Config.JobPermissionAll and PlayerData ~= nil and v.job_grade ~= nil and PlayerData.job.grade >= v.job_grade[PlayerData.job.name] or not Config.JobPermissionAll then
+                        if custom[v.type:upper()] == nil then custom[v.type:upper()] = {} custom[v.type:upper()].index = k end
+                        local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
+                        if k == 48 and max <= 0 then
+                            max = GetVehicleLiveryCount(vehicle) + 1
+                            livery = true
+                        end
+                        if k == 'extra' then
+                            v.extra()
+                            v.list = extras
+                        end
+                        local list = {}
+                        if max > 0 or k == 'paint1' or k == 'paint2' or k == 'neon' or k == 'plate' or k == 'headlight' or k == 'window' or k == 18 or k == 'extra' or k == 'custom_engine' or k == 'custom_turbo' or k == 'custom_tires' then
+                            if max > 0 then
+                                for i = 0, max do
+                                    if livery and i >= 1 then
+                                        list[i] = GetLabelText(GetLiveryName(vehicle,i-1))
+                                    elseif GetLabelText(GetModTextLabel(vehicle, v.index, i-1)) ~= 'NULL' and i >= 1 then
+                                        list[i] = GetLabelText(GetModTextLabel(vehicle, v.index, i-1))
+                                    elseif i >= 1 then
+                                        list[i] = v.name.." Lvl "..i
+                                    else
+                                        list[i] = 'Default'
+                                    end
                                 end
                             end
+                            local cost = v.cost + (vehicle_val / v.percent_cost) * 1.0
+                            if not Config.VehicleValuetoFormula then
+                                cost = v.cost
+                            end
+                            custom[v.type:upper()][v.index] = {
+                                label = v.label or nil, 
+                                index = v.index, 
+                                name = v.name, 
+                                max = max, 
+                                cost = cost,
+                                list = v.list or {}, 
+                                type = v.type, 
+                                mod = list, 
+                                action = v.action or false, 
+                                multicostperlvl = v.multicostperlvl or false
+                            }
                         end
-                        local cost = v.cost + (vehicle_val / v.percent_cost) * 1.0
-                        if not Config.VehicleValuetoFormula then
-                            cost = v.cost
-                        end
-                        custom[v.type:upper()][v.index] = {
-                            label = v.label or nil, 
-                            index = v.index, 
-                            name = v.name, 
-                            max = max, 
-                            cost = cost,
-                            list = v.list or {}, 
-                            type = v.type, 
-                            mod = list, 
-                            action = v.action or false, 
-                            multicostperlvl = v.multicostperlvl or false
-                        }
                     end
                 end
                 SendNUIMessage({

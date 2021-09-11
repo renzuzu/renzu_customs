@@ -4,22 +4,27 @@ Config.Locale = "en"
 Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
 Config.usePopui = false -- POPUI or Drawmarker Floating Text https://github.com/renzuzu/renzu_popui
 Config.showmarker = true -- Drawmarker and FLoating Text
-Config.job = 'mechanic' -- job permmision - default permmision level for inventory, stock room and paint menus. (interactive Upgrade)
+--JOB
+-- Config.job = 'mechanic' -- Default job (job permission if job is not indicated here Config.Customs) -- OBSOLETE , Configure jobs here Config.Customs
+Config.DefaultJobGradePermmission = 0 -- default jobgrade in each job shop (ignored if its indicated at Config.VehicleMod)
 Config.JobPermissionAll = false -- if this is true only mechanics can access even the upgrade menu (Main Menu)
+--JOB
 Config.InteractiveFeature = { -- Enable Disable All Extra Features like: Inventory, Stock Room, Paint Room
 	['garage_inventory'] = true,
 	['stockroom'] = true,
 	['paintmenu'] = true,
 }
+--EXTRA OPTION
 Config.PlateSpace = true -- is your plate is ABC 123 format
 Config.VehicleValuetoFormula = false -- if true we will calculate the final cost for each upgrades from the original value from vehicles.table ----- ( IF THIS IS FALSE, the fixed value will be used (var cost from vehicle_mods table))
 Config.VehicleValuePercent = 0.1 -- 0.1 = 10% 0.5 = 50%, 1.0 = 100% (this will be the formula to calculate the total cost for each upgrade)
 Config.VehicleValueList = { -- custom cars that are not exist in vehicles table (vehicles pricing are automatic fetched from DB vehicles table by default)
 	[1] = {model = 'zentorno', value = 100000},
 }
+--EXTRA OPTION
 -- Main Config END
 
--- CUSTOM CONFIG
+-- CUSTOM FEATURE CONFIG
 Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs (This Have Crafting Table, Shop, Vehicle Shop, Garage and more Job Needs!)
 Config.UseRenzu_progressbar = false -- Use Progressbar while repairing a vehicle and maybe more use case in future update https://github.com/renzuzu/renzu_progressbar
 Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
@@ -44,32 +49,40 @@ Config.RepairCost = 1500 -- repair cost
 -- MOD.coord = Upgrade Section ( you can insert multiple )
 -- garage_inventory = Custom Inventory for VEHICLE MOD PARTS
 -- BLIPS = BLIP info sprite , color and scale.
--- 
+-- grade = minimum job grade to access the feature/ menu/ options
+-- Can a single job can owned both/multiple shop? = yes
 Config.Customs = { -- Multiple Shop Start
+
     ['Bennys'] = { -- Shop id -- Sample bennys (IPL coordinates) Change this to your liking (CHANGE COORDINATES IF CUSTOM BENNYS MAP)
+		job = 'mechanic', -- job name permmision for this shop
+		min_grade = 0, -- min grade to access the whole shop feature
 		radius = 30, -- radius for whole shop
-		stockroom = vector4(-227.70811462402,-1322.9874267578,30.890409469604,90.902221679688), -- vector 4 why the F is this vector4, x,y,z,w (heading)
-		paintmenu = vector3(-228.27142333984,-1333.4058837891,30.89038848877),
+		stockroom = {coord = vector4(-227.70811462402,-1322.9874267578,30.890409469604,90.902221679688), grade = 0}, -- vector 4 why the F is this vector4, x,y,z,w (heading)
+		paintmenu = {coord = vector3(-228.27142333984,-1333.4058837891,30.89038848877), grade = 0},
+		garage_inventory = {coord = vector4(-200.8703918457,-1317.6979980469,31.089340209961,267.89974975586), grade = 0},
 		shopcoord = vector4(-212.58630371094,-1325.0119628906,30.89038848877,157.28034973145),
 		mod = {
 			{coord = vector4(-224.20236206055,-1329.8156738281,30.21583366394,87.278968811035), taken = false},
 			{coord = vector4(-213.22569274902,-1331.546875,30.215799331665,356.6969909668), taken = false},
 		},
-		garage_inventory = vector4(-200.8703918457,-1317.6979980469,31.089340209961,267.89974975586),
 		Blips = {sprite = 446, color = 68, scale = 0.8},
     },
+
 	['Custom Garage'] = { -- Shop id -- Custom Map Tuner Garage (2372 Build only, canary and release) IPL and Int https://forum.cfx.re/t/free-mlo-tuner-auto-shop/4247145
+		job = 'police', -- job name permmision for this shop
+		min_grade = 0, -- min grade to access the whole shop feature
 		radius = 30, -- radius for whole shop
-		stockroom = vector4(818.46160888672,-969.87396240234,26.10876083374,269.27597045898),
-		paintmenu = vector3(809.76037597656,-959.36596679688,26.10876083374),
+		stockroom = {coord = vector4(818.46160888672,-969.87396240234,26.10876083374,269.27597045898), grade = 0},
+		paintmenu = {coord = vector3(809.76037597656,-959.36596679688,26.10876083374), grade = 0},
+		garage_inventory = {coord = vector4(807.99078369141,-979.44848632812,26.308683395386,165.16065979004), grade = 0},
 		shopcoord = vector4(818.54309082031,-953.44543457031,26.108730316162,305.57107543945),
 		mod = {
 			{coord = vector4(823.82153320312,-944.92102050781,25.440004348755,94.50008392334), taken = false},
 			{coord = vector4(830.01727294922,-953.10614013672,25.440238952637,97.936683654785), taken = false},
 		},
-		garage_inventory = vector4(807.99078369141,-979.44848632812,26.308683395386,165.16065979004),
 		Blips = {sprite = 446, color = 68, scale = 0.8},
     },
+
 }
 
 -- PAINT COLORS AND INDEX NAME
@@ -205,9 +218,14 @@ Config.Crome = {['Crome'] = 120}
 -- bone = bone target for camera (obsolete)
 -- index = MOD index name
 -- cost = the cost of vehicle mod in all lvls (unless multicost)
+-- job_grade = MINIMUM job_grade lvl permmision to access the upgrade type (if no indicated, Config.DefaultJobGradePermmission will be used as default) (THIS WILL ONLY WORK if Config.JobPermissionAll = true)
 Config.VehicleMod = {
     ----------Liveries--------
 	[48] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Liveries',
 		name = 'liveries',
         index = 48,
@@ -220,6 +238,10 @@ Config.VehicleMod = {
 	
 ----------Windows--------
 	[46] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Windows',
 		name = 'windows',
         index = 46,
@@ -232,6 +254,10 @@ Config.VehicleMod = {
 	
 ----------Tank--------
 	[45] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Intercooler',
 		name = 'tank',
         index = 45,
@@ -244,6 +270,10 @@ Config.VehicleMod = {
 	
 ----------Trim--------
 	[44] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Trim',
 		name = 'trim',
         index = 44,
@@ -255,6 +285,10 @@ Config.VehicleMod = {
 	
 ----------Aerials--------
 	[43] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Aerials',
 		name = 'aerials',
         index = 42,
@@ -266,6 +300,10 @@ Config.VehicleMod = {
 
 ----------Arch cover--------
 	[42] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Arch cover',
 		name = 'archcover',
         index = 42,
@@ -279,6 +317,10 @@ Config.VehicleMod = {
 
 ----------Struts--------
 	[41] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Struts',
 		name = 'struts',
         index = 41,
@@ -291,6 +333,10 @@ Config.VehicleMod = {
 	
 ----------Air filter--------
 	[40] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Air filter',
 		name = 'airfilter',
         index = 40,
@@ -303,6 +349,10 @@ Config.VehicleMod = {
 	
 ----------Engine block--------
 	[39] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Engine block',
 		name = 'engineblock',
         index = 39,
@@ -315,6 +365,10 @@ Config.VehicleMod = {
 
 ----------Hydraulics--------
 	[38] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Hydraulics',
 		name = 'hydraulics',
         index = 38,
@@ -326,6 +380,10 @@ Config.VehicleMod = {
 	
 ----------Trunk--------
 	[37] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Trunk',
 		name = 'trunk',
         index = 37,
@@ -338,6 +396,10 @@ Config.VehicleMod = {
 
 ----------Speakers--------
 	[36] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Speakers',
 		name = 'speakers',
         index = 36,
@@ -349,6 +411,10 @@ Config.VehicleMod = {
 
 ----------Plaques--------
 	[35] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Plaques',
 		name = 'plaques',
         index = 35,
@@ -361,6 +427,10 @@ Config.VehicleMod = {
 	
 ----------Shift leavers--------
 	[34] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Shift leavers',
 		name = 'shiftleavers',
         index = 34,
@@ -373,6 +443,10 @@ Config.VehicleMod = {
 	
 ----------Steeringwheel--------
 	[33] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Steeringwheel',
 		name = 'steeringwheel',
         index = 33,
@@ -385,6 +459,10 @@ Config.VehicleMod = {
 	
 ----------Seats--------
 	[32] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Seats',
 		name = 'seats',
         index = 32,
@@ -397,6 +475,10 @@ Config.VehicleMod = {
 	
 ----------Door speaker--------
 	[31] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Door speaker',
 		name = 'doorspeaker',
         index = 31,
@@ -408,6 +490,10 @@ Config.VehicleMod = {
 
 ----------Dial--------
 	[30] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Dial',
 		name = 'dial',
         index = 30,
@@ -419,6 +505,10 @@ Config.VehicleMod = {
 	},
 ----------Dashboard--------
 	[29] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Dashboard',
 		name = 'dashboard',
         index = 29,
@@ -430,6 +520,10 @@ Config.VehicleMod = {
 	
 ----------Ornaments--------
 	[28] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Ornaments',
 		name = 'ornaments',
         index = 28,
@@ -441,6 +535,10 @@ Config.VehicleMod = {
 	
 ----------Trim--------
 	[27] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Trim',
 		name = 'trim',
         index = 27,
@@ -452,6 +550,10 @@ Config.VehicleMod = {
 	
 ----------Vanity plates--------
 	[26] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Vanity plates',
 		name = 'vanityplates',
         index = 26,
@@ -465,6 +567,10 @@ Config.VehicleMod = {
 	
 ----------Plate holder--------
 	[25] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Plate holder',
 		name = 'plateholder',
         index = 25,
@@ -476,6 +582,10 @@ Config.VehicleMod = {
 	},
 ---------Back Wheels---------
 	[24] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Back Wheels',
 		name = 'backwheels',
         index = 24,
@@ -487,6 +597,10 @@ Config.VehicleMod = {
 	},
 ---------Front Wheels---------
 	[23] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Front Wheels',
 		name = 'frontwheels',
         index = 23,
@@ -499,6 +613,10 @@ Config.VehicleMod = {
 	},
 ---------Headlights---------
 	[22] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Headlights',
 		name = 'headlights',
         index = 22,
@@ -511,6 +629,10 @@ Config.VehicleMod = {
 	
 ----------Turbo---------
 	[18] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Turbo',
 		name = 'turbo',
         index = 18,
@@ -523,6 +645,10 @@ Config.VehicleMod = {
 	
 -----------Armor-------------
 	[16] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Armor',
 		name = 'armor',
         index = 16,
@@ -535,6 +661,10 @@ Config.VehicleMod = {
 
 ---------Suspension-----------
 	[15] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Suspension',
 		name = 'suspension',
         index = 15,
@@ -546,6 +676,10 @@ Config.VehicleMod = {
 	},
 -----------Horn----------
     [14] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
         label = 'Horn',
 		name = 'horn',
         index = 14,
@@ -556,6 +690,10 @@ Config.VehicleMod = {
     },
 -----------Transmission-------------
     [13] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
         label = 'Transmission',
 		name = 'transmission',
         index = 13,
@@ -569,6 +707,10 @@ Config.VehicleMod = {
 	
 -----------Brakes-------------
 	[12] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
         label = 'Brakes',
 		name = 'brakes',
         index = 12,
@@ -582,6 +724,10 @@ Config.VehicleMod = {
 	
 ------------Engine----------
 	[11] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
         label = 'Engine',
 		name = 'engine',
         index = 11,
@@ -595,6 +741,10 @@ Config.VehicleMod = {
 	},
     ---------Roof----------
 	[10] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Roof',
 		name = 'roof',
         index = 10,
@@ -607,6 +757,10 @@ Config.VehicleMod = {
 	
 ------------Fenders---------
 	[8] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Fenders',
 		name = 'fenders',
         index = 8,
@@ -619,6 +773,10 @@ Config.VehicleMod = {
 	
 ------------Hood----------
 	[7] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Hood',
 		name = 'Hood',
         index = 7,
@@ -631,6 +789,10 @@ Config.VehicleMod = {
 	
 ----------Grille----------
 	[6] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Grille',
 		name = 'grille',
         index = 6,
@@ -643,6 +805,10 @@ Config.VehicleMod = {
 	
 ----------Roll cage----------
 	[5] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Roll cage',
 		name = 'rollcage',
         index = 5,
@@ -656,6 +822,10 @@ Config.VehicleMod = {
 	
 ----------Exhaust----------
 	[4] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Exhaust',
 		name = 'exhaust',
         index = 4,
@@ -669,6 +839,10 @@ Config.VehicleMod = {
 	
 ----------Skirts----------
 	[3] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Skirts',
 		name = 'skirts',
         index = 3,
@@ -681,6 +855,10 @@ Config.VehicleMod = {
 	
 -----------Rear bumpers----------
 	[2] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Rear bumpers',
 		name = 'rearbumpers',
         index = 2,
@@ -694,6 +872,10 @@ Config.VehicleMod = {
 	
 ----------Front bumpers----------
 	[1] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Front bumpers',
 		name = 'frontbumpers',
         index = 1,
@@ -707,6 +889,10 @@ Config.VehicleMod = {
 	
 ----------Spoiler----------
 	[0] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Spoiler',
 		name = 'spoiler',
         index = 0,
@@ -719,6 +905,10 @@ Config.VehicleMod = {
 	},
 
 	['paint1'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Primary Color',
 		name = 'paint1',
         index = 99,
@@ -730,6 +920,10 @@ Config.VehicleMod = {
 		list = {Metallic = Config.Metallic, Matte = Config.Matte, Metals = Config.Metals, Crome = Config.Crome}
 	},
 	['paint2'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Secondary Color',
 		name = 'paint2',
         index = 100,
@@ -741,6 +935,10 @@ Config.VehicleMod = {
 		list = {Metallic = Config.Metallic, Matte = Config.Matte, Metals = Config.Metals, Crome = Config.Crome}
 	},
 	['headlight'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Headlights',
 		name = 'headlight',
         index = 101,
@@ -769,6 +967,10 @@ Config.VehicleMod = {
 		}
 	},
 	['plate'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Plate',
 		name = 'plate',
         index = 102,
@@ -780,6 +982,10 @@ Config.VehicleMod = {
 		list = {BlueWhite = 0, YellowBlack = 1, YellowBlue = 2,BlueWhite1 = 3,BlueWhite2 = 4,Yankton = 5}
 	},
 	['neon'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Neon Lights',
 		name = 'neon',
         index = 103,
@@ -792,6 +998,10 @@ Config.VehicleMod = {
 		list = {Default = 0, NeonKit = 1, NeonColor = 2}
 	},
 	['window'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Window Tints',
 		name = 'window',
         index = 104,
@@ -812,6 +1022,10 @@ Config.VehicleMod = {
 		}
 	},
 	['extra'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Vehicle Extra',
 		name = 'extra',
         index = 105,
@@ -834,6 +1048,10 @@ Config.VehicleMod = {
 -- value = Cost
 if Config.UseCustomTurboUpgrade then
 	Config.VehicleMod['custom_turbo'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Custom Turbo',
 		name = 'custom_turbo',
 		index = 107,
@@ -858,6 +1076,10 @@ end
 -- Engien upgrades Copy Both Sound and Original Handling (Fmass is excluded and tractions handling) (only related to Vehicle Engine power)
 if Config.UseCustomEngineUpgrade then
 	Config.VehicleMod['custom_engine'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Custom Engine',
 		name = 'custom_engine',
 		index = 106,
@@ -883,6 +1105,10 @@ end
 -- the value for each handling name is Not perfect, but can be used in more use cases and realistic.
 if Config.UseCustomTireUpgrade then
 	Config.VehicleMod['custom_tires'] = {
+		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
+			['mechanic'] = 0,
+			['police'] = 0,-- police is sample only change this!
+		},
 		label = 'Custom Tires',
 		name = 'custom_tires',
 		index = 108,
@@ -958,6 +1184,7 @@ tospray = false
 oldprop = {}
 inmark = false
 markers = {}
+currentshop = nil
 -- disable drift tires if build is not tuner
 if GetGameBuildNumber() < 2372 then
 	Config.VehicleMod[23]['list'].Accessories.DriftTires = nil
