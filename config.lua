@@ -12,7 +12,7 @@ Config.InteractiveFeature = { -- Enable Disable All Extra Features like: Invento
 	['paintmenu'] = true,
 }
 Config.PlateSpace = true -- is your plate is ABC 123 format
-Config.VehicleValuetoFormula = false -- if true we will calculate the final cost for each upgrades from the original value from vehicles.table
+Config.VehicleValuetoFormula = false -- if true we will calculate the final cost for each upgrades from the original value from vehicles.table ----- ( IF THIS IS FALSE, the fixed value will be used (var cost from vehicle_mods table))
 Config.VehicleValuePercent = 0.1 -- 0.1 = 10% 0.5 = 50%, 1.0 = 100% (this will be the formula to calculate the total cost for each upgrade)
 Config.VehicleValueList = { -- custom cars that are not exist in vehicles table (vehicles pricing are automatic fetched from DB vehicles table by default)
 	[1] = {model = 'zentorno', value = 100000},
