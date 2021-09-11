@@ -22,6 +22,7 @@ Citizen.CreateThread(function()
         AddTextComponentSubstringPlayerName("Mechanic Shop: "..k.."")
         EndTextCommandSetBlipName(blip)
     end
+    TriggerServerEvent('renzu_customs:loaded')
 end)
 
 CreateThread(function()

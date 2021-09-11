@@ -94,12 +94,12 @@ function ShowSubmenu(data) {
                             if(ind == 0 && upgraded[index] !== undefined) {
                                 totalcost = totalcost - data[index].cost
                                 removebill(ind,totalcost,ind)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = undefined
                             } else {
                                 totalcost = totalcost + data[index].cost
                                 addbill(ind,data[index].cost,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = ind
                             }
                             $.post("https://renzu_customs/SetExtra", JSON.stringify({ index: data[index].list[ind]}));
@@ -115,13 +115,13 @@ function ShowSubmenu(data) {
                             if(upgraded[index] !== undefined) {
                                 totalcost = totalcost - lastcost
                                 removebill(ind,totalcost,ind)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = undefined
                             } 
                             if(ind !== 'Default') {
                                 totalcost = totalcost + data[index].list[ind].value
                                 addbill(ind,data[index].list[ind].value,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = ind
                                 lastcost = data[index].list[ind].value
                             }
@@ -138,13 +138,13 @@ function ShowSubmenu(data) {
                             if(upgraded[index] !== undefined || ind == 'Default') {
                                 totalcost = totalcost - lastcost
                                 removebill(ind,totalcost,ind)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = undefined
                             } 
                             if(ind !== 'Default') {
                                 totalcost = totalcost + data[index].list[ind].value
                                 addbill(ind,data[index].list[ind].value,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = ind
                                 lastcost = data[index].list[ind].value
                             }
@@ -161,13 +161,13 @@ function ShowSubmenu(data) {
                             if(upgraded[index] !== undefined || ind == 'Default') {
                                 totalcost = totalcost - lastcost
                                 removebill(ind,totalcost,ind)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = undefined
                             } 
                             if(ind !== 'Default') {
                                 totalcost = totalcost + data[index].list[ind].value
                                 addbill(ind,data[index].list[ind].value,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = ind
                                 lastcost = data[index].list[ind].value
                             }
@@ -194,7 +194,7 @@ function ShowSubmenu(data) {
                             $("#"+ind+"").click(function() {
                                 totalcost = totalcost + data[index].cost
                                 addbill(ind,data[index].cost,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = 1
                                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: data[index].list[ind]}));
                             });
@@ -206,7 +206,7 @@ function ShowSubmenu(data) {
                                     totalcost = totalcost - data[index].cost
                                     removebill('XenonLights',totalcost,'XenonLights')
                                 }
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: data[index].list[ind]}));
                             });
                         } else if(ind == 'XenonColor') {
@@ -236,7 +236,7 @@ function ShowSubmenu(data) {
                                 removebill(data[index].name,totalcost,index)
                             }
                             lvladd = lvl
-                            document.getElementById("cost").innerHTML = totalcost;
+                            document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                             $.post("https://renzu_customs/ChangePlate", JSON.stringify({ index: data[index].list[ind]}));
                         });
                     }
@@ -255,7 +255,7 @@ function ShowSubmenu(data) {
                                     totalcost = totalcost - data[index].cost
                                     upgraded[index] = undefined
                                     removebill(data[index].name,totalcost,index)
-                                    document.getElementById("cost").innerHTML = totalcost;
+                                    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 }
                                 $.post("https://renzu_customs/SetNeonState", JSON.stringify({ index: false}));
                             });
@@ -266,7 +266,7 @@ function ShowSubmenu(data) {
                                     totalcost = totalcost + data[index].cost
                                     upgraded[index] = 1
                                     addbill(data[index].name,data[index].cost,totalcost,index)
-                                    document.getElementById("cost").innerHTML = totalcost;
+                                    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 }
                                 $.post("https://renzu_customs/SetNeonState", JSON.stringify({ index: true}));
                             });
@@ -286,13 +286,13 @@ function ShowSubmenu(data) {
                             if(upgraded[index] !== undefined && ind == 'None') {
                                 totalcost = totalcost - data[index].cost
                                 removebill(ind,totalcost,ind)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = undefined
                             } 
                             if(ind !== 'None' && upgraded[index] == undefined) {
                                 totalcost = totalcost + data[index].cost
                                 addbill(ind,data[index].cost,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost;
+                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                                 upgraded[index] = ind
                             }
                             $.post("https://renzu_customs/SetWindowTint", JSON.stringify({ index: data[index].list[ind]}));
@@ -425,11 +425,11 @@ function ShowWheelAcceOption(data,max,list) {
                         upgraded['CustomTire'] = 0
                         totalcost = totalcost - data.cost
                         removebill('CustomTire',totalcost,'CustomTire')
-                        document.getElementById("cost").innerHTML = totalcost;
+                        document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                     } else {
                         totalcost = totalcost + data.cost
                         addbill('CustomTire',data.cost,totalcost,i)
-                        document.getElementById("cost").innerHTML = totalcost;
+                        document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                         upgraded['CustomTire'] = 1
                     }
                     $.post("https://renzu_customs/SetCustomTire", JSON.stringify({ }));
@@ -451,11 +451,11 @@ function ShowWheelAcceOption(data,max,list) {
                         upgraded['DriftTire'] = 0
                         totalcost = totalcost - data.cost
                         removebill('DriftTire',totalcost,'DriftTire')
-                        document.getElementById("cost").innerHTML = totalcost;
+                        document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                     } else {
                         totalcost = totalcost + data.cost
                         addbill('DriftTire',data.cost,totalcost,i)
-                        document.getElementById("cost").innerHTML = totalcost;
+                        document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                         upgraded['DriftTire'] = 1
                     }
                     $.post("https://renzu_customs/SetDrift", JSON.stringify({ }));
@@ -538,7 +538,7 @@ function ShowTurboMenu(data) {
                 removebill(data.name,totalcost,index)
             }
             lvladd = lvl
-            document.getElementById("cost").innerHTML = totalcost;
+            document.getElementById("cost").innerHTML = totalcost.toFixed(1);
                 $.post("https://renzu_customs/ToggleTurbo", JSON.stringify({ index: data.list[i]}));
                 //SetMod(data.index,i,data.cost,wheeltype)
             });
@@ -649,7 +649,7 @@ function SetMod(index,lvl,cost,wheeltype,label,multi) {
         removebill(label,totalcost,index)
     }
     lvladd = lvl
-    document.getElementById("cost").innerHTML = totalcost;
+    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
     $.post("https://renzu_customs/SetMod", JSON.stringify({ index: index, lvl: lvl, wheeltype: wheeltype}));
 }
 
@@ -672,7 +672,7 @@ function SetPaint(type,i,cost) {
         totalcost = totalcost - cost
         removebill('Paint',totalcost,'Paint')
     }
-    document.getElementById("cost").innerHTML = totalcost;
+    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
     $.post("https://renzu_customs/SetPaint", JSON.stringify({ index: i, type: type}));
 }
 

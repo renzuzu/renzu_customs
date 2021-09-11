@@ -202,5 +202,5 @@ end)
 RegisterServerEvent('renzu_customs:loaded')
 AddEventHandler('renzu_customs:loaded', function()
     local source = source
-    TriggerClientEvent('renzu_customs:receivedata',source,customturbo,customengine)
+    TriggerClientEvent('renzu_customs:receivedata',source,customturbo,customengine,vehicles)
 end)

@@ -1,3 +1,19 @@
+function GetVehicleValue(modelhash)
+    local hash = modelhash
+    local value = 0
+    for k,v in pairs(Config.VehicleValueList) do
+        if hash == GetHashKey(v.model) then
+            value = v.value
+            break
+        end
+    end
+    return tonumber(value)
+end
+
+exports('GetVehicleValue', function(modelhash)
+    return GetVehicleValue(modelhash)
+end)
+
 function GetPerformanceStats(vehicle)
     local data = {}
     data.brakes = GetVehicleModelMaxBraking(vehicle)
@@ -8,12 +24,14 @@ function GetPerformanceStats(vehicle)
     return data
 end
 
+local floating = false
+local floatcount = 0
 function ShowFloatingHelpNotification(m, coords)
-    AddTextEntry('FloatingHelpNotifications', m)
+    AddTextEntry('FloatingHelpNotifications'..m, m)
     SetFloatingHelpTextWorldPosition(1, coords)
     SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
-    BeginTextCommandDisplayHelp('FloatingHelpNotifications')
-    EndTextCommandDisplayHelp(2, false, false, -1)
+    BeginTextCommandDisplayHelp('FloatingHelpNotifications'..m)
+    EndTextCommandDisplayHelp(2, 0, 0, -1)
 end
 
 function SetVehicleProp(vehicle, props)
@@ -504,7 +522,6 @@ function SprayParticles(ped,dict,n,vehicle,m)
     local spray = StartNetworkedParticleFxNonLoopedAtCoord("scr_wheel_burnout", coords.x, coords.y, coords.z + 1.5, 0.0, 0.0, heading, 0.7, 0.0, 0.0, 0.0)
 end
 
-markers = {}
 function DrawMarkerInput(vec,msg,event,server,name,var,u)
     if markers[name] == nil and not Config.usePopui or markers[name] == nil and Config.showmarker and Config.usePopui then
         markers[name] = true
@@ -514,17 +531,20 @@ function DrawMarkerInput(vec,msg,event,server,name,var,u)
             local ped = PlayerPedId()
             local coord = GetEntityCoords(ped)
             local invehicle = IsPedInAnyVehicle(PlayerPedId())
+            local newcarrymode = carrymode
+            local newcarrymod = carrymod
             while #(vec - coord) <= 15 and not cancel and inmark do
                 Citizen.Wait(5)
                 coord = GetEntityCoords(ped)
                 if Config.showmarker then
                     DrawMarker(22, vec ,0,0,0,0,0,1.0,1.0,1.0,1.0,255, 255, 220,200,0,0,0,1)
                 end
-                if invehicle ~= IsPedInAnyVehicle(PlayerPedId()) then
+                if invehicle ~= IsPedInAnyVehicle(PlayerPedId()) or carrymode ~= newcarrymode or carrymod ~= newcarrymod then
                     inmark = false
                     markers[name] = nil
                 end
-                if not Config.usePopui and #(vec - coord) < 3.5 then
+                --print(#(vec - coord))
+                if not Config.usePopui and #(vec - coord) < 1.5 then
                     ShowFloatingHelpNotification("Press [E] "..msg,vec)
                     if IsControlJustReleased(0,38) then
                         if not server then
@@ -636,18 +656,17 @@ function CarryMod(dict,anim,prop,flag,hand,pos1,pos2,pos3,pos4,pos5,pos6)
 
 	if pos1 then
 		local coords = GetOffsetFromEntityInWorldCoords(ped,0.0,0.0,-5.0)
-		object = CreateObject(GetHashKey(prop),coords.x,coords.y,coords.z,true,true,true)
+		object = CreateObject(GetHashKey(prop),coords.x,coords.y,coords.z,true,false,false)
 		SetEntityCollision(object,false,false)
 		AttachEntityToEntity(object,ped,GetPedBoneIndex(ped,hand),pos1,pos2,pos3,pos4,pos5,pos6,true,true,false,true,1,true)
 	else
 		LoadAnim(dict)
 		TaskPlayAnim(ped,dict,anim,3.0,3.0,-1,flag,0,0,0,0)
 		local coords = GetOffsetFromEntityInWorldCoords(ped,0.0,0.0,-5.0)
-		object = CreateObject(GetHashKey(prop),coords.x,coords.y,coords.z,true,true,true)
+		object = CreateObject(GetHashKey(prop),coords.x,coords.y,coords.z,true,false,false)
 		SetEntityCollision(object,false,false)
 		AttachEntityToEntity(object,ped,GetPedBoneIndex(ped,hand),0.0,0.0,0.0,0.0,0.0,0.0,false,false,false,false,2,true)
 	end
-	Citizen.InvokeNative(0xAD738C3085FE7E11,object,true,true)
 end
 
 function LoadAnim(dict)

@@ -1,14 +1,26 @@
 Config = {}
 Config.Locale = "en"
--- MAIN CONFIG
+-- MAIN CONFIG START
 Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
 Config.usePopui = false -- POPUI or Drawmarker Floating Text https://github.com/renzuzu/renzu_popui
 Config.showmarker = true -- Drawmarker and FLoating Text
-Config.job = 'mechanic' -- job permmision
+Config.job = 'mechanic' -- job permmision - default permmision level for inventory, stock room and paint menus. (interactive Upgrade)
+Config.JobPermissionAll = false -- if this is true only mechanics can access even the upgrade menu (Main Menu)
+Config.InteractiveFeature = { -- Enable Disable All Extra Features like: Inventory, Stock Room, Paint Room
+	['garage_inventory'] = true,
+	['stockroom'] = true,
+	['paintmenu'] = true,
+}
 Config.PlateSpace = true -- is your plate is ABC 123 format
+Config.VehicleValuetoFormula = false -- if true we will calculate the final cost for each upgrades from the original value from vehicles.table
+Config.VehicleValuePercent = 0.1 -- 0.1 = 10% 0.5 = 50%, 1.0 = 100% (this will be the formula to calculate the total cost for each upgrade)
+Config.VehicleValueList = { -- custom cars that are not exist in vehicles table (vehicles pricing are automatic fetched from DB vehicles table by default)
+	[1] = {model = 'zentorno', value = 100000},
+}
+-- Main Config END
 
 -- CUSTOM CONFIG
-Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs
+Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs (This Have Crafting Table, Shop, Vehicle Shop, Garage and more Job Needs!)
 Config.UseRenzu_progressbar = false -- Use Progressbar while repairing a vehicle and maybe more use case in future update https://github.com/renzuzu/renzu_progressbar
 Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
 Config.DefaultProp = 'hei_prop_heist_box' -- default prop when carrying a parts
@@ -35,7 +47,6 @@ Config.RepairCost = 1500 -- repair cost
 -- 
 Config.Customs = { -- Multiple Shop Start
     ['Bennys'] = { -- Shop id -- Sample bennys (IPL coordinates) Change this to your liking (CHANGE COORDINATES IF CUSTOM BENNYS MAP)
-		cost = 1, -- cost for purchase
 		radius = 30, -- radius for whole shop
 		stockroom = vector4(-227.70811462402,-1322.9874267578,30.890409469604,90.902221679688), -- vector 4 why the F is this vector4, x,y,z,w (heading)
 		paintmenu = vector3(-228.27142333984,-1333.4058837891,30.89038848877),
@@ -48,7 +59,6 @@ Config.Customs = { -- Multiple Shop Start
 		Blips = {sprite = 446, color = 68, scale = 0.8},
     },
 	['Custom Garage'] = { -- Shop id -- Custom Map Tuner Garage (2372 Build only, canary and release) IPL and Int https://forum.cfx.re/t/free-mlo-tuner-auto-shop/4247145
-		cost = 1, -- cost for purchase
 		radius = 30, -- radius for whole shop
 		stockroom = vector4(818.46160888672,-969.87396240234,26.10876083374,269.27597045898),
 		paintmenu = vector3(809.76037597656,-959.36596679688,26.10876083374),
@@ -202,6 +212,7 @@ Config.VehicleMod = {
 		name = 'liveries',
         index = 48,
 		cost = 15000,
+		percent_cost = 7,
 		bone = 'chassis',
         type = 'Exterior',
 		camera = {val = 'front', x = -2.1, y = 0.6,z = 1.1},
@@ -213,6 +224,7 @@ Config.VehicleMod = {
 		name = 'windows',
         index = 46,
 		cost = 15000,
+		percent_cost = 2,
 		bone = 'window_lf1',
 		camera = {val = 'right', x = 0.8, y = 0.8,z = 0.8},
         type = 'Exterior',
@@ -224,6 +236,7 @@ Config.VehicleMod = {
 		name = 'tank',
         index = 45,
 		cost = 15000,
+		percent_cost = 4,
 		bone = 'chassis',
         type = 'Exterior',
 		camera = {val = 'front', x = 0.2, y = 0.3,z = 0.1},
@@ -235,6 +248,7 @@ Config.VehicleMod = {
 		name = 'trim',
         index = 44,
 		cost = 15000,
+		percent_cost = 2,
 		bone = 'boot',
         type = 'cosmetic',
 	},
@@ -245,6 +259,7 @@ Config.VehicleMod = {
 		name = 'aerials',
         index = 42,
 		cost = 15000,
+		percent_cost = 2,
 		camera = {val = 'front', x = 0.5, y = 0.6,z = 0.4},
         type = 'cosmetic',
 	},
@@ -255,6 +270,7 @@ Config.VehicleMod = {
 		name = 'archcover',
         index = 42,
 		cost = 15000,
+		percent_cost = 2.5,
 		bone = 'engine',
 		action = 'openhood',
 		action = 'openhood',
@@ -267,6 +283,7 @@ Config.VehicleMod = {
 		name = 'struts',
         index = 41,
 		cost = 15000,
+		percent_cost = 2.5,
 		bone = 'engine',
 		action = 'openhood',
         type = 'Performance Parts',
@@ -278,6 +295,7 @@ Config.VehicleMod = {
 		name = 'airfilter',
         index = 40,
 		cost = 15000,
+		percent_cost = 3.5,
 		bone = 'engine',
 		action = 'openhood',
         type = 'Performance Parts',
@@ -289,6 +307,7 @@ Config.VehicleMod = {
 		name = 'engineblock',
         index = 39,
 		cost = 15000,
+		percent_cost = 3.5,
 		bone = 'engine',
 		action = 'openhood',
         type = 'Performance Parts',
@@ -300,6 +319,7 @@ Config.VehicleMod = {
 		name = 'hydraulics',
         index = 38,
 		cost = 15000,
+		percent_cost = 7,
 		bone = 'wheel_rf',
         type = 'cosmetic',
 	},
@@ -310,6 +330,7 @@ Config.VehicleMod = {
 		name = 'trunk',
         index = 37,
 		cost = 15000,
+		percent_cost = 4,
         type = 'Exterior',
 		bone = 'boot',
         prop = 'imp_prop_impexp_trunk_01a',
@@ -321,6 +342,7 @@ Config.VehicleMod = {
 		name = 'speakers',
         index = 36,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'door_dside_f',
         type = 'Interior',
 	},
@@ -331,6 +353,7 @@ Config.VehicleMod = {
 		name = 'plaques',
         index = 35,
 		cost = 15000,
+		percent_cost = 3,
 		camera = {val = 'left', x = -0.2, y = -0.5,z = 0.9},
 		bone = 'steeseat_dside_fring',
         type = 'Interior',
@@ -344,6 +367,7 @@ Config.VehicleMod = {
 		camera = {val = 'left', x = -0.2, y = -0.5,z = 0.9},
 		bone = 'steeseat_dside_fring',
 		cost = 15000,
+		percent_cost = 3,
         type = 'Interior',
 	},
 	
@@ -354,6 +378,7 @@ Config.VehicleMod = {
         index = 33,
 		bone = 'seat_dside_f',
 		cost = 15000,
+		percent_cost = 3,
 		camera = {val = 'left', x = -0.2, y = -0.5,z = 0.9},
         type = 'Interior',
 	},
@@ -364,6 +389,7 @@ Config.VehicleMod = {
 		name = 'seats',
         index = 32,
 		cost = 15000,
+		percent_cost = 5,
         type = 'Interior',
 		bone = 'seat_dside_f',
         prop = 'prop_car_seat',
@@ -374,6 +400,7 @@ Config.VehicleMod = {
 		label = 'Door speaker',
 		name = 'doorspeaker',
         index = 31,
+		percent_cost = 3,
 		bone = 'door_dside_f',
 		cost = 15000,
         type = 'Interior',
@@ -385,6 +412,7 @@ Config.VehicleMod = {
 		name = 'dial',
         index = 30,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'seat_dside_f',
 		camera = {val = 'left', x = -0.2, y = -0.5,z = 0.9},
         type = 'Interior',
@@ -395,6 +423,7 @@ Config.VehicleMod = {
 		name = 'dashboard',
         index = 29,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'seat_dside_f',
         type = 'interior',
 	},
@@ -405,6 +434,7 @@ Config.VehicleMod = {
 		name = 'ornaments',
         index = 28,
 		cost = 15000,
+		percent_cost = 4,
 		bone = 'seat_dside_f',
         type = 'cosmetic',
 	},
@@ -415,6 +445,7 @@ Config.VehicleMod = {
 		name = 'trim',
         index = 27,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'bumper_f',
         type = 'cosmetic',
 	},
@@ -425,6 +456,7 @@ Config.VehicleMod = {
 		name = 'vanityplates',
         index = 26,
 		cost = 15000,
+		percent_cost = 2,
 		bone = 'exhaust',
 		camera = {val = 'front', x = 0.1, y = 0.6,z = 0.4},
         type = 'cosmetic',
@@ -437,6 +469,7 @@ Config.VehicleMod = {
 		name = 'plateholder',
         index = 25,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'exhaust',
 		camera = {val = 'front', x = 0.1, y = 0.6,z = 0.4},
         type = 'cosmetic',
@@ -447,6 +480,7 @@ Config.VehicleMod = {
 		name = 'backwheels',
         index = 24,
 		cost = 15000,
+		percent_cost = 4,
         type = 'Wheel Parts',
 		bone = 'wheel_lr',
         prop = 'imp_prop_impexp_wheel_03a',
@@ -457,6 +491,7 @@ Config.VehicleMod = {
 		name = 'frontwheels',
         index = 23,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'wheel_rf',
         type = 'Wheel Parts',
         prop = 'imp_prop_impexp_wheel_03a',
@@ -468,6 +503,7 @@ Config.VehicleMod = {
 		name = 'headlights',
         index = 22,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'headlight_r',
         type = 'cosmetic',
         prop = 'v_ind_tor_bulkheadlight',
@@ -479,6 +515,7 @@ Config.VehicleMod = {
 		name = 'turbo',
         index = 18,
 		cost = 15000,
+		percent_cost = 20,
 		bone = 'engine',
         type = 'Performance Parts',
 		list = {Default = 0, Turbo = 1}
@@ -490,6 +527,7 @@ Config.VehicleMod = {
 		name = 'armor',
         index = 16,
 		cost = 15000,
+		percent_cost = 25,
 		bone = 'bodyshell',
 		multicostperlvl = true,
         type = 'Shell',
@@ -501,6 +539,7 @@ Config.VehicleMod = {
 		name = 'suspension',
         index = 15,
 		cost = 15000,
+		percent_cost = 6,
 		bone = 'wheel_rf',
 		multicostperlvl = true,
         type = 'Performance Parts',
@@ -511,6 +550,7 @@ Config.VehicleMod = {
 		name = 'horn',
         index = 14,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'bumper_f',
         type = 'cosmetic',
     },
@@ -520,6 +560,7 @@ Config.VehicleMod = {
 		name = 'transmission',
         index = 13,
 		cost = 15000,
+		percent_cost = 8,
 		bone = 'engine',
 		multicostperlvl = true,
         type = 'Performance Parts',
@@ -532,6 +573,7 @@ Config.VehicleMod = {
 		name = 'brakes',
         index = 12,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'wheel_rf',
 		multicostperlvl = true,
         type = 'Performance Parts',
@@ -544,6 +586,7 @@ Config.VehicleMod = {
 		name = 'engine',
         index = 11,
 		cost = 15000,
+		percent_cost = 10,
 		bone = 'engine',
 		action = 'openhood',
 		multicostperlvl = true,
@@ -556,6 +599,7 @@ Config.VehicleMod = {
 		name = 'roof',
         index = 10,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'roof',
 		camera = {val = 'front-top', x = 0.5, y = -2.6,z = 1.5},
         type = 'exterior',
@@ -567,6 +611,7 @@ Config.VehicleMod = {
 		name = 'fenders',
         index = 8,
 		cost = 15000,
+		percent_cost = 5,
         type = 'cosmetic',
 		bone = 'wheel_rf',
         prop = 'imp_prop_impexp_car_panel_01a'
@@ -578,6 +623,7 @@ Config.VehicleMod = {
 		name = 'Hood',
         index = 7,
 		cost = 15000,
+		percent_cost = 8,
         type = 'cosmetic',
 		bone = 'bonnet',
         prop = 'imp_prop_impexp_bonnet_02a',
@@ -588,6 +634,7 @@ Config.VehicleMod = {
 		label = 'Grille',
 		name = 'grille',
         index = 6,
+		percent_cost = 3,
 		cost = 15000,
 		bone = 'bumper_f',
 		camera = {val = 'front', x = 0.1, y = 0.6,z = 0.4},
@@ -600,6 +647,7 @@ Config.VehicleMod = {
 		name = 'rollcage',
         index = 5,
 		cost = 15000,
+		percent_cost = 7,
         type = 'interior',
 		bone = 'seat_dside_f',
 		camera = {val = 'front-top', x = 0.1, y = -1.5,z = 0.5},
@@ -612,6 +660,7 @@ Config.VehicleMod = {
 		name = 'exhaust',
         index = 4,
 		cost = 15000,
+		percent_cost = 6,
         type = 'exterior',
 		bone = 'exhaust',
 		camera = {val = 'back', x = 0.5, y = -1.6,z = 0.4},
@@ -624,6 +673,7 @@ Config.VehicleMod = {
 		name = 'skirts',
         index = 3,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'neon_r',
         type = 'cosmetic',
         prop = 'imp_prop_impexp_rear_bumper_01a',
@@ -635,6 +685,7 @@ Config.VehicleMod = {
 		name = 'rearbumpers',
         index = 2,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'bumper_r',
 		camera = {val = 'back', x = 0.5, y = -1.6,z = 0.4},
         type = 'cosmetic',
@@ -647,6 +698,7 @@ Config.VehicleMod = {
 		name = 'frontbumpers',
         index = 1,
 		cost = 15000,
+		percent_cost = 4,
 		bone = 'bumper_f',
 		camera = {val = 'front', x = 0.1, y = 0.6,z = 0.4},
         type = 'cosmetic',
@@ -659,6 +711,7 @@ Config.VehicleMod = {
 		name = 'spoiler',
         index = 0,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'boot',
 		camera = {val = 'back', x = 0.5, y = -1.6,z = 1.3},
         type = 'cosmetic',
@@ -670,6 +723,7 @@ Config.VehicleMod = {
 		name = 'paint1',
         index = 99,
 		cost = 15000,
+		percent_cost = 8,
 		bone = 'boot',
         type = 'Primary Color',
         prop = 'imp_prop_impexp_spoiler_04a',
@@ -680,6 +734,7 @@ Config.VehicleMod = {
 		name = 'paint2',
         index = 100,
 		cost = 15000,
+		percent_cost = 5,
 		bone = 'boot',
         type = 'Secondary Color',
         prop = 'imp_prop_impexp_spoiler_04a',
@@ -690,6 +745,7 @@ Config.VehicleMod = {
 		name = 'headlight',
         index = 101,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'boot',
         type = 'Headlights',
 		camera = {val = 'front', x = 0.1, y = 0.6,z = 0.4},
@@ -717,6 +773,7 @@ Config.VehicleMod = {
 		name = 'plate',
         index = 102,
 		cost = 15000,
+		percent_cost = 2,
 		bone = 'boot',
         type = 'Plate',
         prop = 'imp_prop_impexp_spoiler_04a',
@@ -727,6 +784,7 @@ Config.VehicleMod = {
 		name = 'neon',
         index = 103,
 		cost = 15000,
+		percent_cost = 3,
 		bone = 'boot',
         type = 'Neon Lights',
 		camera = {val = 'middle', x = 2.1, y = 2.1,z = -0.1},
@@ -738,6 +796,7 @@ Config.VehicleMod = {
 		name = 'window',
         index = 104,
 		cost = 15000,
+		percent_cost = 5,
         type = 'Window Tints',
 		bone = 'boot',
 		camera = {val = 'left', x = -0.3, y = -0.3,z = 0.9},
@@ -756,6 +815,7 @@ Config.VehicleMod = {
 		label = 'Vehicle Extra',
 		name = 'extra',
         index = 105,
+		percent_cost = 5,
 		cost = 15000,
         type = 'Extras',
 		bone = 'boot',
@@ -778,6 +838,7 @@ if Config.UseCustomTurboUpgrade then
 		name = 'custom_turbo',
 		index = 107,
 		cost = 25000,
+		percent_cost = 25,
 		bone = 'bonnet',
 		type = 'Custom Turbo',
 		prop = 'imp_prop_impexp_spoiler_04a',
@@ -801,6 +862,7 @@ if Config.UseCustomEngineUpgrade then
 		name = 'custom_engine',
 		index = 106,
 		cost = 25000,
+		percent_cost = 30,
 		bone = 'bonnet',
 		type = 'Custom Engine',
 		prop = 'imp_prop_impexp_spoiler_04a',
@@ -825,6 +887,7 @@ if Config.UseCustomTireUpgrade then
 		name = 'custom_tires',
 		index = 108,
 		cost = 25000,
+		percent_cost = 15,
 		bone = 'bonnet',
 		type = 'Custom Tires',
 		prop = 'imp_prop_impexp_spoiler_04a',
@@ -894,6 +957,7 @@ custompaint = nil
 tospray = false
 oldprop = {}
 inmark = false
+markers = {}
 -- disable drift tires if build is not tuner
 if GetGameBuildNumber() < 2372 then
 	Config.VehicleMod[23]['list'].Accessories.DriftTires = nil

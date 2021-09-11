@@ -9,10 +9,10 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
         while insidegarage do
             for k,v in pairs(Config.Customs) do
                 local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.x,v.paintmenu.y,v.paintmenu.z))
-                if distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
+                if Config.InteractiveFeature['paintmenu'] and distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
                     DrawMarkerInput(vector3(v.paintmenu.x,v.paintmenu.y,v.paintmenu.z),'Spray Paint Menu','renzu_customs:openpaintmenu',false,'spray_paint')
                 end
-                if distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+                if Config.InteractiveFeature['paintmenu'] and distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
                     local table = {
                         ['key'] = 'E', -- key
                         ['event'] = 'renzu_customs:openpaintmenu',
@@ -34,34 +34,36 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     for k,v in pairs(v.mod) do
                         local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.coord.x,v.coord.y,v.coord.z))
                         local invehicle = IsPedInAnyVehicle(PlayerPedId())
-                        if distance < 30 and invehicle and Config.showmarker then
-                            DrawMarkerInput(vector3(v.coord.x,v.coord.y,v.coord.z),'Upgrade Menu','renzu_customs:openmenu',false,'mod_'..k)
-                        end
-                        if distance < 3 and invehicle and Config.usePopui then
-                            local table = {
-                                ['key'] = 'E', -- key
-                                ['event'] = 'renzu_customs:openmenu',
-                                ['title'] = 'Press [E] Upgrade Menu',
-                                ['server_event'] = false, -- server event or client
-                                ['unpack_arg'] = true, -- send args as unpack 1,2,3,4 order
-                                ['fa'] = '<i class="fas fa-garage"></i>',
-                                ['invehicle_title'] = 'Press [E] Upgrade Menu',
-                                ['custom_arg'] = {}, -- example: {1,2,3,4}
-                            }
-                            TriggerEvent('renzu_popui:drawtextuiwithinput',table)
-                            while distance < 3 and IsPedInAnyVehicle(PlayerPedId()) do
-                                distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.coord.x,v.coord.y,v.coord.z))
-                                Wait(500)
+                        if Config.JobPermissionAll and PlayerData.job ~= nil and PlayerData.job.name == Config.job or not Config.JobPermissionAll then
+                            if distance < 30 and invehicle and Config.showmarker then
+                                DrawMarkerInput(vector3(v.coord.x,v.coord.y,v.coord.z),'Upgrade Menu','renzu_customs:openmenu',false,'mod_'..k)
                             end
-                            TriggerEvent('renzu_popui:closeui')
+                            if distance < 3 and invehicle and Config.usePopui then
+                                local table = {
+                                    ['key'] = 'E', -- key
+                                    ['event'] = 'renzu_customs:openmenu',
+                                    ['title'] = 'Press [E] Upgrade Menu',
+                                    ['server_event'] = false, -- server event or client
+                                    ['unpack_arg'] = true, -- send args as unpack 1,2,3,4 order
+                                    ['fa'] = '<i class="fas fa-garage"></i>',
+                                    ['invehicle_title'] = 'Press [E] Upgrade Menu',
+                                    ['custom_arg'] = {}, -- example: {1,2,3,4}
+                                }
+                                TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                                while distance < 3 and IsPedInAnyVehicle(PlayerPedId()) do
+                                    distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.coord.x,v.coord.y,v.coord.z))
+                                    Wait(500)
+                                end
+                                TriggerEvent('renzu_popui:closeui')
+                            end
                         end
                     end
                 end
                 local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.x,v.stockroom.y,v.stockroom.z))
-                if distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
+                if Config.InteractiveFeature['stockroom'] and distance < 30 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
                     DrawMarkerInput(vector3(v.stockroom.x,v.stockroom.y,v.stockroom.z),'Stock Room','renzu_customs:openstockroom',false,'stock_inventory',k)
                 end
-                if distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+                if Config.InteractiveFeature['stockroom'] and distance < 3 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
                     local table = {
                         ['key'] = 'E', -- key
                         ['event'] = 'renzu_customs:openstockroom',
@@ -81,7 +83,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                 end
             end
             local nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.000, 0, 70)
-            if nearveh ~= 0 and not carrymod and not spraying and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
+            if Config.InteractiveFeature['garage_inventory'] and nearveh ~= 0 and not carrymod and not spraying and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
                 if stats_show == nil or stats_show ~= nearveh then
                     stats_show = nearveh
                     CreateThread(function()
@@ -106,10 +108,10 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
             end
             local inv = garage.garage_inventory
             local inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.x,inv.y,inv.z))
-            if inventorydis < 10 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
+            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 10 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
                 DrawMarkerInput(vector3(inv.x,inv.y,inv.z),'Parts Inventory','renzu_customs:openinventory',false,'parts_inventory',currentprivate)
             end
-            if inventorydis < 2 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
+            if Config.InteractiveFeature['garage_inventory'] and inventorydis < 2 and not carrymode and not carrymod and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.usePopui then
                 local table = {
                     ['key'] = 'E', -- key
                     ['event'] = 'renzu_customs:openinventory',
@@ -126,7 +128,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     Wait(500)
                 end
                 TriggerEvent('renzu_popui:closeui')
-            elseif not carrymode and carrymod and inventorydis < 2 and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
+            elseif Config.InteractiveFeature['garage_inventory'] and not carrymode and carrymod and inventorydis < 2 and PlayerData.job ~= nil and PlayerData.job.name == Config.job then
                 if inventorydis < 2 and PlayerData.job ~= nil and PlayerData.job.name == Config.job and Config.showmarker then
                     DrawMarkerInput(vector3(inv.x,inv.y,inv.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,Config.VehicleMod[tostore[1]],tostore[2],false,false,true},true)
                 end
@@ -541,6 +543,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                 oldprop = GetVehicleProperties(vehicle)
                 SetModable(vehicle) 
                 local livery = false
+                local vehicle_val = GetVehicleValue(GetEntityModel(vehicle)) * Config.VehicleValuePercent
                 for k,v in pairs(Config.VehicleMod) do
                     if custom[v.type:upper()] == nil then custom[v.type:upper()] = {} custom[v.type:upper()].index = k end
                     local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
@@ -567,12 +570,16 @@ AddEventHandler('renzu_customs:openmenu', function()
                                 end
                             end
                         end
+                        local cost = v.cost + (vehicle_val / v.percent_cost) * 1.0
+                        if not Config.VehicleValuetoFormula then
+                            cost = v.cost
+                        end
                         custom[v.type:upper()][v.index] = {
                             label = v.label or nil, 
                             index = v.index, 
                             name = v.name, 
                             max = max, 
-                            cost = v.cost, 
+                            cost = cost,
                             list = v.list or {}, 
                             type = v.type, 
                             mod = list, 
@@ -587,7 +594,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                     show = true,
                     money = numWithCommas(money),
                     vehicle_health = GetVehicleBodyHealth(vehicle),
-                    shop = k
+                    shop = k,
                 })
                 SetNuiFocus(true,true)
             end)
@@ -667,13 +674,19 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 end)
 
 RegisterNetEvent('renzu_customs:receivedata')
-AddEventHandler('renzu_customs:receivedata', function(turbo,engine)
+AddEventHandler('renzu_customs:receivedata', function(turbo,engine,vehicleprice)
 	netids = engine
     customturbo = turbo
+    for k,v in pairs(vehicleprice) do
+        table.insert(Config.VehicleValueList,{model = v.model, value = v.price})
+    end
 end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	PlayerData.job = job
 	playerjob = PlayerData.job.name
+    inmark = false
+    cancel = true
+    markers = {}
 end)
