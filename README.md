@@ -87,7 +87,7 @@ Config.RepairCost = 1500 -- repair cost
 ```
 - GetHandlingfromModel Exports (getter)
 ```
-  exports.renzu_customs:GetHandlingfromModel(model) = return the current Vehicle Model Specs
+  exports.renzu_customs:GetHandlingfromModel(model,vehicle) = return the current Vehicle Model Specs
   
   example:
 local table = {
