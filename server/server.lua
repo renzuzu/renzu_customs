@@ -146,8 +146,19 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t, shop, v
             end
             cb(true)
         elseif not Config.OwnedVehiclesOnly then
-            TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
-            cb(true)
+            if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
+                xPlayer.removeMoney(cost)
+                if Config.UseRenzu_jobs and not Config.JobPermissionAll then
+                    addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                elseif Config.UseRenzu_jobs and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name then
+                    removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                end
+                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+                cb(true)
+            else
+                TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+                cb(false)
+            end
         else
             TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Vehicle is not Owned')
             cb(false)
