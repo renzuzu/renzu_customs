@@ -1,7 +1,8 @@
 Config = {}
 Config.Locale = "en"
 -- MAIN CONFIG START
-Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
+Config.framework = 'ESX' -- FRAMEWORK! , "ESX", "QBCORE"
+Config.Mysql = 'mysql-async' -- "ghmattisql", "mysql-async", "oxmysql"
 Config.usePopui = false -- POPUI or Drawmarker Floating Text https://github.com/renzuzu/renzu_popui
 Config.showmarker = true -- Drawmarker and FLoating Text
 Config.DisableRepair = false -- Disable Repairing before Showing Upgrade Menu
@@ -31,18 +32,18 @@ Config.FreeUpgradeToClass = { -- want to have a free upgrade for a selected vehi
 -- Main Config END
 
 -- CUSTOM FEATURE CONFIG
-Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs (This Have Crafting Table, Shop, Vehicle Shop, Garage and more Job Needs!)
+Config.UseRenzu_jobs = false -- to have a profits for each upgrades https://github.com/renzuzu/renzu_jobs (This Have Crafting Table, Shop, Vehicle Shop, Garage and more Job Needs!) (NOT AVAILABLE IN QB)
 Config.UseRenzu_progressbar = false -- Use Progressbar while repairing a vehicle and maybe more use case in future update https://github.com/renzuzu/renzu_progressbar
 Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
 Config.DefaultProp = 'hei_prop_heist_box' -- default prop when carrying a parts
 
 -- if you want CUSTOM ENGINE UPGRADE ,TURBO and TIRES make sure to true this all
-Config.UseCustomTurboUpgrade = false -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
+Config.UseCustomTurboUpgrade = true -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
 Config.useturbosound = true -- use custom BOV Sound for each turbo
 Config.turbosoundSync = true -- true = Server Sync Sound? or false = only the driver can hear it
 
-Config.UseCustomEngineUpgrade = false -- enable disable custom engine upgrade
-Config.UseCustomTireUpgrade = false -- enable disable custom tires upgrade
+Config.UseCustomEngineUpgrade = true -- enable disable custom engine upgrade
+Config.UseCustomTireUpgrade = true -- enable disable custom tires upgrade
 
 Config.RepairCost = 1500 -- repair cost
 -- CUSTOM END
@@ -1157,6 +1158,7 @@ ingarage = false
 garage_coords = {}
 shell = nil
 ESX = nil
+QBCore = nil
 fetchdone = false
 PlayerData = {}
 playerLoaded = false
@@ -1191,6 +1193,10 @@ oldprop = {}
 inmark = false
 markers = {}
 currentshop = nil
+TriggerServerCallback_ = nil
+vehicletable = 'owned_vehicles'
+vehiclemod = 'vehicle'
+vehiclesname = {}
 -- disable drift tires if build is not tuner
 if GetGameBuildNumber() < 2372 then
 	Config.VehicleMod[23]['list'].Accessories.DriftTires = nil

@@ -52,7 +52,7 @@ RegisterNUICallback('repair', function(data, cb)
     if vehicle == 0 then
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
-    ESX.TriggerServerCallback("renzu_customs:repair",function(ret)
+    TriggerServerCallback_("renzu_customs:repair",function(ret)
         if ret then
             if Config.UseRenzu_progressbar then
                 repair = exports.renzu_progressbar:CreateProgressBar(25,'<i class="fas fa-tools"></i>')
@@ -212,13 +212,17 @@ RegisterNUICallback('Close', function(data, cb)
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
     SetVehicleProp(vehicle, oldprop)
+    DisplayHud(true)
+    SetNuiFocus(false, false)
+    SetNuiFocusKeepInput(false)  
+    RenderScriptCams(false, true, 500, true, true)
     --SetCamActive(cam, false)
-    RenderScriptCams( 0, 1, 1000, 0, 0)
-	SetCamActive(gameplaycam, false)
-	EnableGameplayCam(true)
+    --RenderScriptCams( 0, 1, 1000, 0, 0)
+	--SetCamActive(gameplaycam, false)
 	--SetCamActive(cam, false)
     DestroyCam(cam, true)
     DestroyCam(gameplaycam, true)
+    ClearFocus()
     SetNuiFocus(false,false)
     SendNUIMessage({
         type = "custom",
@@ -244,12 +248,15 @@ RegisterNUICallback('pay', function(data, cb)
         prop = GetVehicleProperties(GetVehiclePedIsIn(PlayerPedId())),
         cost = data.cost
     }
-    ESX.TriggerServerCallback("renzu_customs:pay",function(cb)
+    TriggerServerCallback_("renzu_customs:pay",function(cb)
         if cb then
-            RenderScriptCams( 0, 1, 1000, 0, 0)
-            SetCamActive(gameplaycam, false)
-            EnableGameplayCam(true)
-            SetNuiFocus(false,false)
+            DisplayHud(true)
+            SetNuiFocus(false, false)
+            SetNuiFocusKeepInput(false)  
+            RenderScriptCams(false, true, 500, true, true)
+            --SetCamActive(cam, false)
+            --RenderScriptCams( 0, 1, 1000, 0, 0)
+            --SetCamActive(gameplaycam, false)
             --SetCamActive(cam, false)
             DestroyCam(cam, true)
             DestroyCam(gameplaycam, true)
@@ -265,12 +272,14 @@ RegisterNUICallback('pay', function(data, cb)
                 vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
             end
             SetVehicleProp(vehicle, oldprop)
-            SetCamActive(cam, false)
-            RenderScriptCams( 0, 1, 1000, 0, 0)
-            SetCamActive(gameplaycam, false)
-            EnableGameplayCam(true)
-            SetCamActive(cam, false)
-            SetNuiFocus(false,false)
+            DisplayHud(true)
+            SetNuiFocus(false, false)
+            SetNuiFocusKeepInput(false)  
+            RenderScriptCams(false, true, 500, true, true)
+            --SetCamActive(cam, false)
+            --RenderScriptCams( 0, 1, 1000, 0, 0)
+            --SetCamActive(gameplaycam, false)
+            --SetCamActive(cam, false)
             DestroyCam(cam, true)
             DestroyCam(gameplaycam, true)
             SendNUIMessage({
@@ -365,7 +374,7 @@ RegisterNUICallback('SetCustomEngine', function(data, cb)
     if vehicle == 0 then
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
-    if not GetHandlingfromModel(GetEntityModel(vehicle)) then
+    if not GetHandlingfromModel(GetEntityModel(vehicle),vehicle) then
         addCustomHandling(vehicle)
     end
     SetVehicleEngine(vehicle,data.engine)

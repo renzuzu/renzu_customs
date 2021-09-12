@@ -1,16 +1,5 @@
 Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(100)
-	end
-
-	while PlayerData.job == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		PlayerData = ESX.GetPlayerData()
-		Citizen.Wait(111)
-	end
-
-	PlayerData = ESX.GetPlayerData()
+	Framework()
     Wait(2000)
     for k, v in pairs (Config.Customs) do
         local blip = AddBlipForCoord(v.shopcoord.x, v.shopcoord.y, v.shopcoord.z)
@@ -54,22 +43,26 @@ Citizen.CreateThread(function()
         vehiclehandling = json.decode(jsonf)
         while true do
             local vehicle = GetVehiclePedIsIn(PlayerPedId())
-            if vehicle ~= 0 and not GetHandlingfromModel(GetEntityModel(vehicle)) then
+            if vehicle ~= 0 and not GetHandlingfromModel(GetEntityModel(vehicle),vehicle) then
                 addCustomHandling(vehicle)
             end
             for net,model in pairs(netids) do
-                if NetworkDoesEntityExistWithNetworkId(net) and IsEntityAVehicle(NetworkGetEntityFromNetworkId(net)) and saved[NetworkGetEntityFromNetworkId(net)] ~= model then
-                    saved[NetworkGetEntityFromNetworkId(net)] = model
-                    ForceVehicleEngineAudio(NetworkGetEntityFromNetworkId(net), model)
+                local entity = NetworkGetEntityFromNetworkId(net)
+                --print(net,model,NetworkDoesEntityExistWithNetworkId(net),IsEntityAVehicle(NetworkGetEntityFromNetworkId(net)),saved[NetworkGetEntityFromNetworkId(net)])
+                if NetworkDoesEntityExistWithNetworkId(net) and IsEntityAVehicle(entity) and saved[entity] ~= model and #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(entity)) < 100 then
+                    saved[entity] = model
+                    Wait(2000)
+                    ForceVehicleEngineAudio(entity, tostring(model))
                 end
-                if NetworkDoesEntityExistWithNetworkId(net) and IsEntityAVehicle(NetworkGetEntityFromNetworkId(net)) and model ~= nil and model ~= 'Default' then
+                if NetworkDoesEntityExistWithNetworkId(net) and IsEntityAVehicle(entity) and model ~= nil and model ~= 'Default' and #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(entity)) < 100 then
                     if NetworkDoesEntityExistWithNetworkId(net) then
-                        SetVehicleHandlingSpec(NetworkGetEntityFromNetworkId(net),model)
+                        SetVehicleHandlingSpec(entity,model)
                     end
                 end
-                if not NetworkDoesEntityExistWithNetworkId(net) then
-                    saved[NetworkGetEntityFromNetworkId(net)] = nil
-                    netids[net] = nil     
+                --print(saved[entity],NetworkDoesEntityExistWithNetworkId(net),#(GetEntityCoords(PlayerPedId()) - GetEntityCoords(entity)),GetEntityCoords(PlayerPedId()) , GetEntityCoords(entity))
+                if not NetworkDoesEntityExistWithNetworkId(net) or #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(entity)) > 150 then
+                    saved[entity] = nil
+                    --netids[net] = nil     
                 end
             end
             Wait(1000)
@@ -82,14 +75,14 @@ Citizen.CreateThread(function()
     if Config.UseCustomTireUpgrade then
         while true do
             local vehicle = GetVehiclePedIsIn(PlayerPedId())
-            if vehicle ~= 0 and not GetHandlingfromModel(GetEntityModel(vehicle)) then
+            if vehicle ~= 0 and not GetHandlingfromModel(GetEntityModel(vehicle),vehicle) then
                 addCustomHandling(vehicle)
             end
             if vehicle ~= 0 then
                 local plate = GetVehicleNumberPlateText(vehicle)
                 if customtire[plate] and customtire ~= 'Default' then
                     local tire = Config.VehicleMod['custom_tires'].list[customtire[plate]]
-                    local default = GetHandlingfromModel(GetEntityModel(vehicle))
+                    local default = GetHandlingfromModel(GetEntityModel(vehicle),vehicle)
                     SetVehicleHandlingFloat(vehicle , "CHandlingData", "fLowSpeedTractionLossMult", default.fLowSpeedTractionLossMult * tire.fLowSpeedTractionLossMult  + 0.0) -- self.start burnout less = traction
                     SetVehicleHandlingFloat(vehicle , "CHandlingData", "fTractionLossMult", default.fTractionLossMult * tire.fTractionLossMult  + 0.0)  -- asphalt mud less = traction
                     SetVehicleHandlingFloat(vehicle , "CHandlingData", "fTractionCurveMin", default.fTractionCurveMin * tire.fTractionCurveMin  + 0.0) -- accelaration grip
@@ -103,6 +96,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+    Wait(1000)
     if Config.UseCustomTurboUpgrade then
         while true do
             local vehicle = GetVehiclePedIsIn(PlayerPedId())

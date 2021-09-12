@@ -5,6 +5,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
     insidegarage = true
 
     CreateThread(function()
+        Wait(2000)
         local stats_show = nil
         while insidegarage do
             for k,v in pairs(Config.Customs) do
@@ -162,7 +163,7 @@ AddEventHandler('renzu_customs:openinventory', function(current)
     local multimenu = {}
     local firstmenu = {}
     local openmenu = false
-    ESX.TriggerServerCallback("renzu_customs:getinventory",function(inventory)
+    TriggerServerCallback_("renzu_customs:getinventory",function(inventory)
         for k,v in pairs(inventory) do
             local k = tostring(k)
             local item = k:gsub("-", "")
@@ -205,15 +206,15 @@ AddEventHandler('renzu_customs:openstockroom', function(current)
                 SetModable(vehicle)
                 local livery = false
                 for k,v in pairs(Config.VehicleMod) do
-                    vehicleinarea[vehicle][tonumber(v.index)] = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
-                    max = vehicleinarea[vehicle][v.index]
+                    vehicleinarea[vehicle][tonumber(v.index)] = GetNumVehicleMods(vehicle, tonumber(v.index))
+                    local max = vehicleinarea[vehicle][v.index]
                     if k == 48 and max <= 0 then
                         max = GetVehicleLiveryCount(vehicle) + 1
                         livery = true
                     end
-                    if max >= 2 then
+                    if max >= 0 then
                         if multimenu[vehicle][v.label] == nil then multimenu[vehicle][v.label] = {} end
-                        for i = 1, max do
+                        for i = 0, max do
                             if livery and i > 0 then
                                 label = GetLabelText(GetLiveryName(vehicle,i-1))
                             elseif GetLabelText(GetModTextLabel(vehicle, v.index, i-1)) ~= 'NULL' and i >= 1 then
@@ -338,7 +339,7 @@ end)
 
 RegisterNetEvent('renzu_customs:getmod')
 AddEventHandler('renzu_customs:getmod', function(index,lvl,k)
-    ESX.TriggerServerCallback("renzu_customs:itemavailable",function(inventory)
+    TriggerServerCallback_("renzu_customs:itemavailable",function(inventory)
         if inventory then
             carrymod = true
             CarryMod("anim@heists@box_carry@","idle",Config.VehicleMod[index].prop or 'hei_prop_heist_box',50,28422)
@@ -487,7 +488,7 @@ AddEventHandler('renzu_customs:receivenetworkid', function(net,model)
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
     local ent = NetworkGetEntityFromNetworkId(net)
-    if model == 'Default' and ent ~= 0 or model == nil and ent ~= 0 then
+    if model == 'Default' and ent ~= 0 and NetworkDoesEntityExistWithNetworkId(net) or model == nil and ent ~= 0 and NetworkDoesEntityExistWithNetworkId(net) then
         netids[net] = nil
         ForceVehicleEngineAudio(vehicle,'Default')
         SetVehicleHandlingSpec(NetworkGetEntityFromNetworkId(net),'Default')
@@ -508,7 +509,7 @@ AddEventHandler('renzu_customs:custom_tire', function(tires,net,tire)
     local vehicle = NetworkGetEntityFromNetworkId(net)
     if NetworkDoesEntityExistWithNetworkId(net) and tire == 'Default' and vehicle ~= 0 or NetworkDoesEntityExistWithNetworkId(net) and tire == nil and vehicle ~= 0 then
         Wait(2000)
-        local default = GetHandlingfromModel(GetEntityModel(vehicle))
+        local default = GetHandlingfromModel(GetEntityModel(vehicle),vehicle)
         if default then
             SetVehicleHandlingFloat(vehicle , "CHandlingData", "fLowSpeedTractionLossMult", default.fLowSpeedTractionLossMult + 0.0) -- self.start burnout less = traction
             SetVehicleHandlingFloat(vehicle , "CHandlingData", "fTractionLossMult", default.fTractionLossMult + 0.0)  -- asphalt mud less = traction
@@ -529,7 +530,7 @@ AddEventHandler('renzu_customs:openmenu', function()
     for k,v in pairs(Config.Customs) do
         local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.shopcoord.x,v.shopcoord.y,v.shopcoord.z))
         if distance < v.radius then
-            ESX.TriggerServerCallback("renzu_customs:getmoney",function(money)
+            TriggerServerCallback_("renzu_customs:getmoney",function(money)
                 gameplaycam = GetRenderingCam()
                 if not IsCamActive(cam) then
                     cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
@@ -676,11 +677,7 @@ AddEventHandler('renzu_customs:openpaintmenu', function(garage,garage_id)
     end
 end)
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    playerloaded = true
-    TriggerServerEvent('renzu_customs:loaded')
-end)
+Playerloaded()
 
 RegisterNetEvent('renzu_customs:receivedata')
 AddEventHandler('renzu_customs:receivedata', function(turbo,engine,vehicleprice)
@@ -691,11 +688,4 @@ AddEventHandler('renzu_customs:receivedata', function(turbo,engine,vehicleprice)
     end
 end)
 
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-	PlayerData.job = job
-	playerjob = PlayerData.job.name
-    inmark = false
-    cancel = true
-    markers = {}
-end)
+SetJob()

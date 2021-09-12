@@ -227,12 +227,12 @@ function GetVehicleProperties(vehicle)
                 plate             = plate,
                 plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
 
-                bodyHealth        = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
-                engineHealth      = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
-                tankHealth        = ESX.Math.Round(GetVehiclePetrolTankHealth(vehicle), 1),
+                bodyHealth        = MathRound(GetVehicleBodyHealth(vehicle), 1),
+                engineHealth      = MathRound(GetVehicleEngineHealth(vehicle), 1),
+                tankHealth        = MathRound(GetVehiclePetrolTankHealth(vehicle), 1),
 
-                fuelLevel         = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
-                dirtLevel         = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
+                fuelLevel         = MathRound(GetVehicleFuelLevel(vehicle), 1),
+                dirtLevel         = MathRound(GetVehicleDirtLevel(vehicle), 1),
                 color1            = colorPrimary,
                 color2            = colorSecondary,
                 rgb				  = table.pack(GetVehicleCustomPrimaryColour(vehicle)),
@@ -709,13 +709,12 @@ function addCustomHandling(vehicle)
     })
 end
 
-function GetHandlingfromModel(model)
+function GetHandlingfromModel(model,vehicle)
     local default = 'Default'
     local model = model
     if not tonumber(model) and model ~= 'Default' then
         model = GetHashKey(model)
     end
-    local vehicle = GetVehiclePedIsIn(PlayerPedId())
     if model == 'Default' then
         model = GetEntityModel(vehicle)
         default = GetEntityModel(vehicle)
@@ -739,7 +738,7 @@ function GetHandlingfromModel(model)
             }
             return table
         end
-        --print(model,default,model == default , v.VehicleModels[1] ~= nil , tonumber(v.VehicleModels[1]) , v.VehicleModels[1] == GetEntityModel(vehicle))
+        --print(model , default, v.VehicleModels[1] ,model == default and v.VehicleModels[1] ~= nil and not tonumber(v.VehicleModels[1]) and GetHashKey(v.VehicleModels[1]:lower()) == GetEntityModel(vehicle))
         if model == default and v.VehicleModels[1] ~= nil and tonumber(v.VehicleModels[1]) and v.VehicleModels[1] == GetEntityModel(vehicle) or model == default and v.VehicleModels[1] ~= nil and not tonumber(v.VehicleModels[1]) and GetHashKey(v.VehicleModels[1]:lower()) == GetEntityModel(vehicle) then
             local table = {
                 ['fDriveInertia'] = tonumber(v.DriveInertia),
@@ -763,7 +762,7 @@ function GetHandlingfromModel(model)
 end
 
 function SetVehicleHandlingSpec(vehicle,model)
-    local handling = GetHandlingfromModel(model)
+    local handling = GetHandlingfromModel(model,vehicle)
     local getcurrentvehicleweight = GetVehicleHandlingFloat(vehicle , "CHandlingData","fMass")
     local multiplier = 1.001
     multiplier = (handling['fMass'] / getcurrentvehicleweight)
@@ -803,8 +802,8 @@ exports('SetVehicleHandlingSpec', function(vehicle,model)
     return SetVehicleHandlingSpec(vehicle,model)
 end)
 
-exports('GetHandlingfromModel', function(model)
-    return GetHandlingfromModel(model)
+exports('GetHandlingfromModel', function(model,vehicle)
+    return GetHandlingfromModel(model,vehicle)
 end)
 
 function ControlCam(val,x,y,z)

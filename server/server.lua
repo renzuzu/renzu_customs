@@ -1,45 +1,25 @@
 ESX = nil
-local vehicles = {}
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+QBCore = nil
+RegisterServerCallBack_ = {}
+Initialized()
 Citizen.CreateThread(function()
     Wait(1000)
-    vehicles = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM vehicles', {})
+    VehicleNames()
     for k,v in pairs(Config.Customs) do
-        MysqlGarage(Config.Mysql,'execute','INSERT IGNORE  INTO renzu_customs (shop) VALUES (@shop)', {
+        CustomsSQL(Config.Mysql,'execute','INSERT IGNORE  INTO renzu_customs (shop) VALUES (@shop)', {
             ['@shop']   = k,
         })
     end
 end)
 
-function MysqlGarage(plugin,type,query,var)
-    if type == 'fetchAll' and plugin == 'mysql-async' then
-        local result = MySQL.Sync.fetchAll(query, var)
-        return result
-    end
-    if type == 'execute' and plugin == 'mysql-async' then
-        MySQL.Sync.execute(query,var) 
-    end
-    if type == 'execute' and plugin == 'ghmattisql' then
-        exports['ghmattimysql']:execute(query, var)
-    end
-    if type == 'fetchAll' and plugin == 'ghmattisql' then
-        local data = nil
-        exports.ghmattimysql:execute(query, var, function(result)
-            data = result
-        end)
-        while data == nil do Wait(0) end
-        return data
-    end
-end
-
-ESX.RegisterServerCallback('renzu_customs:getinventory', function (source, cb, id, share)
+RegisterServerCallBack_('renzu_customs:getinventory', function (source, cb, id, share)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = GetPlayerFromId(source)
     local identifier = xPlayer.identifier
     if share then
         identifier = share.owner
     end
-    local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
+    local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
         ['@shop'] = id
     })
     local inventory = false
@@ -49,14 +29,14 @@ ESX.RegisterServerCallback('renzu_customs:getinventory', function (source, cb, i
     cb(inventory)
 end)
 
-ESX.RegisterServerCallback('renzu_customs:itemavailable', function (source, cb, id, item, share)
+RegisterServerCallBack_('renzu_customs:itemavailable', function (source, cb, id, item, share)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = GetPlayerFromId(source)
     local identifier = xPlayer.identifier
     if share then
         identifier = share.owner
     end
-    local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
+    local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
         ['@shop'] = id
     })
     local inventory = false
@@ -64,7 +44,7 @@ ESX.RegisterServerCallback('renzu_customs:itemavailable', function (source, cb, 
         inventory = json.decode(result[1].inventory)
         if inventory[item] ~= nil and inventory[item] > 0 then
             inventory[item] = inventory[item] - 1
-            MysqlGarage(Config.Mysql,'execute','UPDATE renzu_customs SET inventory = @inventory WHERE shop = @shop', {
+            CustomsSQL(Config.Mysql,'execute','UPDATE renzu_customs SET inventory = @inventory WHERE shop = @shop', {
                 ['@inventory'] = json.encode(inventory),
                 ['@shop'] = id,
             })
@@ -80,14 +60,14 @@ end)
 RegisterServerEvent('renzu_customs:storemod')
 AddEventHandler('renzu_customs:storemod', function(id,mod,lvl,newprop,share,save,savepartsonly)
     local src = source  
-    local xPlayer = ESX.GetPlayerFromId(src)
+    local xPlayer = GetPlayerFromId(src)
     local identifier = xPlayer.identifier
     if share then
         identifier = share.owner
     end
     local success = true
     local vehicles = nil
-    local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
+    local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
         ['@shop'] = id
     })
     local inventory = json.decode(result[1].inventory)
@@ -99,7 +79,7 @@ AddEventHandler('renzu_customs:storemod', function(id,mod,lvl,newprop,share,save
             inventory[modname] = inventory[modname] + 1
         end
     end
-    MysqlGarage(Config.Mysql,'execute','UPDATE renzu_customs SET inventory = @inventory WHERE shop = @shop', {
+    CustomsSQL(Config.Mysql,'execute','UPDATE renzu_customs SET inventory = @inventory WHERE shop = @shop', {
         ['@inventory'] = json.encode(inventory),
         ['@shop'] = id,
     })
@@ -124,21 +104,21 @@ function Jobmoney(job)
     return value
 end
 
-ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t, shop, vclass)
+RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vclass)
     local src = source  
-    local xPlayer = ESX.GetPlayerFromId(src)
+    local xPlayer = GetPlayerFromId(src)
     local identifier = xPlayer.identifier
     local prop = t.prop
     local cost = t.cost
     local jobmoney = 0
     local vclass = tonumber(vclass)
     if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE UPPER(plate) = @plate', {
+        local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
         if result[1] then
-            MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `vehicle` = @vehicle WHERE UPPER(plate) = @plate', {
-                ['@vehicle'] = json.encode(prop),
+            CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
+                ['@'..vehiclemod..''] = json.encode(prop),
                 ['@plate'] = prop.plate:upper()
             })
             if not Config.JobPermissionAll then --if other player
@@ -177,12 +157,12 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t, shop, v
         end
     elseif Config.FreeUpgradeToClass[vclass] then
         TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'FREE Upgrade has been Installed')
-        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE UPPER(plate) = @plate', {
+        local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
         if result[1] then
-            MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `vehicle` = @vehicle WHERE UPPER(plate) = @plate', {
-                ['@vehicle'] = json.encode(prop),
+            CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
+                ['@'..vehiclemod..''] = json.encode(prop),
                 ['@plate'] = prop.plate:upper()
             })
         end
@@ -193,9 +173,9 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t, shop, v
     end
 end)
 
-ESX.RegisterServerCallback('renzu_customs:repair', function (source, cb, shop)
+RegisterServerCallBack_('renzu_customs:repair', function (source, cb, shop)
     local src = source  
-    local xPlayer = ESX.GetPlayerFromId(src)
+    local xPlayer = GetPlayerFromId(src)
     local jobmoney = 0
     if xPlayer.getMoney() >= Config.RepairCost then
         if Config.UseRenzu_jobs and Config.Customs[shop].job ~= xPlayer.job.name then -- job permission access is free repair
@@ -210,26 +190,35 @@ ESX.RegisterServerCallback('renzu_customs:repair', function (source, cb, shop)
     end
 end)
 
-ESX.RegisterServerCallback('renzu_customs:getmoney', function (source, cb, t)
+RegisterServerCallBack_('renzu_customs:getmoney', function (source, cb, t)
     local src = source  
-    local xPlayer = ESX.GetPlayerFromId(src)
+    local xPlayer = GetPlayerFromId(src)
     cb(xPlayer.getMoney())
 end)
 
-function GetVehicleNetWorkIdByPlate(plate)
+function GetVehicleNetWorkIdByPlate(plate,source,dist)
+    local source = source
     for k,v in ipairs(GetAllVehicles()) do
-        if GetVehicleNumberPlateText(v) == plate then
+        if GetVehicleNumberPlateText(v) == plate and #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(v)) < 5 then -- support only near vehicle , means spawn and teleport the ped to vehicle seat
             return NetworkGetNetworkIdFromEntity(v)
         end
     end
+    for k,v in ipairs(GetAllVehicles()) do
+        if GetVehicleNumberPlateText(v) == plate then -- no range restriction if above loop does not find (but this does not support multiple duplicated plates in area)
+            return NetworkGetNetworkIdFromEntity(v)
+        end
+    end
+    return -1
 end
 
 local customengine = {}
 RegisterServerEvent('renzu_customs:custom_engine')
 AddEventHandler('renzu_customs:custom_engine', function(netid,plate,model)
     customengine[plate] = model
+    local source = source
     if model == 'Default' then customengine[plate] = nil end
-    TriggerClientEvent('renzu_customs:receivenetworkid',-1,GetVehicleNetWorkIdByPlate(plate),model)
+    Wait(1500) -- added wait for other garage script compatibility (setprop before ped is in vehicle)
+    TriggerClientEvent('renzu_customs:receivenetworkid',-1,GetVehicleNetWorkIdByPlate(plate,source),model)
     SetResourceKvp('engine',json.encode(customengine))
 end)
 
@@ -246,8 +235,10 @@ local customtire = {}
 RegisterServerEvent('renzu_customs:custom_tire')
 AddEventHandler('renzu_customs:custom_tire', function(plate,tire)
     customtire[plate] = tire
+    local source = source
     if tire == 'Default' then customtire[plate] = nil end
-    TriggerClientEvent('renzu_customs:custom_tire',-1,customtire,GetVehicleNetWorkIdByPlate(plate),tire)
+    Wait(1500) -- added wait for other garage script compatibility (setprop before ped is in vehicle)
+    TriggerClientEvent('renzu_customs:custom_tire',-1,customtire,GetVehicleNetWorkIdByPlate(plate,source),tire)
     SetResourceKvp('tire',json.encode(customtire))
 end)
 
@@ -259,5 +250,5 @@ end)
 RegisterServerEvent('renzu_customs:loaded')
 AddEventHandler('renzu_customs:loaded', function()
     local source = source
-    TriggerClientEvent('renzu_customs:receivedata',source,customturbo,customengine,vehicles)
+    TriggerClientEvent('renzu_customs:receivedata',source,customturbo,customengine,vehiclesname)
 end)
