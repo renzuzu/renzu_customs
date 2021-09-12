@@ -280,7 +280,7 @@ RegisterNUICallback('pay', function(data, cb)
             })
             inmark = false
         end
-    end,t,currentprivate)
+    end,t,currentprivate,GetVehicleClass(vehicle))
 end)
 
 RegisterNUICallback('Reset', function(data, cb)

@@ -575,6 +575,9 @@ AddEventHandler('renzu_customs:openmenu', function()
                             if not Config.VehicleValuetoFormula then
                                 cost = v.cost
                             end
+                            if Config.FreeUpgradeToClass[GetVehicleClass(vehicle)] then
+                                cost = 0
+                            end
                             custom[v.type:upper()][v.index] = {
                                 label = v.label or nil, 
                                 index = v.index, 
@@ -590,12 +593,16 @@ AddEventHandler('renzu_customs:openmenu', function()
                         end
                     end
                 end
+                local health = GetVehicleBodyHealth(vehicle)
+                if Config.DisableRepair then
+                    health = 1000
+                end
                 SendNUIMessage({
                     type = "custom",
                     custom = custom,
                     show = true,
                     money = numWithCommas(money),
-                    vehicle_health = GetVehicleBodyHealth(vehicle),
+                    vehicle_health = health,
                     shop = k,
                 })
                 SetNuiFocus(true,true)

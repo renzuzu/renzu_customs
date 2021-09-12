@@ -4,6 +4,8 @@ Config.Locale = "en"
 Config.Mysql = 'mysql-async' -- "ghmattisql", "msyql-async"
 Config.usePopui = false -- POPUI or Drawmarker Floating Text https://github.com/renzuzu/renzu_popui
 Config.showmarker = true -- Drawmarker and FLoating Text
+Config.DisableRepair = false -- Disable Repairing before Showing Upgrade Menu
+Config.OwnedVehiclesOnly = false -- set this to False if you want to allow modifying of non owned vehicles, AKA local cars, spawned cars
 --JOB
 -- Config.job = 'mechanic' -- Default job (job permission if job is not indicated here Config.Customs) -- OBSOLETE , Configure jobs here Config.Customs
 Config.DefaultJobGradePermmission = 0 -- default jobgrade in each job shop (ignored if its indicated at Config.VehicleMod)
@@ -20,6 +22,10 @@ Config.VehicleValuetoFormula = false -- if true we will calculate the final cost
 Config.VehicleValuePercent = 0.1 -- 0.1 = 10% 0.5 = 50%, 1.0 = 100% (this will be the formula to calculate the total cost for each upgrade)
 Config.VehicleValueList = { -- custom cars that are not exist in vehicles table (vehicles pricing are automatic fetched from DB vehicles table by default)
 	[1] = {model = 'zentorno', value = 100000},
+}
+Config.FreeUpgradeToClass = { -- want to have a free upgrade for a selected vehicles class?
+	[18] = true, -- emergency class , ex. police, ambulance vehicle.
+	[19] = true, -- military class
 }
 --EXTRA OPTION
 -- Main Config END

@@ -120,14 +120,15 @@ function Jobmoney(job)
     return value
 end
 
-ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
+ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t, shop, vclass)
     local src = source  
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
     local prop = t.prop
     local cost = t.cost
     local jobmoney = 0
-    if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
+    local vclass = tonumber(vclass)
+    if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
         local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
@@ -144,10 +145,25 @@ ESX.RegisterServerCallback('renzu_customs:pay', function (source, cb, t,shop)
                 removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
             end
             cb(true)
+        elseif not Config.OwnedVehiclesOnly then
+            TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+            cb(true)
         else
             TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Vehicle is not Owned')
             cb(false)
         end
+    elseif Config.FreeUpgradeToClass[vclass] then
+        TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'FREE Upgrade has been Installed')
+        local result = MysqlGarage(Config.Mysql,'fetchAll','SELECT * FROM owned_vehicles WHERE UPPER(plate) = @plate', {
+            ['@plate'] = prop.plate:upper()
+        })
+        if result[1] then
+            MysqlGarage(Config.Mysql,'execute','UPDATE owned_vehicles SET `vehicle` = @vehicle WHERE UPPER(plate) = @plate', {
+                ['@vehicle'] = json.encode(prop),
+                ['@plate'] = prop.plate:upper()
+            })
+        end
+        cb(true)
     else
         TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
         cb(false)
