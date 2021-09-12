@@ -38,12 +38,12 @@ Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
 Config.DefaultProp = 'hei_prop_heist_box' -- default prop when carrying a parts
 
 -- if you want CUSTOM ENGINE UPGRADE ,TURBO and TIRES make sure to true this all
-Config.UseCustomTurboUpgrade = true -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
+Config.UseCustomTurboUpgrade = false -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
 Config.useturbosound = true -- use custom BOV Sound for each turbo
 Config.turbosoundSync = true -- true = Server Sync Sound? or false = only the driver can hear it
 
-Config.UseCustomEngineUpgrade = true -- enable disable custom engine upgrade
-Config.UseCustomTireUpgrade = true -- enable disable custom tires upgrade
+Config.UseCustomEngineUpgrade = false -- enable disable custom engine upgrade
+Config.UseCustomTireUpgrade = false -- enable disable custom tires upgrade
 
 Config.RepairCost = 1500 -- repair cost
 -- CUSTOM END
