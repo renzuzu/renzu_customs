@@ -8,6 +8,7 @@ FIVEM - Advanced and Unique Mechanic Tuning
 - Built in Vehicle Property Getter and Setter
 - Built in Vehicle Repair in Menus
 - Deluxe UI
+- Support New DLC Tuner Wheels and Drift Tires!
 - Many More!
 
 # Optional Custom Feature
