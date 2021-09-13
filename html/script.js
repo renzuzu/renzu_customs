@@ -333,6 +333,10 @@ function hexToRgb(hex) {
 }
 
 function SetCustomColor(event) {
+    totalcost = totalcost + 100
+    addbill('Custom Paint',totalcost,totalcost,'paint')
+    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
+    upgraded['paint'] = 'Custom Paint'
     $.post("https://renzu_customs/SetCustomColor", JSON.stringify({ r: hexToRgb(event.target.value).r, g:hexToRgb(event.target.value).g, b:hexToRgb(event.target.value).b, type:colortype}));
 }
 

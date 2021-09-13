@@ -616,7 +616,7 @@ Config.VehicleMod = {
 		bone = 'wheel_rf',
         type = 'Wheel Parts',
         prop = 'imp_prop_impexp_wheel_03a',
-		list = {WheelType = {Sport = 0, Muscle = 1, Lowrider = 2, SUV = 3, Offroad = 4,Tuner = 5, BikeWheel = 6, HighEnd = 7 } , WheelColor = allcolors, Accessories = { CustomTire = 1, BulletProof = 1, SmokeColor = 1, DriftTires = 1} } -- BennysWheel = 8, BespokeWheel = 9
+		list = {WheelType = {Sport = 0, Muscle = 1, Lowrider = 2, SUV = 3, Offroad = 4,Tuner = 5, BikeWheel = 6, HighEnd = 7 , BennysWheel = 8, BespokeWheel = 9, Dragster = 10, Street = 11 } , WheelColor = allcolors, Accessories = { CustomTire = 1, BulletProof = 1, SmokeColor = 1, DriftTires = 1} } -- BennysWheel = 8, BespokeWheel = 9
 	},
 ---------Headlights---------
 	[22] = {
@@ -1199,5 +1199,6 @@ vehiclemod = 'vehicle'
 vehiclesname = {}
 -- disable drift tires if build is not tuner
 if GetGameBuildNumber() < 2372 then
+	Config.VehicleMod[23]['list'] = {WheelType = {Sport = 0, Muscle = 1, Lowrider = 2, SUV = 3, Offroad = 4,Tuner = 5, BikeWheel = 6, HighEnd = 7 } , WheelColor = allcolors, Accessories = { CustomTire = 1, BulletProof = 1, SmokeColor = 1, DriftTires = 1} } -- BennysWheel = 8, BespokeWheel = 9
 	Config.VehicleMod[23]['list'].Accessories.DriftTires = nil
 end
