@@ -1,13 +1,14 @@
 # renzu_customs
 FIVEM - Advanced and Unique Mechanic Tuning
  # Native FEATURE
-- Multiple Mechanic Shop
+- Multiple Mechanic Shop (multi job)
 - Multiple Mysql library supproted (mysql-async,ghmatti)
 - Integrated with renzu_jobs (Mechanic Job Money and upgrade profit shares)
 - Support almost all variation of upgrades (Mods, Extras, Liverys, Custom liveries, Paint, RGB Paints and more)
 - Built in Vehicle Property Getter and Setter
 - Built in Vehicle Repair in Menus
 - Deluxe UI
+- Many More!
 
 # Optional Custom Feature
 - Custom Vehicle Engine Upgrade/Swap (Configurable)
@@ -20,6 +21,7 @@ FIVEM - Advanced and Unique Mechanic Tuning
 - Builtin Vehicle Stock Room to get the list of available parts for the vehicles
 - Spray Pilox/Paint - Enable you to Manually Paint the vehicle using spray can ( can for now) (Custom RGB Color Supported, can be seen in demos)
 # Sample Image:
+![image](https://user-images.githubusercontent.com/82306584/133118433-baeaf6a7-1135-4b00-9221-842146b8de52.png)
 ![image](https://user-images.githubusercontent.com/82306584/132879340-e316f048-22d2-483f-8231-8c0d6fc18a83.png)
 ![image](https://user-images.githubusercontent.com/82306584/132879532-e440ce6f-4f51-4c65-9109-12018ae47abd.png)
 ![image](https://user-images.githubusercontent.com/82306584/132879623-8e477481-0e03-4245-86af-69484bafb9ec.png)
@@ -109,6 +111,7 @@ local table = {
 
 # Dependency
 - ESX (V1 FInal, ESX Legacy) Tested
+- QBCORE Framework
 - POPUI https://github.com/renzuzu/renzu_popui (Optional) you can used native drawmarker and floating text (config)
 - Contextmenu https://github.com/renzuzu/renzu_contextmenu (required in Interaction Menu and stock room , mod inventory)
 - Notify https://github.com/renzuzu/renzu_notify (OPTIONAL) You can used other Notification system (edit it yoursel)
