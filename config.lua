@@ -28,7 +28,8 @@ Config.FreeUpgradeToClass = { -- want to have a free upgrade for a selected vehi
 	[18] = true, -- emergency class , ex. police, ambulance vehicle.
 	[19] = true, -- military class
 }
-Config.JobDiscounts = {
+Config.EnableDiscounts = false -- discount for all jobs and per mods
+Config.JobDiscounts = { -- global discount jobs
 	['mechanic'] = 0.2, -- 0.2 == 20% , 1.0 == 100%
 	['ambulance'] = 0.1,
 	['police'] = 0.15,
