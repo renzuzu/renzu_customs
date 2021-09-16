@@ -577,9 +577,9 @@ AddEventHandler('renzu_customs:openmenu', function()
                                 cost = v.cost
                             end
                             if Config.EnableDiscounts and PlayerData.job ~= nil and v.discount[PlayerData.job.name] ~= nil then
-                                cost = v.cost * (1-v.discount[PlayerData.job.name])
+                                cost = cost * (1-v.discount[PlayerData.job.name])
                             elseif Config.EnableDiscounts and PlayerData.job ~= nil and Config.JobDiscounts[PlayerData.job.name] ~= nil then
-                                cost = v.cost * (1-Config.JobDiscounts[PlayerData.job.name])
+                                cost = cost * (1-Config.JobDiscounts[PlayerData.job.name])
                             end
                             if Config.FreeUpgradeToClass[GetVehicleClass(vehicle)] then
                                 cost = 0
