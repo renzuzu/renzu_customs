@@ -192,17 +192,19 @@ function ShowSubmenu(data) {
                         if(ind == 'XenonLights') {
                             $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
-                                totalcost = totalcost + data[index].cost
-                                addbill(ind,data[index].cost,totalcost,index)
-                                document.getElementById("cost").innerHTML = totalcost.toFixed(1);
-                                upgraded[index] = 1
+                                if (upgraded[index] == undefined) {
+                                    totalcost = totalcost + data[index].cost
+                                    addbill(ind,data[index].cost,totalcost,index)
+                                    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
+                                    upgraded[index] = 1
+                                }
                                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: data[index].list[ind]}));
                             });
                         } else if(ind == 'Default') {
                             $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
                                 if (upgraded[index] == 1) {
-                                    upgraded[index] = 0
+                                    upgraded[index] = undefined
                                     totalcost = totalcost - data[index].cost
                                     removebill('XenonLights',totalcost,'XenonLights')
                                 }
