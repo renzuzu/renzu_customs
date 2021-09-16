@@ -576,6 +576,11 @@ AddEventHandler('renzu_customs:openmenu', function()
                             if not Config.VehicleValuetoFormula then
                                 cost = v.cost
                             end
+                            if PlayerData.job ~= nil and v.discount[PlayerData.job.name] ~= nil then
+                                cost = v.cost * (1-v.discount[PlayerData.job.name])
+                            elseif PlayerData.job ~= nil and Config.JobDiscounts[PlayerData.job.name] ~= nil then
+                                cost = v.cost * (1-Config.JobDiscounts[PlayerData.job.name])
+                            end
                             if Config.FreeUpgradeToClass[GetVehicleClass(vehicle)] then
                                 cost = 0
                             end
