@@ -314,6 +314,7 @@ Config.VehicleMod = {
 		cost = 15000,
 		percent_cost = 2,
 		bone = 'boot',
+		camera = {val = 'middle', x = 2.1, y = 2.1,z = -0.1},
         type = 'cosmetic',
 	},
 	
@@ -460,6 +461,7 @@ Config.VehicleMod = {
 		percent_cost = 4,
         type = 'Exterior',
 		bone = 'boot',
+		camera = {val = 'back', x = 0.5, y = -1.6,z = 1.3},
         prop = 'imp_prop_impexp_trunk_01a',
 	},
 
@@ -1229,6 +1231,7 @@ Config.VehicleMod = {
         index = 102,
 		cost = 15000,
 		percent_cost = 2,
+		camera = {val = 'back', x = 0.5, y = -1.6,z = 1.3},
 		bone = 'boot',
         type = 'Plate',
         prop = 'imp_prop_impexp_spoiler_04a',
