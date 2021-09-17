@@ -21,6 +21,13 @@ function ShopPermmision(shop,type)
     if type ~= nil then
         perms = Config.Customs[shop] ~= nil and Config.Customs[shop].job == PlayerData.job.name and Config.Customs[shop] ~= nil and Config.Customs[shop][type] ~= nil and PlayerData.job.grade >= Config.Customs[shop][type].grade
     end
+    if type == nil then
+        for k,v in pairs(Config.VehicleMod) do
+            hasperm = Config.JobPermissionAll and PlayerData ~= nil and v.job_grade ~= nil and v.job_grade[PlayerData.job.name] ~= nil and PlayerData.job.grade >= v.job_grade[PlayerData.job.name]
+            or Config.JobPermissionAll and v.job_grade ~= nil and v.job_grade['all'] ~= nil
+            if hasperm then perms = true break end
+        end
+    end
     return perms
 end
 
