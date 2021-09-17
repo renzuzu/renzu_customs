@@ -977,7 +977,8 @@ Config.VehicleMod = {
 		cost = 15000,
 		percent_cost = 8,
         type = 'cosmetic',
-		bone = 'bonnet',
+		bone = 'bumper_f',
+		camera = {val = 'front', x = 0.1, y = 0.8,z = 0.8},
         prop = 'imp_prop_impexp_bonnet_02a',
 	},
 	
@@ -1321,7 +1322,7 @@ if Config.UseCustomTurboUpgrade then
 		index = 107,
 		cost = 25000,
 		percent_cost = 25,
-		bone = 'bonnet',
+		bone = 'bumper_f',
 		type = 'Custom Turbo',
 		prop = 'imp_prop_impexp_spoiler_04a',
 		list = {
@@ -1349,7 +1350,7 @@ if Config.UseCustomEngineUpgrade then
 		index = 106,
 		cost = 25000,
 		percent_cost = 30,
-		bone = 'bonnet',
+		bone = 'bumper_f',
 		type = 'Custom Engine',
 		prop = 'imp_prop_impexp_spoiler_04a',
 		list = { -- table
@@ -1378,7 +1379,7 @@ if Config.UseCustomTireUpgrade then
 		index = 108,
 		cost = 25000,
 		percent_cost = 15,
-		bone = 'bonnet',
+		bone = 'bumper_f',
 		type = 'Custom Tires',
 		prop = 'imp_prop_impexp_spoiler_04a',
 		list = {
