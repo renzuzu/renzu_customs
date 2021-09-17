@@ -852,6 +852,7 @@ Config.VehicleMod = {
 		cost = 15000,
 		percent_cost = 3,
 		bone = 'bumper_f',
+		camera = {val = 'middle', x = 2.1, y = 2.1,z = -0.1},
         type = 'cosmetic',
     },
 -----------Transmission-------------
