@@ -181,7 +181,7 @@ function ShowSubmenu(data) {
                     for (const ind in data[index].list) {
                         $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function(){
-                            ShowPaintOption(data[i],data[index].list[ind])
+                            ShowPaintOption(data[i],data[index].list[ind],ind)
                         });
                     }
                     colortype = data[i].type
@@ -482,13 +482,14 @@ function SetSmokeColor(event) {
     $.post("https://renzu_customs/SetSmokeColor", JSON.stringify({ r: hexToRgb(event.target.value).r, g:hexToRgb(event.target.value).g, b:hexToRgb(event.target.value).b, type:colortype}));
 }
 
-function ShowPaintOption(data,list) {
+function ShowPaintOption(data,list,option) {
+    console.log(option)
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
             $('#custom').append(`<button id="`+list[i]+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>#`+i+`</span></div></button>`)
             $("#"+list[i]+"").click(function() {
-                SetPaint(data.type,list[i],data.cost)
+                SetPaint(data.type,list[i],data.cost,option)
             });
         }
         $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
@@ -660,12 +661,12 @@ function SetMod(index,lvl,cost,wheeltype,label,multi) {
 }
 
 var oldpaint = undefined
-function SetPaint(type,i,cost) {
+function SetPaint(type,i,cost,option) {
     if (upgraded[type] == undefined) {
         totalcost = totalcost + cost
         upgraded[type] = i
         addbill('Paint',cost,totalcost,1,'Paint')
-        $.post("https://renzu_customs/GetPaint", JSON.stringify({}), function(data) {
+        $.post("https://renzu_customs/GetPaint", JSON.stringify({option:option}), function(data) {
             if (type == 'Primary Color') {
                 oldpaint = data[0]
             } else {
@@ -679,7 +680,7 @@ function SetPaint(type,i,cost) {
         removebill('Paint',totalcost,'Paint')
     }
     document.getElementById("cost").innerHTML = totalcost.toFixed(1);
-    $.post("https://renzu_customs/SetPaint", JSON.stringify({ index: i, type: type}));
+    $.post("https://renzu_customs/SetPaint", JSON.stringify({ index: i, type: type, option:option}));
 }
 
 function close() {

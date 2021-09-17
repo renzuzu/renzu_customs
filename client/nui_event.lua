@@ -97,10 +97,13 @@ RegisterNUICallback('SetPaint', function(data, cb)
     local vehicle = GetVehiclePedIsIn(PlayerPedId())
     SetVehicleModKit(vehicle,0)
 	local primary,secondary = GetVehicleColours(vehicle)
-	if data.type == "Primary Color" then
+	if data.type == "Primary Color" and data.option ~= 'Pearlescent' then
 		ClearVehicleCustomPrimaryColour(vehicle)
 		SetVehicleColours(vehicle,data.index,secondary)
-	elseif data.type == "Secondary Color" then
+    elseif data.type == "Primary Color" and data.option == 'Pearlescent' then
+        local pearlcent,wheel = GetVehicleExtraColours(vehicle)
+        SetVehicleExtraColours(vehicle,data.index,wheel)
+	elseif data.type == "Secondary Color" and data.option ~= 'Pearlescent' then
 		ClearVehicleCustomSecondaryColour(vehicle)
 		SetVehicleColours(vehicle,primary,data.index)
 	end

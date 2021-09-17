@@ -1152,7 +1152,7 @@ Config.VehicleMod = {
 		bone = 'boot',
         type = 'Primary Color',
         prop = 'imp_prop_impexp_spoiler_04a',
-		list = {Metallic = Config.Metallic, Matte = Config.Matte, Metals = Config.Metals, Crome = Config.Crome}
+		list = {Metallic = Config.Metallic, Matte = Config.Matte, Metals = Config.Metals, Crome = Config.Crome, Pearlescent = Config.Metallic}
 	},
 	['paint2'] = {
 		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
