@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `renzu_customs` (
-	`shop` VARCHAR(64) NULL COLLATE 'utf8mb4_general_ci',
+	`shop` VARCHAR(64) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`inventory` LONGTEXT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`shop`) USING BTREE
 )
