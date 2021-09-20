@@ -386,7 +386,7 @@ end)
 
 RegisterNetEvent('renzu_customs:removevehiclemod')
 AddEventHandler('renzu_customs:removevehiclemod', function(mod,lvl,vehicle)
-    if mod ~= nil then
+    if mod ~= nil and GetVehicleMod(vehicle,tonumber(mod.index)) + 1 >= lvl then
         CarryMod("anim@heists@box_carry@","idle",mod.prop or 'hei_prop_heist_box',50,28422)
         carrymode = true
         NetworkRequestControlOfEntity(vehicle)
