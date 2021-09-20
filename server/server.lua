@@ -41,7 +41,7 @@ RegisterServerCallBack_('renzu_customs:itemavailable', function (source, cb, id,
     })
     local inventory = false
     if json.decode(result[1].inventory) then
-        inventory = json.decode(result[1].inventory)
+        inventory = json.decode(result[1].inventory) or {}
         if inventory[item] ~= nil and inventory[item] > 0 then
             inventory[item] = inventory[item] - 1
             CustomsSQL(Config.Mysql,'execute','UPDATE renzu_customs SET inventory = @inventory WHERE shop = @shop', {
@@ -70,7 +70,7 @@ AddEventHandler('renzu_customs:storemod', function(id,mod,lvl,newprop,share,save
     local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
         ['@shop'] = id
     })
-    local inventory = json.decode(result[1].inventory)
+    local inventory = json.decode(result[1].inventory) or {}
     if not save then
         local modname = mod.name..'-'..lvl
         if inventory[modname] == nil then
