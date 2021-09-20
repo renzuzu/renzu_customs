@@ -481,6 +481,9 @@ function ReqAndDelete(object, detach)
 		SetEntityAsMissionEntity(object, true, true)
 		SetEntityAsNoLongerNeeded(object)
 		DeleteEntity(object)
+        if DoesEntityExist(object) then
+            SetEntityCoords(object,0.0,0.0,0.0)
+        end
 	end
 end
 
@@ -622,7 +625,7 @@ function PaintCar(n,vehicle)
     local min = 255
     local r,g,b = table.unpack(Config.Pilox[n])
     local rd,gd,bd = 255,255,255
-    ReqAndDelete(spraycan)
+    TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(spraycan))
     Wait(100)
     spraycan = CreateObject(GetHashKey('ng_proc_spraycan01b'),0.0, 0.0, 0.0,true, false, false)
     AttachEntityToEntity(spraycan, ped, GetPedBoneIndex(ped, 57005), 0.072, 0.041, -0.06,33.0, 38.0, 0.0, true, true, false, true, 1, true)
@@ -645,7 +648,7 @@ function PaintCar(n,vehicle)
         Wait(100)
     end
     spraying = false
-    ReqAndDelete(spraycan)
+    TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(spraycan))
     ClearPedTasks(ped)
 end
 

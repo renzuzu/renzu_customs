@@ -211,6 +211,13 @@ function GetVehicleNetWorkIdByPlate(plate,source,dist)
     return -1
 end
 
+RegisterServerEvent('renzu_customs:syncdel')
+AddEventHandler('renzu_customs:syncdel', function(net)
+    local source = source
+    print(net)
+    TriggerClientEvent('renzu_customs:syncdel',-1,net)
+end)
+
 local customengine = {}
 RegisterServerEvent('renzu_customs:custom_engine')
 AddEventHandler('renzu_customs:custom_engine', function(netid,plate,model)

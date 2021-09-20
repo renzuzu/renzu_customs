@@ -311,11 +311,18 @@ AddEventHandler('renzu_customs:getmodfromstockroom', function(index,lvl,name,veh
     end
 end)
 
+RegisterNetEvent('renzu_customs:syncdel')
+AddEventHandler('renzu_customs:syncdel', function(net)
+    local ent = NetworkGetEntityFromNetworkId(net)
+    print(ent)
+    ReqAndDelete(ent)
+end)
+
 RegisterNetEvent('renzu_customs:storemod')
 AddEventHandler('renzu_customs:storemod', function(current,mod,lvl,newprop,save,saveprop)
     carrymode = false
     carrymod = false
-    ReqAndDelete(object)
+    TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(object))
     ClearPedTasks(PlayerPedId())
     TriggerServerEvent('renzu_customs:storemod',current,mod,lvl,newprop,activeshare,save,saveprop)
 end)
@@ -331,7 +338,7 @@ AddEventHandler('renzu_customs:installmod', function(index,lvl,k,vehicle,mod)
         newprop = GetVehicleProperties(vehicle)
         TriggerServerEvent('renzu_customs:storemod',currentprivate,mod,lvl,newprop,activeshare,true)
         ClearPedTasks(PlayerPedId())
-        ReqAndDelete(object)
+        TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(object))
     else
         TriggerEvent('renzu_notify:Notify', 'error','Garage', 'This Parts is not compatible with this vehicle')
     end
@@ -653,7 +660,7 @@ AddEventHandler('renzu_customs:paint', function(color,spray)
             Wait(500)
         end
         PaintCar(color,nearveh)
-        ReqAndDelete(spraycan)
+        TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(spraycan))
     else
         tospray = false
     end
