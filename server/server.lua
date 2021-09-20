@@ -24,7 +24,7 @@ RegisterServerCallBack_('renzu_customs:getinventory', function (source, cb, id, 
     })
     local inventory = {}
     if result[1] and result[1].inventory ~= nil then
-        json.decode(result[1].inventory) or {}
+        inventory = json.decode(result[1].inventory) or {}
     end
     cb(inventory)
 end)
