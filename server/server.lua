@@ -22,9 +22,9 @@ RegisterServerCallBack_('renzu_customs:getinventory', function (source, cb, id, 
     local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT inventory FROM renzu_customs WHERE shop = @shop', {
         ['@shop'] = id
     })
-    local inventory = false
-    if json.decode(result[1].inventory) then
-        inventory = json.decode(result[1].inventory)
+    local inventory = {}
+    if result[1] and result[1].inventory ~= nil then
+        json.decode(result[1].inventory) or {}
     end
     cb(inventory)
 end)
