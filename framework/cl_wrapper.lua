@@ -15,7 +15,9 @@ function Framework()
 		while QBCore == nil do Wait(0) end
 		QBCore.Functions.GetPlayerData(function(p)
 			PlayerData = p
-			PlayerData.job.grade = PlayerData.job.grade.level
+			if PlayerData.job ~= nil then
+				PlayerData.job.grade = PlayerData.job.grade.level
+			end
         end)
 	end
 end
@@ -32,6 +34,12 @@ function Playerloaded()
 		AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
 			playerloaded = true
 			TriggerServerEvent('renzu_customs:loaded')
+			QBCore.Functions.GetPlayerData(function(p)
+				PlayerData = p
+				if PlayerData.job ~= nil then
+					PlayerData.job.grade = PlayerData.job.grade.level
+				end
+			end)
 		end)
 	end
 end
