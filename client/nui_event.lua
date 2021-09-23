@@ -63,7 +63,7 @@ RegisterNUICallback('repair', function(data, cb)
             SetVehicleEngineHealth(vehicle,1000.0)
             SetVehiclePetrolTankHealth(vehicle,1000.0)
             for k,v in pairs(oldprop) do
-                if k == 'bodyHealth' then
+                if k == 'bodyHealth' or k == 'engineHealth' then
                     oldprop[k] = 1000.0
                 end
             end
