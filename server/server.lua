@@ -89,7 +89,7 @@ end)
 local default_routing = {}
 local current_routing = {}
 
-function Jobmoney(job)
+function Jobmoney(job,xPlayer)
     local value = -1
     local job = job
     local count = 0
@@ -98,6 +98,7 @@ function Jobmoney(job)
             value = exports.renzu_jobs:JobMoney(job).money
         end)
     else
+        value = xPlayer.getMoney()
         -- your owned job money here
     end
     while value == -1 and count < 150 do count = count + 1 Wait(0) end
@@ -112,7 +113,7 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
     local cost = t.cost
     local jobmoney = 0
     local vclass = tonumber(vclass)
-    if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
+    if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost then
         local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
@@ -134,7 +135,7 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
             end
             cb(true)
         elseif not Config.OwnedVehiclesOnly then
-            if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name) >= t.cost then
+            if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost then
                 if not Config.JobPermissionAll then --if other player
                     xPlayer.removeMoney(cost)
                 elseif Config.JobPermissionAll and not Config.UseRenzu_jobs then -- job owned without renzu_jobs
