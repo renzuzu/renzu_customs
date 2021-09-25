@@ -406,7 +406,7 @@ AddEventHandler('renzu_customs:removevehiclemod', function(mod,lvl,vehicle)
             if distance < 3 and ShopPermmision(currentprivate,'garage_inventory') and Config.showmarker then
                 DrawMarkerInput(vector3(vec.coord.x,vec.coord.y,vec.coord.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,mod,lvl,newprop},true)
             end
-            if Config.UsePopUI and ShopPermmision(currentprivate,'garage_inventory') then
+            if Config.usePopui and ShopPermmision(currentprivate,'garage_inventory') then
                 if distance < 3 then
                     local table = {
                         ['key'] = 'E', -- key
