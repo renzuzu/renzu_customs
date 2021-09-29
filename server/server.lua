@@ -191,10 +191,27 @@ RegisterServerCallBack_('renzu_customs:repair', function (source, cb, shop)
     end
 end)
 
-RegisterServerCallBack_('renzu_customs:getmoney', function (source, cb, t)
+local inshop = {}
+RegisterServerCallBack_('renzu_customs:getmoney', function (source, cb, net, props)
     local src = source  
     local xPlayer = GetPlayerFromId(src)
+    inshop[source] = {net = net , props = props}
     cb(xPlayer.getMoney())
+end)
+
+RegisterServerEvent('playerDropped')
+AddEventHandler('playerDropped', function(reason)
+	for k,v in pairs(inshop) do
+        if tonumber(source) == tonumber(k) then
+            TriggerClientEvent('renzu_customs:restoremod',-1 , v.net, v.props)
+            --DeleteEntity(v)
+        end
+    end
+end)
+
+RegisterServerEvent('renzu_customs:leaveshop')
+AddEventHandler('renzu_customs:leaveshop', function()
+	inshop[source] = nil
 end)
 
 function GetVehicleNetWorkIdByPlate(plate,source,dist)

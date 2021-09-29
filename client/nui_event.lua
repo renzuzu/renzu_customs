@@ -233,6 +233,7 @@ RegisterNUICallback('Close', function(data, cb)
         show = false,
     })
     inmark = false
+    TriggerServerEvent('renzu_customs:leaveshop')
 end)
 
 RegisterNUICallback('closedoor', function(data, cb)
@@ -269,6 +270,7 @@ RegisterNUICallback('pay', function(data, cb)
                 show = false,
             })
             inmark = false
+            TriggerServerEvent('renzu_customs:leaveshop')
         else
             local vehicle = GetVehiclePedIsIn(PlayerPedId())
             if vehicle == 0 then
@@ -291,6 +293,7 @@ RegisterNUICallback('pay', function(data, cb)
                 show = false,
             })
             inmark = false
+            TriggerServerEvent('renzu_customs:leaveshop')
         end
     end,t,currentprivate,GetVehicleClass(vehicle))
 end)

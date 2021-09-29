@@ -534,6 +534,7 @@ AddEventHandler('renzu_customs:openmenu', function()
     if vehicle == 0 then
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
+    oldprop = GetVehicleProperties(vehicle)
     for k,v in pairs(Config.Customs) do
         local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.shopcoord.x,v.shopcoord.y,v.shopcoord.z))
         if distance < v.radius then
@@ -548,7 +549,6 @@ AddEventHandler('renzu_customs:openmenu', function()
                     SetCamActive(cam, true)
                     ControlCam('front',-2.5,0.1,1.3)
                 end
-                oldprop = GetVehicleProperties(vehicle)
                 SetModable(vehicle) 
                 local livery = false
                 local vehicle_val = GetVehicleValue(GetEntityModel(vehicle)) * Config.VehicleValuePercent
@@ -620,9 +620,17 @@ AddEventHandler('renzu_customs:openmenu', function()
                     shop = k,
                 })
                 SetNuiFocus(true,true)
-            end)
+            end, NetworkGetNetworkIdFromEntity(vehicle), oldprop)
         end
     end
+end)
+
+RegisterNetEvent('renzu_customs:restoremod')
+AddEventHandler('renzu_customs:restoremod', function(net,prop)
+    local ent = NetworkGetEntityFromNetworkId(net)
+    SetModable(ent)
+    SetVehicleProp(ent, prop)
+    print('restoring mod')
 end)
 
 RegisterNetEvent('renzu_customs:paint')
