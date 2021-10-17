@@ -130,6 +130,17 @@ RegisterNUICallback('SelectModIndex', function(data, cb)
             SetVehicleDoorOpen(vehicle,4,false,false)
         end
     end
+    SetCamActive(gameplaycam, false)
+	EnableGameplayCam(false)
+    if not IsCamActive(cam) then
+        cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
+        CreateModCam()
+        ControlCam('front',-2.5,0.1,1.3)
+    else
+        CreateModCam()
+        SetCamActive(cam, true)
+        ControlCam('front',-2.5,0.1,1.3)
+    end
     BoneCamera(Config.VehicleMod[data.index].bone,0.0,0.0,0.0)
     if Config.VehicleMod[data.index].camera ~= nil then
         local v = Config.VehicleMod[data.index].camera
