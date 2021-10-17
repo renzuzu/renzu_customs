@@ -566,7 +566,8 @@ AddEventHandler('renzu_customs:openmenu', function()
                             v.list = extras
                         end
                         local list = {}
-                        if max > 0 or k == 'paint1' or k == 'paint2' or k == 'neon' or k == 'plate' or k == 'headlight' or k == 'window' or k == 18 or k == 'extra' or k == 'custom_engine' or k == 'custom_turbo' or k == 'custom_tires' then
+                        if Config.DoNotShowEmptyMods and max > 1 or not Config.DoNotShowEmptyMods and max > 0 or k == 'paint1' or k == 'paint2' or k == 'neon' or k == 'plate' or k == 'headlight' or k == 'window' or k == 18 or k == 'extra' or k == 'custom_engine' or k == 'custom_turbo' or k == 'custom_tires' then
+                            local upgrades = 0
                             if max > 0 then
                                 for i = 0, max do
                                     if livery and i >= 1 then
@@ -578,6 +579,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                                     else
                                         list[i] = 'Default'
                                     end
+                                    upgrades = i
                                 end
                             end
                             local cost = v.cost + (vehicle_val / v.percent_cost) * 1.0
