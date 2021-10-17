@@ -808,7 +808,8 @@ $(document).on('keydown', function(event) {
             document.getElementById("custom").innerHTML = '';
             $.post('https://renzu_customs/Close');
             break;
-        case 9: // TAB
+        case 69: // TAB
+        $.post('https://renzu_customs/ToggleCamera');
             break;
         case 17: // TAB
             break;

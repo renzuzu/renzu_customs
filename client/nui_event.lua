@@ -140,6 +140,28 @@ RegisterNUICallback('SelectModIndex', function(data, cb)
     cb(GetVehicleMod(vehicle,data.index))
 end)
 
+RegisterNUICallback('ToggleCamera', function(data, cb)
+    RenderScriptCams(false, true, 500, true, true)
+    DestroyCam(cam, true)
+    DestroyCam(gameplaycam, true)
+    ClearFocus()
+    SetNuiFocusKeepInput(true)
+    while true do
+        if IsControlPressed(0,38) then
+            SetCamCoord(cam,GetGameplayCamCoords())
+            SetCamRot(cam, GetGameplayCamRot(2), 2)
+            RenderScriptCams( 0, 1, 1000, 0, 0)
+            SetCamActive(gameplaycam, true)
+            EnableGameplayCam(true)
+            SetCamActive(cam, false)
+            break
+        end
+        Wait(0)
+    end
+    SetNuiFocusKeepInput(false)
+    cb(true)
+end)
+
 RegisterNUICallback('ToggleTurbo', function(data, cb)
     local vehicle = GetVehiclePedIsIn(PlayerPedId())
     if vehicle == 0 then
