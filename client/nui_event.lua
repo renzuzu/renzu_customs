@@ -123,7 +123,7 @@ RegisterNUICallback('SetCustomColor', function(data)
 end)
 
 RegisterNUICallback('SelectModIndex', function(data, cb)
-    if data.index == 99 then return end
+    if data.index == 99 or data.index == nil then return end
     local vehicle = GetVehiclePedIsIn(PlayerPedId())
     if Config.VehicleMod[data.index].action ~= nil then
         if Config.VehicleMod[data.index].action == 'openhood' then
