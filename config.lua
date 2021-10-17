@@ -44,12 +44,12 @@ Config.PayoutShare = 0.5 -- 0.5 = 50% (how much profit share)
 Config.DefaultProp = 'hei_prop_heist_box' -- default prop when carrying a parts
 
 -- if you want CUSTOM ENGINE UPGRADE ,TURBO and TIRES make sure to true this all
-Config.UseCustomTurboUpgrade = false -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
+Config.UseCustomTurboUpgrade = true -- use renzu_custom Turbo System -- enable disable custom turbo upgrade
 Config.useturbosound = true -- use custom BOV Sound for each turbo
 Config.turbosoundSync = true -- true = Server Sync Sound? or false = only the driver can hear it
 
-Config.UseCustomEngineUpgrade = false -- enable disable custom engine upgrade
-Config.UseCustomTireUpgrade = false -- enable disable custom tires upgrade
+Config.UseCustomEngineUpgrade = true -- enable disable custom engine upgrade
+Config.UseCustomTireUpgrade = true -- enable disable custom tires upgrade
 
 Config.RepairCost = 1500 -- repair cost
 -- CUSTOM END
@@ -728,6 +728,7 @@ Config.VehicleMod = {
 		cost = 15000,
 		percent_cost = 4,
         type = 'Wheel Parts',
+		camera = {val = 'middle', x = 2.1, y = 2.1,z = -0.1},
 		bone = 'wheel_lr',
         prop = 'imp_prop_impexp_wheel_03a',
 	},
@@ -749,6 +750,7 @@ Config.VehicleMod = {
 		percent_cost = 5,
 		bone = 'wheel_rf',
         type = 'Wheel Parts',
+		camera = {val = 'middle', x = 2.1, y = 2.1,z = -0.1},
         prop = 'imp_prop_impexp_wheel_03a',
 		list = {WheelType = {Sport = 0, Muscle = 1, Lowrider = 2, SUV = 3, Offroad = 4,Tuner = 5, BikeWheel = 6, HighEnd = 7 , BennysWheel = 8, BespokeWheel = 9, Dragster = 10, Street = 11 } , WheelColor = allcolors, Accessories = { CustomTire = 1, BulletProof = 1, SmokeColor = 1, DriftTires = 1} } -- BennysWheel = 8, BespokeWheel = 9
 	},
