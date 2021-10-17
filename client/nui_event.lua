@@ -123,6 +123,7 @@ RegisterNUICallback('SetCustomColor', function(data)
 end)
 
 RegisterNUICallback('SelectModIndex', function(data, cb)
+    print('gago')
     if data.index == 99 or data.index == nil then return end
     local vehicle = GetVehiclePedIsIn(PlayerPedId())
     if Config.VehicleMod[data.index].action ~= nil then
@@ -130,8 +131,10 @@ RegisterNUICallback('SelectModIndex', function(data, cb)
             SetVehicleDoorOpen(vehicle,4,false,false)
         end
     end
-    SetCamActive(gameplaycam, false)
-	EnableGameplayCam(false)
+    if not IsCamActive(gameplaycam) then
+        SetCamActive(gameplaycam, false)
+        EnableGameplayCam(false)
+    end
     if not IsCamActive(cam) then
         cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
         CreateModCam()
@@ -333,9 +336,19 @@ end)
 
 RegisterNUICallback('Reset', function(data, cb)
     if control == nil or control ~= 'front' then
-        CreateModCam()
-        SetCamActive(cam, true)
-        ControlCam('front',-2.5,0.1,1.3)
+        if not IsCamActive(gameplaycam) then
+            SetCamActive(gameplaycam, false)
+            EnableGameplayCam(false)
+        end
+        if not IsCamActive(cam) then
+            cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
+            CreateModCam()
+            ControlCam('front',-2.5,0.1,1.3)
+        else
+            CreateModCam()
+            SetCamActive(cam, true)
+            ControlCam('front',-2.5,0.1,1.3)
+        end
     end
 end)
 
