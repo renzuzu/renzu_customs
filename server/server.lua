@@ -196,7 +196,13 @@ RegisterServerCallBack_('renzu_customs:getmoney', function (source, cb, net, pro
     local src = source  
     local xPlayer = GetPlayerFromId(src)
     inshop[source] = {net = net , props = props}
-    cb(xPlayer.getMoney())
+    local money = 0
+    if Config.UseRenzu_jobs and Config.JobPermissionAll then
+        money = Jobmoney(xPlayer.job.name,xPlayer)
+    else
+        money = xPlayer.getMoney()
+    end
+    cb(money)
 end)
 
 RegisterServerEvent('playerDropped')
