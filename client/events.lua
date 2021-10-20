@@ -587,9 +587,9 @@ AddEventHandler('renzu_customs:openmenu', function()
                                 cost = v.cost
                             end
                             if Config.EnableDiscounts and PlayerData.job ~= nil and v.discount[PlayerData.job.name] ~= nil then
-                                cost = cost * (1-v.discount[PlayerData.job.name])
+                                cost = cost * (1-tonumber(v.discount[PlayerData.job.name]))
                             elseif Config.EnableDiscounts and PlayerData.job ~= nil and Config.JobDiscounts[PlayerData.job.name] ~= nil then
-                                cost = cost * (1-Config.JobDiscounts[PlayerData.job.name])
+                                cost = cost * (1-tonumber(Config.JobDiscounts[PlayerData.job.name]))
                             end
                             if Config.FreeUpgradeToClass[GetVehicleClass(vehicle)] then
                                 cost = 0
@@ -598,11 +598,11 @@ AddEventHandler('renzu_customs:openmenu', function()
                                 label = v.label or nil, 
                                 index = v.index, 
                                 name = v.name, 
-                                max = max, 
+                                max = max or 0, 
                                 cost = cost,
                                 list = v.list or {}, 
-                                type = v.type, 
-                                mod = list, 
+                                type = v.type or 'cosmetic', 
+                                mod = list or {}, 
                                 action = v.action or false, 
                                 multicostperlvl = v.multicostperlvl or false
                             }

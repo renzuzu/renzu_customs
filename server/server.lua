@@ -110,8 +110,12 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
     local xPlayer = GetPlayerFromId(src)
     local identifier = xPlayer.identifier
     local prop = t.prop
-    local cost = t.cost
+    local cost = tonumber(t.cost)
     local jobmoney = 0
+    if cost == 1 then
+        cost = 0
+        t.cost = 0
+    end
     local vclass = tonumber(vclass)
     if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost then
         local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
@@ -135,7 +139,7 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
             end
             cb(true)
         elseif not Config.OwnedVehiclesOnly then
-            if not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost then
+            if not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
                 if not Config.JobPermissionAll then --if other player
                     xPlayer.removeMoney(cost)
                 elseif Config.JobPermissionAll and not Config.UseRenzu_jobs then -- job owned without renzu_jobs

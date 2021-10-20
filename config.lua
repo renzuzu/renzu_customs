@@ -242,7 +242,7 @@ Config.VehicleMod = {
 			['police'] = 0,-- police is sample only change this!
 		},
 		discount = {
-			['mechanic'] = 0.2, -- 20%
+			['mechanic'] = 1.0, -- 20%
 			['ambulance'] = 0.1, -- 10%
 			['police'] = 0.15, -- 15%
 		},
@@ -1327,6 +1327,11 @@ if Config.UseCustomTurboUpgrade then
 			['mechanic'] = 0,
 			['police'] = 0,-- police is sample only change this!
 		},
+		discount = {
+			['mechanic'] = 0.2, -- 20%
+			['ambulance'] = 0.1, -- 10%
+			['police'] = 0.15, -- 15%
+		},
 		label = 'Custom Turbo',
 		name = 'custom_turbo',
 		index = 107,
@@ -1354,6 +1359,11 @@ if Config.UseCustomEngineUpgrade then
 		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
 			['mechanic'] = 0,
 			['police'] = 0,-- police is sample only change this!
+		},
+		discount = {
+			['mechanic'] = 0.2, -- 20%
+			['ambulance'] = 0.1, -- 10%
+			['police'] = 0.15, -- 15%
 		},
 		label = 'Custom Engine',
 		name = 'custom_engine',
@@ -1383,6 +1393,11 @@ if Config.UseCustomTireUpgrade then
 		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
 			['mechanic'] = 0,
 			['police'] = 0,-- police is sample only change this!
+		},
+		discount = {
+			['mechanic'] = 0.2, -- 20%
+			['ambulance'] = 0.1, -- 10%
+			['police'] = 0.15, -- 15%
 		},
 		label = 'Custom Tires',
 		name = 'custom_tires',
