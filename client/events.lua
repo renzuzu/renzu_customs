@@ -621,6 +621,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                     vehicle_health = health,
                     shop = k,
                 })
+                FreezeEntityPosition(vehicle,true)
                 SetNuiFocus(true,true)
             end, NetworkGetNetworkIdFromEntity(vehicle), oldprop)
         end
