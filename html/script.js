@@ -577,7 +577,7 @@ function ShowIndexMenu(data,max,wheeltype) {
                 $.post("https://renzu_customs/GetModData", JSON.stringify({ index: data.index,wheeltype:wheeltype}), function(d) {
                     for (let i = 0; i < d.max; i++) {
                         var label = d.mod[i]
-                        if (label == '') { label = i+' Lvl' }
+                        if (label == '' || label == '') { label = i+' Lvl' }
                         const index = i
                         var bg = '#f5ebeb'
                         var color = '#353b3e'

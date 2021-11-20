@@ -223,7 +223,12 @@ RegisterNUICallback('GetModData', function(v, cb)
     local wheel = GetVehicleWheelType(vehicle),
     SetVehicleWheelType(vehicle,v.wheeltype)
     Wait(0)
+    livery = false
     local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
+    if v.index == 48 and max <= 1 then
+        max = GetVehicleLiveryCount(vehicle) + 1
+        livery = true
+    end
     local list = {}
     if max > 0 then
         for i = 0, max do

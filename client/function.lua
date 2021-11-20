@@ -141,7 +141,6 @@ function SetVehicleProp(vehicle, props)
 		if props.modTrimB then SetVehicleMod(vehicle, 44, props.modTrimB, false) end
 		if props.modTank then SetVehicleMod(vehicle, 45, props.modTank, false) end
 		if props.modWindows then SetVehicleMod(vehicle, 46, props.modWindows, false) end
-
 		if props.modLivery then
 			SetVehicleMod(vehicle, 48, props.modLivery, false)
 			SetVehicleLivery(vehicle, props.modLivery)
@@ -222,7 +221,7 @@ function GetVehicleProperties(vehicle)
                 plate = string.gsub(tostring(GetVehicleNumberPlateText(vehicle)), '^%s*(.-)%s*$', '%1')
             end
             local modlivery = GetVehicleLivery(vehicle)
-            if modlivery == -1 then
+            if modlivery == -1 or GetVehicleMod(vehicle, 48) ~= -1 then
                 modlivery = GetVehicleMod(vehicle, 48)
             end
             return {

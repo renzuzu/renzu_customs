@@ -557,7 +557,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                     or not Config.JobPermissionAll or Config.JobPermissionAll and v.job_grade ~= nil and v.job_grade['all'] ~= nil then
                         if custom[v.type:upper()] == nil then custom[v.type:upper()] = {} custom[v.type:upper()].index = k end
                         local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
-                        if k == 48 and max <= 0 then
+                        if k == 48 and max <= 1 then
                             max = GetVehicleLiveryCount(vehicle) + 1
                             livery = true
                         end
@@ -570,7 +570,7 @@ AddEventHandler('renzu_customs:openmenu', function()
                             local upgrades = 0
                             if max > 0 then
                                 for i = 0, max do
-                                    if livery and i >= 1 then
+                                    if livery and i >= 1 and GetLabelText(GetLiveryName(vehicle,i-1)) ~= 'NULL' then
                                         list[i] = GetLabelText(GetLiveryName(vehicle,i-1))
                                     elseif GetLabelText(GetModTextLabel(vehicle, v.index, i-1)) ~= 'NULL' and i >= 1 then
                                         list[i] = GetLabelText(GetModTextLabel(vehicle, v.index, i-1))

@@ -11,7 +11,7 @@ Config.DoNotShowEmptyMods = false -- hide mod menu if no available mod for curre
 --JOB
 -- Config.job = 'mechanic' -- Default job (job permission if job is not indicated here Config.Customs) -- OBSOLETE , Configure jobs here Config.Customs
 Config.DefaultJobGradePermmission = 0 -- default jobgrade in each job shop (ignored if its indicated at Config.VehicleMod)
-Config.JobPermissionAll = false -- if this is true only mechanics can access even the upgrade menu (Main Menu)
+Config.JobPermissionAll = true -- if this is true only mechanics can access even the upgrade menu (Main Menu)
 --JOB
 Config.InteractiveFeature = { -- Enable Disable All Extra Features like: Inventory, Stock Room, Paint Room
 	['garage_inventory'] = true,
@@ -1079,7 +1079,7 @@ Config.VehicleMod = {
 		job_grade = { -- default job grade to access this Upgrade Feature (this option will work only if Config.JobPermissionAll is true
 			['mechanic'] = 0,
 			['police'] = 0,-- police is sample only change this!
-			['all'] = 0, -- all jobs?
+			--['all'] = 0, -- all jobs?
 		},
 		discount = {
 			['mechanic'] = 0.2, -- 20%
