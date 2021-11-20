@@ -1462,6 +1462,7 @@ currentprivate = nil
 carrymode = false
 carrymod = false
 tostore = {}
+vehiclehandling = {}
 vehicleinarea = {}
 spraying = false
 customturbo = {}
