@@ -2,12 +2,16 @@ function Initialized()
 	if Config.framework == 'ESX' then
 		ESX = nil
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		RegisterServerCallBack_ = ESX.RegisterServerCallback
+		RegisterServerCallBack_ = function(...)
+			ESX.RegisterServerCallback(...)
+		end
 		vehicletable = 'owned_vehicles'
 		vehiclemod = 'vehicle'
 	elseif Config.framework == 'QBCORE' then
-		QBCore = exports['qb-core']:GetSharedObject()
-		RegisterServerCallBack_ =  QBCore.Functions.CreateCallback
+		QBCore = exports['qb-core']:GetCoreObject()
+		RegisterServerCallBack_ =  function(...)
+			QBCore.Functions.CreateCallback(...)
+		end
 		vehicletable = 'player_vehicles '
 		vehiclemod = 'mods'
 	end
@@ -44,6 +48,9 @@ end
 function VehicleNames()
 	if Config.framework == 'ESX' then
 		vehiclesname = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM vehicles', {})
+		if Config.renzu_vehicleshopTable then
+			vehiclesname = exports.renzu_vehicleshop:VehiclesTable()
+		end
 	elseif Config.framework == 'QBCORE' then
 		vehiclesname = QBCore.Shared.Vehicles
 	end

@@ -71,10 +71,14 @@ CreateThread(function()
     Wait(500)
 	if Config.framework == 'ESX' then
 		while ESX == nil do Wait(1) end
-		TriggerServerCallback_ = ESX.TriggerServerCallback
+		TriggerServerCallback_ = function(...)
+			ESX.TriggerServerCallback(...)
+		end
 	elseif Config.framework == 'QBCORE' then
 		while QBCore == nil do Wait(1) end
-		TriggerServerCallback_ =  QBCore.Functions.TriggerCallback
+		TriggerServerCallback_ =  function(...)
+			QBCore.Functions.TriggerCallback(...)
+		end
 	end
 end)
 
