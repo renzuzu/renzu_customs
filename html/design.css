@@ -16,9 +16,6 @@
           font-family: 'azonixregular';
           overflow: hidden;     
       }        
-      *{
-          transition: 0.5s all;
-      }
 
       .installed {
         background-color: #0143a5 !important;
@@ -71,7 +68,6 @@
       }
       
       .container .top-container .selected {
-          transition: all 0.5s;
 
           padding: 0px 15px 0px 0px;
           font-size: 1.5vw;
@@ -545,7 +541,6 @@
   display:flex;    
   margin-right:10px;
   margin-left:10px;
-  transition: all 0.5s;
 }
 
 .item-cars:hover{
@@ -554,7 +549,6 @@
   margin-right:2vh;
   margin-left:2vh;
   margin-bottom:1vh;
-  transition: all 0.5s;
 }
 
 .sold-out-text{
@@ -668,7 +662,7 @@
 
 .w3-greyscale-max,.w3-grayscale-max,.w3-hover-greyscale:hover,.w3-hover-grayscale:hover{filter:grayscale(100%)}
 .w3-greyscale,.w3-grayscale{filter:grayscale(75%)}.w3-greyscale-min,.w3-grayscale-min{filter:grayscale(50%)}
-.w3-grey,.w3-hover-grey:hover,.w3-gray,.w3-hover-gray:hover{color:#000!important;background-color:#9e9e9e!important;transition: width 2s ease-in-out;}
+.w3-grey,.w3-hover-grey:hover,.w3-gray,.w3-hover-gray:hover{color:#000!important;background-color:#9e9e9e!important;}
 .w3-border-0{border:0!important}.w3-border{border:1px solid #ccc!important}
 .w3-border-top{border-top:1px solid #ccc!important}.w3-border-bottom{border-bottom:1px solid #ccc!important}
 .w3-border-left{border-left:1px solid #ccc!important}.w3-border-right{border-right:1px solid #ccc!important}
@@ -714,8 +708,7 @@ top: 14.5%;
 overflow-y: scroll;
 overflow-x: hidden;
 box-shadow: 4px 5px 5px 5px rgb(64 47 47 / 11%);
--webkit-animation: intro 0.34s 0.4s cubic-bezier(1, 1.4, 0.41, 1.01) forwards;
-animation: intro 0.34s 0.4s cubic-bezier(1, 1.4, 0.41, 1.01) forwards;
+
 transform: translateY(-50%) scale(0) rotateX(10deg) rotateY(10deg) rotateZ(10deg);
 margin: auto;
 font-family: &quot;
@@ -744,7 +737,6 @@ height: 225px;
 }
 .app_inner input[type=radio]:checked + label .app_inner__tab .tab_right {
 top: 39px;
-transition: all 0.3s 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .app_inner input[type=radio]:not(checked) + label .app_inner__tab {
   height: 80px;
@@ -753,17 +745,12 @@ transition: all 0.3s 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .app_inner input[type=radio]:not(checked) + label .app_inner__tab .tab_right {
 top: 110px;
-transition: all 0.3s 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .app_inner input[type=radio]:checked + label .app_inner__tab .tab_left .tab_left__image {
--webkit-animation: move_in 0.55s 0.05s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-        animation: move_in 0.55s 0.05s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-transition: all 0.3s 0.36s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
 }
 .app_inner input[type=radio]:not(checked) + label .app_inner__tab .tab_left .tab_left__image {
--webkit-animation: move_out 0.75s 0s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-        animation: move_out 0.75s 0s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
-transition: all 0.3s 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
 left:10px !important;
 }
 .app_inner input[type=radio]:checked + label .app_inner__tab .tab_left .big {
@@ -798,7 +785,6 @@ width: 100%;
   height: 200px;
 }
 .app_inner label:nth-of-type(1) .app_inner__tab:hover {
-  transition: all 0.2s;
   background: #000000e0;
 }
 .app_inner label:nth-of-type(1) .app_inner__tab .tab_left__image {
@@ -811,14 +797,12 @@ background: rgba(0, 0, 0, 0.849);
 cursor: pointer;
 overflow: hidden;
 position: relative;
-transition: all 0.65s cubic-bezier(1, 0, 0.41, 1.01);
 }
 .app_inner__tab h2 {position: absolute;right: 20px;top: 16px;color: #f3f3f3;font-size: 18px;font-weight: 200;}
 .app_inner__tab h2 i {
 position: absolute;
 right: 271px;
 opacity: 0.3;
-transition: all 0.3s;
 }
 .app_inner__tab .tab_right {
 width: 60%;
@@ -855,7 +839,6 @@ font-family: &quot;Roboto Condensed&quot;, sans-serif;
 outline: none;
 font-size: 11px;
 color: white;
-transition: all 0.3s;
 }
 .app_inner__tab .tab_right button:hover {
 background: white;
@@ -867,7 +850,7 @@ float: left;
 position: relative;
 left:0 !important;
 }
-.app_inner__tab .tab_left .big {position: absolute;top: -67px;transition: all 0.3s 0.3s;left: -51px;font-size: 180px;opacity: 0.28;}
+.app_inner__tab .tab_left .big {position: absolute;top: -67px;left: -51px;font-size: 180px;opacity: 0.28;}
 .app_inner__tab .tab_left__image {
 position: relative;
 top: -100px;
@@ -1069,10 +1052,7 @@ border-color: #41EFB6;
 .row ul li.perf div span {background: #3498db;width: 90%;}
 
 .animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+
 }.fadeInLeft {
   -webkit-animation-name: fadeInLeft;
   animation-name: fadeInLeft;
@@ -1255,9 +1235,6 @@ border-color: #41EFB6;
   right: 0;
   bottom: -10px;
   background-color: inherit;
-  -webkit-transition: width 0.2s ease-in-out;
-  -moz-transition: width 0.2s ease-in-out;
-  transition: width 0.2s ease-in-out;
 }
 .invoice footer a:hover:after {
   width: 100%;
@@ -1297,11 +1274,6 @@ border-color: #41EFB6;
   width: 50px;
   height: 50px;
   bottom: 10px;
-  transition: all .5s ease-in-out;
-}
-
-#eighth>button {
-  transition: all .5s ease-in-out;
 }
 
 .modclass:hover img {
@@ -1309,7 +1281,6 @@ border-color: #41EFB6;
 }
 
 img {
-  transition: all .5s ease-in-out;
   border: none;
 }
 

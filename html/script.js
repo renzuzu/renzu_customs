@@ -319,7 +319,7 @@ function ShowSubmenu(data) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowMod(backdata)
-            }, 500);
+            }, 100);
         });
     }, 500);
 }
@@ -334,14 +334,10 @@ function hexToRgb(hex) {
     } : null;
 }
 
-var rgpaintcolor = false
 function SetCustomColor(event) {
-    if (!rgpaintcolor) {
-        totalcost = totalcost + 10000
-        addbill('Custom Paint',totalcost,totalcost,'paint')
-        document.getElementById("cost").innerHTML = totalcost.toFixed(1);
-        rgpaintcolor = true
-    }
+    totalcost = totalcost + 100
+    addbill('Custom Paint',totalcost,totalcost,'paint')
+    document.getElementById("cost").innerHTML = totalcost.toFixed(1);
     upgraded['paint'] = 'Custom Paint'
     $.post("https://renzu_customs/SetCustomColor", JSON.stringify({ r: hexToRgb(event.target.value).r, g:hexToRgb(event.target.value).g, b:hexToRgb(event.target.value).b, type:colortype}));
 }
@@ -367,7 +363,7 @@ function ShowXenonMenu(data) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
     }, 500);
 }
@@ -400,9 +396,9 @@ function ShowWheelOption(data,max,list) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function ShowWheelColorOption(data,max,list) {
@@ -419,9 +415,9 @@ function ShowWheelColorOption(data,max,list) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function ShowWheelAcceOption(data,max,list) {
@@ -477,9 +473,9 @@ function ShowWheelAcceOption(data,max,list) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function SetSmokeColor(event) {
@@ -487,7 +483,6 @@ function SetSmokeColor(event) {
 }
 
 function ShowPaintOption(data,list,option) {
-    console.log(option)
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
@@ -501,9 +496,9 @@ function ShowPaintOption(data,list,option) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function ShowXenonOption(data,list) {
@@ -520,9 +515,9 @@ function ShowXenonOption(data,list) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function ShowTurboMenu(data) {
@@ -559,9 +554,9 @@ function ShowTurboMenu(data) {
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
                 ShowSubmenu(backdata2)
-            }, 500);
+            }, 100);
         });
-    }, 500);
+    }, 100);
 }
 
 function ShowIndexMenu(data,max,wheeltype) {
@@ -577,7 +572,7 @@ function ShowIndexMenu(data,max,wheeltype) {
                 $.post("https://renzu_customs/GetModData", JSON.stringify({ index: data.index,wheeltype:wheeltype}), function(d) {
                     for (let i = 0; i < d.max; i++) {
                         var label = d.mod[i]
-                        if (label == '' || label == '') { label = i+' Lvl' }
+                        if (label == '' || label == 'NULL') { label = i+' Lvl' }
                         const index = i
                         var bg = '#f5ebeb'
                         var color = '#353b3e'
@@ -757,7 +752,6 @@ window.addEventListener('message', function(event) {
                 document.getElementById("money").innerHTML = event.data.money;
                 ShowMod(event.data.custom)
             }
-            console.log(event.data.shop)
             document.getElementById("shopname").innerHTML = event.data.shop;
         } else {
             document.getElementById("perf").style.display = 'none';
@@ -812,8 +806,7 @@ $(document).on('keydown', function(event) {
             document.getElementById("custom").innerHTML = '';
             $.post('https://renzu_customs/Close');
             break;
-        case 69: // TAB
-        $.post('https://renzu_customs/ToggleCamera');
+        case 9: // TAB
             break;
         case 17: // TAB
             break;
