@@ -119,12 +119,12 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
     local vclass = tonumber(vclass)
     if not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost then
         local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
-            ['@plate'] = prop.plate:upper()
+            ['@plate'] = string.gsub(prop.plate, "^%s*(.-)%s*$", "%1")
         })
         if result[1] then
             CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
                 ['@'..vehiclemod..''] = json.encode(prop),
-                ['@plate'] = prop.plate:upper()
+                ['@plate'] = string.gsub(prop.plate, "^%s*(.-)%s*$", "%1")
             })
             if not Config.JobPermissionAll then --if other player
                 xPlayer.removeMoney(cost)
