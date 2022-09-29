@@ -1,7 +1,6 @@
 function Initialized()
 	if Config.framework == 'ESX' then
-		ESX = nil
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		ESX = exports['es_extended']:getSharedObject()
 		RegisterServerCallBack_ = function(...)
 			ESX.RegisterServerCallback(...)
 		end
@@ -31,7 +30,9 @@ function GetPlayerFromId(src)
 		if selfcore.data.job == nil then
 			selfcore.data.job = selfcore.data.PlayerData.job
 		end
-
+		selfcore.data.getGroup = function(src)
+			return QBCore.Functions.HasPermission(src, 'god')
+		end
 		selfcore.data.getMoney = function(value)
 			return selfcore.data.PlayerData.money['cash']
 		end

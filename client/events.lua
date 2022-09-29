@@ -528,7 +528,7 @@ AddEventHandler('renzu_customs:custom_tire', function(tires,net,tire)
 end)
 
 RegisterNetEvent('renzu_customs:openmenu')
-AddEventHandler('renzu_customs:openmenu', function()
+AddEventHandler('renzu_customs:openmenu', function(menu)
     local custom = {}
     local vehicle = GetVehiclePedIsIn(PlayerPedId())
     if vehicle == 0 then
@@ -537,7 +537,7 @@ AddEventHandler('renzu_customs:openmenu', function()
     oldprop = GetVehicleProperties(vehicle)
     for k,v in pairs(Config.Customs) do
         local distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.shopcoord.x,v.shopcoord.y,v.shopcoord.z))
-        if distance < v.radius then
+        if distance < v.radius or menu then
             TriggerServerCallback_("renzu_customs:getmoney",function(money)
                 gameplaycam = GetRenderingCam()
                 if not IsCamActive(cam) then
@@ -553,8 +553,8 @@ AddEventHandler('renzu_customs:openmenu', function()
                 local livery = false
                 local vehicle_val = GetVehicleValue(GetEntityModel(vehicle)) * Config.VehicleValuePercent
                 for k,v in pairs(Config.VehicleMod) do
-                    if Config.JobPermissionAll and PlayerData ~= nil and v.job_grade ~= nil and v.job_grade[PlayerData.job.name] ~= nil and PlayerData.job.grade >= v.job_grade[PlayerData.job.name] 
-                    or not Config.JobPermissionAll or Config.JobPermissionAll and v.job_grade ~= nil and v.job_grade['all'] ~= nil then
+                    if Config.JobPermissionAll and PlayerData ~= nil and PlayerData.job ~= nil and v.job_grade ~= nil and v.job_grade[PlayerData.job.name] ~= nil and PlayerData.job.grade >= v.job_grade[PlayerData.job.name] 
+                    or not Config.JobPermissionAll or Config.JobPermissionAll and v.job_grade ~= nil and v.job_grade['all'] ~= nil or menu then
                         if custom[v.type:upper()] == nil then custom[v.type:upper()] = {} custom[v.type:upper()].index = k end
                         local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
                         if k == 48 and max <= 1 then
@@ -619,11 +619,14 @@ AddEventHandler('renzu_customs:openmenu', function()
                     show = true,
                     money = numWithCommas(money),
                     vehicle_health = health,
-                    shop = k,
+                    shop = k or 'admin',
                 })
                 FreezeEntityPosition(vehicle,true)
                 SetNuiFocus(true,true)
             end, NetworkGetNetworkIdFromEntity(vehicle), oldprop)
+            if menu then
+                break
+            end
         end
     end
 end)

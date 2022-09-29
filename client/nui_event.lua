@@ -216,15 +216,21 @@ RegisterNUICallback('SetWindowTint', function(data, cb)
 end)
 
 RegisterNUICallback('GetModData', function(v, cb)
-    local vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local vehicle = GetVehiclePedIsIn(PlayerPedId()) ~= 0 and GetVehiclePedIsIn(PlayerPedId()) or GetVehiclePedIsIn(PlayerPedId(),true)
     if vehicle == 0 then
         vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
     end
     local wheel = GetVehicleWheelType(vehicle),
     SetVehicleWheelType(vehicle,v.wheeltype)
     Wait(0)
-    livery = false
+    local livery = false
     local max = GetNumVehicleMods(vehicle, tonumber(v.index)) + 1
+    if GetVehicleClass(vehicle) == 8 and v.index == 24 then -- temp fix for motorcycles
+        max = 73
+    end
+    if GetVehicleClass(vehicle) == 8 and v.index == 23 and v.wheeltype ~= 6 then
+        max = 1
+    end
     if v.index == 48 and max <= 1 then
         max = GetVehicleLiveryCount(vehicle) + 1
         livery = true

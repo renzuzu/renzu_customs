@@ -830,6 +830,10 @@ function BoneCamera(bone)
     CreateModCam()
 	SetCamActive(cam, true)
 	local vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local boneindex = GetEntityBoneIndexByName(vehicle, bone)
+    if boneindex == -1 and bone == 'wheel_rf' then
+        bone = 'engine'
+    end
 	if bone ~= -1 then
 		local offset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, bone)))
 		local x,y,z = table.unpack(GetOffsetFromEntityInWorldCoords(vehicle, offset.x + 1, offset.y + 1, offset.z +1))

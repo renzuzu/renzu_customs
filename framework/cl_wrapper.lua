@@ -1,18 +1,9 @@
 function Framework()
 	if Config.framework == 'ESX' then
-		while ESX == nil do
-			TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-			Citizen.Wait(100)
-		end
-		while PlayerData.job == nil do
-			TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-			PlayerData = ESX.GetPlayerData()
-			Citizen.Wait(111)
-		end
+		ESX = exports['es_extended']:getSharedObject()
 		PlayerData = ESX.GetPlayerData()
 	elseif Config.framework == 'QBCORE' then
-		QBCore = exports['qb-core']:GetSharedObject()
-		while QBCore == nil do Wait(0) end
+		QBCore = exports['qb-core']:GetCoreObject()
 		QBCore.Functions.GetPlayerData(function(p)
 			PlayerData = p
 			if PlayerData.job ~= nil then
@@ -26,6 +17,7 @@ function Playerloaded()
 	if Config.framework == 'ESX' then
 		RegisterNetEvent('esx:playerLoaded')
 		AddEventHandler('esx:playerLoaded', function(xPlayer)
+			PlayerData = xPlayer
 			playerloaded = true
 			TriggerServerEvent('renzu_customs:loaded')
 		end)
