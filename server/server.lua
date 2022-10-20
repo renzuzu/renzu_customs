@@ -254,8 +254,10 @@ end
 RegisterServerEvent('renzu_customs:syncdel')
 AddEventHandler('renzu_customs:syncdel', function(net)
     local source = source
-    print(net)
-    TriggerClientEvent('renzu_customs:syncdel',-1,net)
+    local entity = NetworkGetEntityFromNetworkId(net)
+    if DoesEntityExist(entity) then
+        DeleteEntity(entity)
+    end
 end)
 
 local customengine = {}

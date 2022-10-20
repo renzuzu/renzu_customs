@@ -311,13 +311,6 @@ AddEventHandler('renzu_customs:getmodfromstockroom', function(index,lvl,name,veh
     end
 end)
 
-RegisterNetEvent('renzu_customs:syncdel')
-AddEventHandler('renzu_customs:syncdel', function(net)
-    local ent = NetworkGetEntityFromNetworkId(net)
-    print(ent)
-    ReqAndDelete(ent)
-end)
-
 RegisterNetEvent('renzu_customs:storemod')
 AddEventHandler('renzu_customs:storemod', function(current,mod,lvl,newprop,save,saveprop)
     carrymode = false
