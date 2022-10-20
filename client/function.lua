@@ -719,6 +719,7 @@ function addCustomHandling(vehicle)
 end
 
 function GetHandlingfromModel(model,vehicle)
+    if not vehiclehandling then return end
     local default = 'Default'
     local model = model
     if not tonumber(model) and model ~= 'Default' then
@@ -772,6 +773,7 @@ end
 
 function SetVehicleHandlingSpec(vehicle,model)
     local handling = GetHandlingfromModel(model,vehicle)
+    if not handling then return end
     local getcurrentvehicleweight = GetVehicleHandlingFloat(vehicle , "CHandlingData","fMass")
     local multiplier = 1.001
     multiplier = (handling['fMass'] / getcurrentvehicleweight)
