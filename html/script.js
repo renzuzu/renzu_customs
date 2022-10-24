@@ -88,9 +88,11 @@ function ShowSubmenu(data) {
                     });
                 } else if (i == 105) {
                     var index = i
+                    var c = 0
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
-                        $("#"+i+"").click(function() {
+                        c += 1
+                        $('#custom').append(`<button id="`+c+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $("#"+c+"").click(function() {
                             if(ind == 0 && upgraded[index] !== undefined) {
                                 totalcost = totalcost - data[index].cost
                                 removebill(ind,totalcost,ind)
