@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CVehicleModColorsGen9>
+    <chameleon>
+    <Item>
+      <name>ANOD_RED</name>
+      <col value="161"/>
+      <spec value="161"/>
+    </Item>
+    <Item>
+      <name>ANOD_WINE</name>
+      <col value="162"/>
+      <spec value="162"/>
+    </Item>
+    <Item>
+      <name>ANOD_PURPLE</name>
+      <col value="163"/>
+      <spec value="163"/>
+    </Item>
+    <Item>
+      <name>ANOD_BLUE</name>
+      <col value="164"/>
+      <spec value="164"/>
+    </Item>
+    <Item>
+      <name>ANOD_GREEN</name>
+      <col value="165"/>
+      <spec value="165"/>
+    </Item>
+    <Item>
+      <name>ANOD_LIME</name>
+      <col value="166"/>
+      <spec value="55"/>
+    </Item>
+    <Item>
+      <name>ANOD_COPPER</name>
+      <col value="167"/>
+      <spec value="160"/>
+    </Item>
+    <Item>
+      <name>ANOD_BRONZE</name>
+      <col value="168"/>
+      <spec value="160"/>
+    </Item>
+    <Item>
+      <name>ANOD_CHAMPAGNE</name>
+      <col value="169"/>
+      <spec value="99"/>
+    </Item>
+    <Item>
+      <name>ANOD_GOLD</name>
+      <col value="170"/>
+      <spec value="160"/>
+    </Item>
+    <Item>
+      <name>GREEN_BLUE_FLIP</name>
+      <col value="171"/>
+      <spec value="92"/>
+    </Item>
+    <Item>
+      <name>GREEN_RED_FLIP</name>
+      <col value="172"/>
+      <spec value="55"/>
+    </Item>
+    <Item>
+      <name>GREEN_BROW_FLIP</name>
+      <col value="173"/>
+      <spec value="151"/>
+    </Item>
+    <Item>
+      <name>GREEN_TURQ_FLIP</name>
+      <col value="174"/>
+      <spec value="56"/>
+    </Item>
+    <Item>
+      <name>GREEN_PURP_FLIP</name>
+      <col value="175"/>
+      <spec value="175"/>
+    </Item>
+    <Item>
+      <name>TEAL_PURP_FLIP</name>
+      <col value="176"/>
+      <spec value="176"/>
+    </Item>
+    <Item>
+      <name>TURQ_RED_FLIP</name>
+      <col value="177"/>
+      <spec value="56"/>
+    </Item>
+    <Item>
+      <name>TURQ_PURP_FLIP</name>
+      <col value="178"/>
+      <spec value="178"/>
+    </Item>
+    <Item>
+      <name>CYAN_PURP_FLIP</name>
+      <col value="179"/>
+      <spec value="179"/>
+    </Item>
+    <Item>
+      <name>BLUE_PINK_FLIP</name>
+      <col value="180"/>
+      <spec value="180"/>
+    </Item>
+    <Item>
+      <name>BLUE_GREEN_FLIP</name>
+      <col value="181"/>
+      <spec value="81"/>
+    </Item>
+    <Item>
+      <name>PURP_RED_FLIP</name>
+      <col value="182"/>
+      <spec value="182"/>
+    </Item>
+    <Item>
+      <name>PURP_GREEN_FLIP</name>
+      <col value="183"/>
+      <spec value="92"/>
+    </Item>
+    <Item>
+      <name>MAGEN_GREE_FLIP</name>
+      <col value="184"/>
+      <spec value="55"/>
+    </Item>
+    <Item>
+      <name>MAGEN_YELL_FLIP</name>
+      <col value="185"/>
+      <spec value="91"/>
+    </Item>
+    <Item>
+      <name>BURG_GREEN_FLIP</name>
+      <col value="186"/>
+      <spec value="186"/>
+    </Item>
+    <Item>
+      <name>MAGEN_CYAN_FLIP</name>
+      <col value="187"/>
+      <spec value="54"/>
+    </Item>
+    <Item>
+      <name>COPPE_PURP_FLIP</name>
+      <col value="188"/>
+      <spec value="188"/>
+    </Item>
+    <Item>
+      <name>MAGEN_ORAN_FLIP</name>
+      <col value="189"/>
+      <spec value="189"/>
+    </Item>
+    <Item>
+      <name>RED_ORANGE_FLIP</name>
+      <col value="190"/>
+      <spec value="35"/>
+    </Item>
+    <Item>
+      <name>ORANG_PURP_FLIP</name>
+      <col value="191"/>
+      <spec value="89"/>
+    </Item>
+    <Item>
+      <name>ORANG_BLUE_FLIP</name>
+      <col value="192"/>
+      <spec value="192"/>
+    </Item>
+    <Item>
+      <name>WHITE_PURP_FLIP</name>
+      <col value="193"/>
+      <spec value="193"/>
+    </Item>
+    <Item>
+      <name>RED_RAINBO_FLIP</name>
+      <col value="194"/>
+      <spec value="194"/>
+    </Item>
+    <Item>
+      <name>BLU_RAINBO_FLIP</name>
+      <col value="195"/>
+      <spec value="195"/>
+    </Item>
+    <Item>
+      <name>DARKGREENPEARL</name>
+      <col value="196"/>
+      <spec value="201"/>
+    </Item>
+    <Item>
+      <name>DARKTEALPEARL</name>
+      <col value="197"/>
+      <spec value="201"/>
+    </Item>
+    <Item>
+      <name>DARKBLUEPEARL</name>
+      <col value="198"/>
+      <spec value="202"/>
+    </Item>
+    <Item>
+      <name>DARKPURPLEPEARL</name>
+      <col value="199"/>
+      <spec value="203"/>
+    </Item>
+    <Item>
+      <name>OIL_SLICK_PEARL</name>
+      <col value="200"/>
+      <spec value="200"/>
+    </Item>
+    <Item>
+      <name>LIT_GREEN_PEARL</name>
+      <col value="201"/>
+      <spec value="201"/>
+    </Item>
+    <Item>
+      <name>LIT_BLUE_PEARL</name>
+      <col value="202"/>
+      <spec value="202"/>
+    </Item>
+    <Item>
+      <name>LIT_PURP_PEARL</name>
+      <col value="203"/>
+      <spec value="203"/>
+    </Item>
+    <Item>
+      <name>LIT_PINK_PEARL</name>
+      <col value="204"/>
+      <spec value="204"/>
+    </Item>
+    <Item>
+      <name>OFFWHITE_PRISMA</name>
+      <col value="205"/>
+      <spec value="205"/>
+    </Item>
+    <Item>
+      <name>PINK_PEARL</name>
+      <col value="206"/>
+      <spec value="206"/>
+    </Item>
+    <Item>
+      <name>YELLOW_PEARL</name>
+      <col value="207"/>
+      <spec value="210"/>
+    </Item>
+    <Item>
+      <name>GREEN_PEARL</name>
+      <col value="208"/>
+      <spec value="209"/>
+    </Item>
+    <Item>
+      <name>BLUE_PEARL</name>
+      <col value="209"/>
+      <spec value="208"/>
+    </Item>
+    <Item>
+      <name>CREAM_PEARL</name>
+      <col value="210"/>
+      <spec value="207"/>
+    </Item>
+    <Item>
+      <name>WHITE_PRISMA</name>
+      <col value="211"/>
+      <spec value="211"/>
+    </Item>
+    <Item>
+      <name>GRAPHITE_PRISMA</name>
+      <col value="212"/>
+      <spec value="212"/>
+    </Item>
+    <Item>
+      <name>DARKBLUEPRISMA</name>
+      <col value="213"/>
+      <spec value="213"/>
+    </Item>
+    <Item>
+      <name>DARKPURPPRISMA</name>
+      <col value="214"/>
+      <spec value="214"/>
+    </Item>
+    <Item>
+      <name>HOT_PINK_PRISMA</name>
+      <col value="215"/>
+      <spec value="215"/>
+    </Item>
+    <Item>
+      <name>RED_PRISMA</name>
+      <col value="216"/>
+      <spec value="216"/>
+    </Item>
+    <Item>
+      <name>GREEN_PRISMA</name>
+      <col value="217"/>
+      <spec value="217"/>
+    </Item>
+    <Item>
+      <name>BLACK_PRISMA</name>
+      <col value="218"/>
+      <spec value="218"/>
+    </Item>
+    <Item>
+      <name>OIL_SLIC_PRISMA</name>
+      <col value="219"/>
+      <spec value="219"/>
+    </Item>
+    <Item>
+      <name>RAINBOW_PRISMA</name>
+      <col value="220"/>
+      <spec value="220"/>
+    </Item>
+    <Item>
+      <name>BLACK_HOLO</name>
+      <col value="221"/>
+      <spec value="221"/>
+    </Item>
+    <Item>
+      <name>WHITE_HOLO</name>
+      <col value="222"/>
+      <spec value="222"/>
+    </Item>
+    <Item>
+      <name>YKTA_MONOCHROME</name>
+      <col value="223"/>
+      <spec value="223"/>
+    </Item>
+    <Item>
+      <name>YKTA_CHROMABERA</name>
+      <col value="236"/>
+      <spec value="140"/>
+    </Item>
+    <Item>
+      <name>YKTA_ELECTRO</name>
+      <col value="240"/>
+      <spec value="240"/>
+    </Item>
+    <Item>
+      <name>YKTA_SPRUNK_EX</name>
+      <col value="226"/>
+      <spec value="226"/>
+    </Item>
+    <Item>
+      <name>YKTA_HSW</name>
+      <col value="239"/>
+      <spec value="91"/>
+    </Item>
+    <Item>
+      <name>YKTA_NITE_DAY</name>
+      <col value="224"/>
+      <spec value="61"/>
+    </Item>
+    <Item>
+      <name>YKTA_SUNSETS</name>
+      <col value="233"/>
+      <spec value="142"/>
+    </Item>
+    <Item>
+      <name>YKTA_VICE_CITY</name>
+      <col value="227"/>
+      <spec value="135"/>
+    </Item>
+    <Item>
+      <name>YKTA_SYNTHWAVE</name>
+      <col value="228"/>
+      <spec value="142"/>
+    </Item>
+    <Item>
+      <name>YKTA_VERLIERER2</name>
+      <col value="225"/>
+      <spec value="135"/>
+    </Item>
+    <Item>
+      <name>YKTA_TEMPERATUR</name>
+      <col value="238"/>
+      <spec value="238"/>
+    </Item>
+    <Item>
+      <name>YKTA_FOUR_SEASO</name>
+      <col value="229"/>
+      <spec value="229"/>
+    </Item>
+    <Item>
+      <name>YKTA_THE_SEVEN</name>
+      <col value="234"/>
+      <spec value="235"/>
+    </Item>
+    <Item>
+      <name>YKTA_M9_THROWBA</name>
+      <col value="230"/>
+      <spec value="230"/>
+    </Item>
+    <Item>
+      <name>YKTA_BUBBLEGUM</name>
+      <col value="231"/>
+      <spec value="231"/>
+    </Item>
+    <Item>
+      <name>YKTA_FULL_RBOW</name>
+      <col value="232"/>
+      <spec value="232"/>
+    </Item>
+    <Item>
+      <name>YKTA_KAMENRIDER</name>
+      <col value="235"/>
+      <spec value="235"/>
+    </Item>
+    <Item>
+      <name>YKTA_CHRISTMAS</name>
+      <col value="237"/>
+      <spec value="56"/>
+    </Item>
+    <Item>
+      <name>YKTA_MONIKA</name>
+      <col value="241"/>
+      <spec value="241"/>
+    </Item>
+    <Item>
+      <name>YKTA_FUBUKI</name>
+      <col value="242"/>
+      <spec value="242"/>
+    </Item>
+    </chameleon>
+</CVehicleModColorsGen9>
