@@ -106,6 +106,17 @@ function Jobmoney(job,xPlayer)
     return value
 end
 
+Society = function(job,amount,method)
+    TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
+        if account and method == 'remove' then
+            account.removeMoney(amount)
+        elseif account then
+            account.addMoney(amount)
+        end
+    end)
+    -- for qbcore the addmoney from qb management dont have export. -- so edit this for your self at your own for qbcore addmoney
+end
+
 RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vclass)
     local src = source  
     local xPlayer = GetPlayerFromId(src)
@@ -137,10 +148,18 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
             else
                 TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
             end
-            if Config.UseRenzu_jobs and not Config.JobPermissionAll and not menu then
-                addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
-            elseif Config.UseRenzu_jobs and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
-                removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+            if not Config.JobPermissionAll and not menu then
+                if Config.UseRenzu_jobs then
+                    addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                else
+                    Society(Config.Customs[shop].job,tonumber(t.cost),'add')
+                end
+            elseif Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
+                if Config.UseRenzu_jobs then
+                    removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                else
+                    Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
+                end
             end
             cb(true)
         elseif not Config.OwnedVehiclesOnly or menu then
@@ -154,10 +173,18 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
                 elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
                     xPlayer.removeMoney(cost) -- replace it with your job money
                 end
-                if Config.UseRenzu_jobs and not Config.JobPermissionAll  and not menu then
-                    addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
-                elseif Config.UseRenzu_jobs and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
-                    removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                if not Config.JobPermissionAll  and not menu then
+                    if Config.UseRenzu_jobs then
+                        addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                    else
+                        Society(Config.Customs[shop].job,tonumber(t.cost),'add')
+                    end
+                elseif Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
+                    if Config.UseRenzu_jobs then
+                        removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                    else
+                        Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
+                    end
                 end
                 TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
                 cb(true)
