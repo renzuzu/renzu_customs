@@ -305,10 +305,9 @@ end)
 RegisterCommand('freecustoms', function (source, args)
     local source = tonumber(source)
     local xPlayer = GetPlayerFromId(source)
-    local playerGroup = xPlayer.getGroup()
+    local playerGroup = xPlayer.getGroup(source)
     menu = true
-    if playerGroup == "superadmin" or playerGroup == "mod" or playerGroup == "admin" or config.framework == 'QBCORE' and playerGroup then
-        print('ASO')
+    if Config.framework == 'ESX' and playerGroup == "superadmin" or playerGroup == "mod" or playerGroup == "admin" or Config.framework == 'QBCORE' and playerGroup then
         TriggerClientEvent('renzu_customs:openmenu',source, true)
     end
 end)
