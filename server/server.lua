@@ -148,13 +148,13 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
             else
                 TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
             end
-            if not Config.JobPermissionAll and not menu then
+            if shop and not Config.JobPermissionAll and not menu then
                 if Config.UseRenzu_jobs then
                     addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
                 else
                     Society(Config.Customs[shop].job,tonumber(t.cost),'add')
                 end
-            elseif Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
+            elseif shop and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
                 if Config.UseRenzu_jobs then
                     removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
                 else
@@ -167,19 +167,19 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
                 ['@'..vehiclemod..''] = json.encode(prop),
                 ['@plate'] = prop.plate:upper()
             })
-            if not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
+            if shop and not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
                 if not Config.JobPermissionAll and not menu then --if other player
                     xPlayer.removeMoney(cost)
                 elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
                     xPlayer.removeMoney(cost) -- replace it with your job money
                 end
-                if not Config.JobPermissionAll  and not menu then
+                if shop and not Config.JobPermissionAll  and not menu then
                     if Config.UseRenzu_jobs then
                         addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
                     else
                         Society(Config.Customs[shop].job,tonumber(t.cost),'add')
                     end
-                elseif Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
+                elseif shop and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
                     if Config.UseRenzu_jobs then
                         removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
                     else
