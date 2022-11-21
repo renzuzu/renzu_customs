@@ -700,6 +700,7 @@ function LoadAnim(dict)
 end
 
 function addCustomHandling(vehicle)
+    if not vehiclehandling then return end
     table.insert(vehiclehandling, {
         VehicleModels = {[1] = GetEntityModel(vehicle)},
         ['DriveInertia'] = tonumber(GetVehicleHandlingFloat(vehicle , "CHandlingData","fDriveInertia")),
