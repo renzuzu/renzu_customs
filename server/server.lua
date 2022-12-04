@@ -3,7 +3,7 @@ QBCore = nil
 RegisterServerCallBack_ = {}
 Initialized()
 menu = false
-Citizen.CreateThread(function()
+Citizen.CreateThreadNow(function()
     Wait(1000)
     VehicleNames()
     for k,v in pairs(Config.Customs) do
@@ -95,26 +95,37 @@ function Jobmoney(job,xPlayer)
     local job = job
     local count = 0
     if Config.UseRenzu_jobs then
-        CreateThread(function()
-            value = exports.renzu_jobs:JobMoney(job).money
-        end)
+        value = exports.renzu_jobs:JobMoney(job).money
     else
-        value = xPlayer.getMoney()
+        if Config.framework == 'ESX' then
+            TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
+                value = account.money
+            end)
+        else
+            value = exports['qb-management']:GetAccount(job)
+        end
         -- your owned job money here
     end
-    while value == -1 and count < 150 do count = count + 1 Wait(0) end
+    while value == -1 and count < 550 do count = count + 1 Wait(0) end
     return value
 end
 
 Society = function(job,amount,method)
-    TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
-        if account and method == 'remove' then
-            account.removeMoney(amount)
-        elseif account then
-            account.addMoney(amount)
+    if Config.framework == 'ESX' then
+        TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
+            if account and method == 'remove' then
+                account.removeMoney(amount)
+            elseif account then
+                account.addMoney(amount)
+            end
+        end)
+    else
+        if method == 'remove' then
+            exports['qb-management']:RemoveMoney(job,amount)
+        else
+            exports['qb-management']:AddMoney(job,amount)
         end
-    end)
-    -- for qbcore the addmoney from qb management dont have export. -- so edit this for your self at your own for qbcore addmoney
+    end
 end
 
 RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vclass)
@@ -170,8 +181,8 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
             if shop and not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
                 if not Config.JobPermissionAll and not menu then --if other player
                     xPlayer.removeMoney(cost)
-                elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
-                    xPlayer.removeMoney(cost) -- replace it with your job money
+                -- elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
+                --     xPlayer.removeMoney(cost) -- replace it with your job money
                 end
                 if shop and not Config.JobPermissionAll  and not menu then
                     if Config.UseRenzu_jobs then
