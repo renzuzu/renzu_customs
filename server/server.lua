@@ -98,7 +98,7 @@ function Jobmoney(job,xPlayer)
         value = exports.renzu_jobs:JobMoney(job).money
     else
         if Config.framework == 'ESX' then
-            TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
+            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..job, function(account)
                 value = account.money
             end)
         else
@@ -112,7 +112,7 @@ end
 
 Society = function(job,amount,method)
     if Config.framework == 'ESX' then
-        TriggerEvent('esx_addonaccount:getSharedAccount', job, function(account)
+        TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..job, function(account)
             if account and method == 'remove' then
                 account.removeMoney(amount)
             elseif account then
