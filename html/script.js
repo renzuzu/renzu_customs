@@ -14,6 +14,7 @@ var modcosts = []
 var upgraded = []
 var multi = {}
 
+let playing = ''
 function playsound(table) {
     var file = table['file']
     var volume = table['volume']
@@ -26,7 +27,13 @@ function playsound(table) {
     }
     audioPlayer = new Audio("./audio/" + file + ".ogg");
     audioPlayer.volume = volume;
-    audioPlayer.play();
+    if (playing == '' || playing !== file) {
+		playing = file
+		setTimeout(function(){
+			audioPlayer.play();
+			playing = ''
+		}, 100);
+	}
 }
 
 colorPicker = document.querySelector("#color");
@@ -63,17 +70,17 @@ function ShowSubmenu(data) {
                     var index = i
                     for (const ind in data[index].list) {
                         if (ind == 'WheelType') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
                             $("#"+ind+"").click(function(){
                                 ShowWheelOption(data[i],data[i].max,data[index].list[ind])
                             });
                         } else if (ind == 'WheelColor') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
                             $("#"+ind+"").click(function(){
                                 ShowWheelColorOption(data[i],data[i].max,data[index].list[ind])
                             });
                         } else if (ind == 'Accessories') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+ind+`.svg"><div class="mod_title"><span>`+ind+` Wheel</span></div></button>`)
                             $("#"+ind+"").click(function(){
                                 ShowWheelAcceOption(data[i],data[i].max,data[index].list[ind])
                             });
@@ -81,7 +88,7 @@ function ShowSubmenu(data) {
                     }
                 } else if (i == 18) {
                     var index = i
-                    $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
+                    $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/18.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
                     $("#"+i+"").click(function() {
                         //$.post("https://renzu_customs/ToggleTurbo", JSON.stringify({ index: data[index].list[ind]}));
                         ShowTurboMenu(data[i])
@@ -91,7 +98,7 @@ function ShowSubmenu(data) {
                     var c = 0
                     for (const ind in data[index].list) {
                         c += 1
-                        $('#custom').append(`<button id="`+c+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+c+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/18.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+c+"").click(function() {
                             if(ind == 0 && upgraded[index] !== undefined) {
                                 totalcost = totalcost - data[index].cost
@@ -112,7 +119,7 @@ function ShowSubmenu(data) {
                     var index = i
                     var lastcost = 0
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/custom_engine.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/custom_engine.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function() {
                             if(upgraded[index] !== undefined) {
                                 totalcost = totalcost - lastcost
@@ -135,7 +142,7 @@ function ShowSubmenu(data) {
                     var index = i
                     var lastcost = 0
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/18.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function() {
                             if(upgraded[index] !== undefined || ind == 'Default') {
                                 totalcost = totalcost - lastcost
@@ -158,7 +165,7 @@ function ShowSubmenu(data) {
                     var index = i
                     var lastcost = 0
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/custom_tires.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/custom_tires.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function() {
                             if(upgraded[index] !== undefined || ind == 'Default') {
                                 totalcost = totalcost - lastcost
@@ -181,7 +188,7 @@ function ShowSubmenu(data) {
                     var index = i
                     color = true
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function(){
                             ShowPaintOption(data[i],data[index].list[ind],ind)
                         });
@@ -192,7 +199,7 @@ function ShowSubmenu(data) {
                     $.post("https://renzu_customs/SelectModIndex", JSON.stringify({ index: 'headlight'}));
                     for (const ind in data[index].list) {
                         if(ind == 'XenonLights') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
                                 if (upgraded[index] == undefined) {
                                     totalcost = totalcost + data[index].cost
@@ -203,7 +210,7 @@ function ShowSubmenu(data) {
                                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: data[index].list[ind]}));
                             });
                         } else if(ind == 'Default') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/22.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
                                 if (upgraded[index] == 1) {
                                     upgraded[index] = undefined
@@ -214,7 +221,7 @@ function ShowSubmenu(data) {
                                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: data[index].list[ind]}));
                             });
                         } else if(ind == 'XenonColor') {
-                            $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
+                            $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
                             $("#"+i+"").click(function(){
                                 ShowXenonMenu(data[index].list[ind])
                             });
@@ -224,7 +231,7 @@ function ShowSubmenu(data) {
                     var index = i
                     $.post("https://renzu_customs/SelectModIndex", JSON.stringify({ index: 4}));
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/26.svg"><div class="mod_title"><span>#`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/26.svg"><div class="mod_title"><span>#`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function() {
                             var lvl = data[index].list[ind]
                             if (modindex !== index && upgraded[index] == undefined && lvl > 0 || upgraded[index] == undefined) {
@@ -253,7 +260,7 @@ function ShowSubmenu(data) {
                     });
                     for (const ind in data[index].list) {
                         if(ind == 'Default') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/neon.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/neon.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
                                 if (upgraded[index] == 1) {
                                     totalcost = totalcost - data[index].cost
@@ -264,7 +271,7 @@ function ShowSubmenu(data) {
                                 $.post("https://renzu_customs/SetNeonState", JSON.stringify({ index: false}));
                             });
                         } else if(ind == 'NeonKit') {
-                            $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/neon.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                            $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/neon.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                             $("#"+ind+"").click(function() {
                                 if (upgraded[index] == undefined) {
                                     totalcost = totalcost + data[index].cost
@@ -275,7 +282,7 @@ function ShowSubmenu(data) {
                                 $.post("https://renzu_customs/SetNeonState", JSON.stringify({ index: true}));
                             });
                         } else if(ind == 'NeonColor') {
-                            $('#custom').prepend(`<button id="colordiv" class="modclass"><input type="color" id="neon" value="#ff0000"><div class="mod_title"><span>Neon Color</span></div></button>`)
+                            $('#custom').prepend(`<button id="colordiv" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><input type="color" id="neon" value="#ff0000"><div class="mod_title"><span>Neon Color</span></div></button>`)
                             colorPicker = document.querySelector("#neon");
                             colorPicker.addEventListener("input", SetNeonColor, false);
                             colorPicker.addEventListener("change", SetNeonColor, false);
@@ -285,7 +292,7 @@ function ShowSubmenu(data) {
                     var index = i
                     $.post("https://renzu_customs/SelectModIndex", JSON.stringify({ index: 'window'}));
                     for (const ind in data[index].list) {
-                        $('#custom').append(`<button id="`+ind+`" class="modclass"><img src="img/window.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+ind+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/window.svg"><div class="mod_title"><span>`+ind+`</span></div></button>`)
                         $("#"+ind+"").click(function() {
                             if(upgraded[index] !== undefined && ind == 'None') {
                                 totalcost = totalcost - data[index].cost
@@ -303,7 +310,7 @@ function ShowSubmenu(data) {
                         });
                     }
                 } else {
-                    $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/`+data[i].index+`.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
+                    $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+data[i].index+`.svg"><div class="mod_title"><span>`+data[i].label+`</span></div></button>`)
                     $("#"+i+"").click(function(){
                         ShowIndexMenu(data[i],data[i].max)
                     });
@@ -311,12 +318,12 @@ function ShowSubmenu(data) {
             }
         }
         if (color) {
-            $('#custom').prepend(`<button id="colordiv" class="modclass"><input type="color" id="color" value="#ff0000"><div class="mod_title"><span>Custom Color</span></div></button>`)
+            $('#custom').prepend(`<button id="colordiv" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><input type="color" id="color" value="#ff0000"><div class="mod_title"><span>Custom Color</span></div></button>`)
             colorPicker = document.querySelector("#color");
             colorPicker.addEventListener("input", SetCustomColor, false);
             colorPicker.addEventListener("change", SetCustomColor, false);
         }
-        $('#custom').prepend(`<button id="close" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -355,12 +362,12 @@ function ShowXenonMenu(data) {
     $.post("https://renzu_customs/SelectModIndex", JSON.stringify({ index: data.index}));
     setTimeout(function(){
         for (const i in data) {
-            $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
             $("#"+i+"").click(function() {
                 $.post("https://renzu_customs/SetXenonColor", JSON.stringify({ index: data[i]}));
             });
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -374,12 +381,12 @@ function ShowWheelOption(data,max,list) {
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
-            $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/`+i+`.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+i+`.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
                 $("#"+i+"").click(function() {
                     ShowIndexMenu(data,data.max,list[i])
             });
             // if (i == 'WheelType') {
-            //     $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/`+i+`.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+            //     $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+i+`.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
             //     $("#"+i+"").click(function() {
             //         ShowIndexMenu(data,data.max,list[i])
             //     });
@@ -393,7 +400,7 @@ function ShowWheelOption(data,max,list) {
             //     });
             // }
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -407,12 +414,12 @@ function ShowWheelColorOption(data,max,list) {
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
-            $('#custom').append(`<button id="`+list[i]+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+list[i]+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
             $("#"+list[i]+"").click(function() {
                 SetWheelColor(list[i])
             });
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -427,7 +434,7 @@ function ShowWheelAcceOption(data,max,list) {
     setTimeout(function(){
         for (const i in list) {
             if (i == 'CustomTire') {
-                $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+                $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
                 $("#"+i+"").click(function() {
                     if (upgraded['CustomTire'] == 1 && upgraded['CustomTire'] !== undefined) {
                         upgraded['CustomTire'] = 0
@@ -443,17 +450,17 @@ function ShowWheelAcceOption(data,max,list) {
                     $.post("https://renzu_customs/SetCustomTire", JSON.stringify({ }));
                 });
             } else if (i == 'SmokeColor') {
-                $('#custom').prepend(`<button id="colordiv" class="modclass"><input type="color" id="color" value="#ff0000"><div class="mod_title"><span>Smoke Color</span></div></button>`)
+                $('#custom').prepend(`<button id="colordiv" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><input type="color" id="color" value="#ff0000"><div class="mod_title"><span>Smoke Color</span></div></button>`)
                 colorPicker = document.querySelector("#color");
                 colorPicker.addEventListener("input", SetSmokeColor, false);
                 colorPicker.addEventListener("change", SetSmokeColor, false);
             } else if (i == 'BulletProof') {
-                $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+                $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
                 $("#"+i+"").click(function() {
                     $.post("https://renzu_customs/SetBulletProofTires", JSON.stringify({ }));
                 });
             } else if (i == 'DriftTires') {
-                $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+                $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
                 $("#"+i+"").click(function() {
                     if (upgraded['DriftTire'] == 1 && upgraded['DriftTire'] !== undefined) {
                         upgraded['DriftTire'] = 0
@@ -470,7 +477,7 @@ function ShowWheelAcceOption(data,max,list) {
                 });
             }
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -488,12 +495,12 @@ function ShowPaintOption(data,list,option) {
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
-            $('#custom').append(`<button id="`+list[i]+`" class="modclass"><img src="img/28.svg"><div class="mod_title"><span>#`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+list[i]+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/28.svg"><div class="mod_title"><span>#`+i+`</span></div></button>`)
             $("#"+list[i]+"").click(function() {
                 SetPaint(data.type,list[i],data.cost,option)
             });
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -507,12 +514,12 @@ function ShowXenonOption(data,list) {
     document.getElementById("custom").innerHTML = '';
     setTimeout(function(){
         for (const i in list) {
-            $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/22.svg"><div class="mod_title"><span>#`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/22.svg"><div class="mod_title"><span>#`+i+`</span></div></button>`)
             $("#"+i+"").click(function() {
                 $.post("https://renzu_customs/XenonMod", JSON.stringify({ index: list[i]}));
             });
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -528,7 +535,7 @@ function ShowTurboMenu(data) {
     $.post("https://renzu_customs/SelectModIndex", JSON.stringify({ index: data.index}));
     setTimeout(function(){
         for (const i in data.list) {
-            $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/18.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
+            $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/18.svg"><div class="mod_title"><span>`+i+`</span></div></button>`)
             $("#"+i+"").click(function() {
             var index = data.index
             var lvl = data.list[i]
@@ -551,7 +558,7 @@ function ShowTurboMenu(data) {
                 //SetMod(data.index,i,data.cost,wheeltype)
             });
         }
-        $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+        $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
         $("#close2").click(function(){
             document.getElementById("custom").innerHTML = '';
             setTimeout(function(){
@@ -559,6 +566,10 @@ function ShowTurboMenu(data) {
             }, 100);
         });
     }, 100);
+}
+
+function menusound(file) {
+    playsound({file: file, volume: file == 'menu' && 0.9 || 1.0})
 }
 
 function ShowIndexMenu(data,max,wheeltype) {
@@ -578,7 +589,7 @@ function ShowIndexMenu(data,max,wheeltype) {
                         const index = i
                         var bg = '#f5ebeb'
                         var color = '#353b3e'
-                        $('#custom').append(`<button id="`+i+`" class="modclass"><img src="img/`+data.index+`.svg"><div id="`+index+`_installed" class="mod_title" style="background:`+bg+`;color:`+color+`;"><span>`+label+`</span></div></button>`)
+                        $('#custom').append(`<button id="`+i+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+data.index+`.svg"><div id="`+index+`_installed" class="mod_title"><span>`+label+`</span></div></button>`)
                         if (installed == i) {
                             label = 'Installed'
                             $("#"+installed+"_installed").toggleClass("installed")
@@ -597,7 +608,7 @@ function ShowIndexMenu(data,max,wheeltype) {
                 });
             }
             mods()
-            $('#custom').prepend(`<button id="close2" class="modclass"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
+            $('#custom').prepend(`<button id="close2" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/b.svg"><div class="mod_title"><span>Back</span></div></button>`)
             $("#close2").click(function(){
                 document.getElementById("custom").innerHTML = '';
                 setTimeout(function(){
@@ -698,7 +709,7 @@ function ShowMod(data) {
     $.post("https://renzu_customs/Reset", JSON.stringify({}));
     for(const [k,v] of Object.entries(data)) {
         datas[k] = v
-        $('#custom').append(`<button id="`+k.replace(/[^a-z0-9]/gi,'')+`" class="modclass"><img src="img/`+v.index+`.svg"><div class="mod_title"><span>`+k+`</span></div></button>`)
+        $('#custom').append(`<button id="`+k.replace(/[^a-z0-9]/gi,'')+`" class="modclass" onmouseover="menusound('menu')" onclick="menusound('click')"><img src="img/`+v.index+`.svg"><div class="mod_title"><span>`+k+`</span></div></button>`)
         $("#"+k.replace(/[^a-z0-9]/gi,'')+"").click(function(){
             ShowSubmenu(datas[k])
         });
@@ -808,7 +819,8 @@ $(document).on('keydown', function(event) {
             document.getElementById("custom").innerHTML = '';
             $.post('https://renzu_customs/Close');
             break;
-        case 9: // TAB
+        case 69: // TAB
+            $.post('https://renzu_customs/ToggleCamera');
             break;
         case 17: // TAB
             break;
