@@ -54,8 +54,16 @@ RegisterNUICallback('repair', function(data, cb)
     end
     TriggerServerCallback_("renzu_customs:repair",function(ret)
         if ret then
-            if Config.UseRenzu_progressbar then
-                repair = exports.renzu_progressbar:CreateProgressBar(25,'<i class="fas fa-tools"></i>')
+            if Config.UseProgressBar then
+                if Config.PorgressBarType == "ox" then
+                    repair = lib.progressCircle({
+                        duration = 25000,
+                        position = 'bottom',
+                        useWhileDead = false,
+                    })
+                else
+                    repair = exports.renzu_progressbar:CreateProgressBar(25,'<i class="fas fa-tools"></i>')
+                end
             end
             SetVehicleFixed(vehicle)
             SetVehicleDirtLevel(vehicle,0.0)
@@ -69,7 +77,7 @@ RegisterNUICallback('repair', function(data, cb)
             end
             cb(true)
         else
-            TriggerEvent('renzu_notify:Notify', 'error','Customs', 'Not enough money cabron $'..Config.RepairCost..' Required')
+            SendNotification('error','Customs', 'Not enough money cabron $'..Config.RepairCost..' Required')
             cb(false)
         end
     end,currentprivate)

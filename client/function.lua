@@ -45,6 +45,14 @@ function GetPerformanceStats(vehicle)
     return data
 end
 
+function SendNotification(typeNot, title, description)
+    if Config.TypeNotification == "ox" then
+        lib.notify({type = typeNot, title = title, description = description})
+    else
+        TriggerEvent('renzu_notify:Notify', typeNot, title, description)
+    end
+end
+
 local floating = false
 local floatcount = 0
 function ShowFloatingHelpNotification(m, coords)
@@ -543,6 +551,46 @@ function SprayParticles(ped,dict,n,vehicle,m)
     SetParticleFxNonLoopedColour(color[1] / 255, color[2] / 255, color[3] / 255)
     SetParticleFxNonLoopedAlpha(1.0)
     local spray = StartNetworkedParticleFxNonLoopedAtCoord("scr_wheel_burnout", coords.x, coords.y, coords.z + 1.5, 0.0, 0.0, heading, 0.7, 0.0, 0.0, 0.0)
+end
+
+function showTextUI(options)
+    if Config.textUi == "ox" then
+        lib.showTextUI(options['title'], {icon=options['fa']})
+        Citizen.CreateThread(function()
+            while lib.isTextUIOpen() and options['event'] ~= nil do
+                Citizen.Wait(0)
+                if IsControlJustReleased(0, 38) then
+                    if options['server_event'] ~= nil and options['server_event'] == true then
+                        TriggerServerEvent(options['event'],unfuck(table.unpack(options['custom_arg'] or {})))
+                        closeTextUI()
+                    else
+                        TriggerEvent(options['event'],unfuck(table.unpack(options['custom_arg'] or {})))
+                        closeTextUI()
+                    end
+                end
+            end
+        end)
+    else
+        options['fa'] = '<i class="'..options['fa']'"></i>'
+        TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+    end
+end
+
+function unfuck(...)
+    local a = {...}
+    local t = {}
+    for k,v in pairs(a) do
+        table.insert(t,v)
+    end
+    return table.unpack(t)
+end
+
+function closeTextUI()
+    if Config.textUi == "ox" then
+        lib.hideTextUI()
+    else
+        TriggerEvent('renzu_popui:closeui')
+    end
 end
 
 function DrawMarkerInput(vec,msg,event,server,name,var,u)

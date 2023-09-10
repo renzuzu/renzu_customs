@@ -84,7 +84,7 @@ AddEventHandler('renzu_customs:storemod', function(id,mod,lvl,newprop,share,save
         ['@inventory'] = json.encode(inventory),
         ['@shop'] = id,
     })
-    TriggerClientEvent('renzu_notify:Notify', src, 'success','Garage', 'You Successfully store the parts ('..mod.name..')')
+    SendNotification(src, 'success','Garage', 'You Successfully store the parts ('..mod.name..')')
 end)
 
 local default_routing = {}
@@ -108,6 +108,14 @@ function Jobmoney(job,xPlayer)
     end
     while value == -1 and count < 550 do count = count + 1 Wait(0) end
     return value
+end
+
+function SendNotification(src, typeNot, title, description)
+    if Config.TypeNotification == "ox" then
+        TriggerClientEvent('ox_lib:notify', src, {type = typeNot, title = title, description = description})
+    else
+        TriggerClientEvent('renzu_notify:Notify', src, typeNot, title, description)
+    end
 end
 
 Society = function(job,amount,method)
@@ -155,9 +163,9 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
                 xPlayer.removeMoney(cost) -- replace it with your job money
             end
             if menu then
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'MENU - Upgrade has been Installed')
+                SendNotification(src, 'success','Customs', 'MENU - Upgrade has been Installed')
             else
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+                SendNotification(src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
             end
             if shop and not Config.JobPermissionAll and not menu then
                 if Config.UseRenzu_jobs then
@@ -197,18 +205,18 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
                         Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
                     end
                 end
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+                SendNotification(src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
                 cb(true)
             else
-                TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+                SendNotification(src, 'error','Customs', 'Not Enough Money Cabron')
                 cb(false)
             end
         else
-            TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Vehicle is not Owned')
+            SendNotification(src, 'error','Customs', 'Vehicle is not Owned')
             cb(false)
         end
     elseif Config.FreeUpgradeToClass[vclass] then
-        TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'FREE Upgrade has been Installed')
+        SendNotification(src, 'success','Customs', 'FREE Upgrade has been Installed')
         local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
             ['@plate'] = prop.plate:upper()
         })
@@ -220,7 +228,7 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
         end
         cb(true)
     else
-        TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+        SendNotification(src, 'error','Customs', 'Not Enough Money Cabron')
         cb(false)
     end
     menu = false
