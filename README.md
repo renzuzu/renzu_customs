@@ -1,5 +1,5 @@
 # renzu_customs
-FIVEM - Advanced and Unique Mechanic Tuning
+FiveM - Advanced and Unique Mechanic Tuning
  # Native FEATURE
 - Multiple Mechanic Shop (multi job)
 - Multiple Mysql library supproted (mysql-async,ghmatti)

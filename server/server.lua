@@ -139,52 +139,28 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
         cost = 0
         t.cost = 0
     end
-    local vclass = tonumber(vclass)
-    if not menu and not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not menu and not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost or menu then
-        local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
-            ['@plate'] = prop.plate:upper()
-        })
-        if result[1] or menu then
-            CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
-                ['@'..vehiclemod..''] = json.encode(prop),
+    if cost >= 0 then
+        local vclass = tonumber(vclass)
+        if not menu and not Config.FreeUpgradeToClass[vclass] and not Config.JobPermissionAll and xPlayer.getMoney() >= t.cost or not menu and not Config.FreeUpgradeToClass[vclass] and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= t.cost or menu then
+            local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
                 ['@plate'] = prop.plate:upper()
             })
-            if not Config.JobPermissionAll and not menu then --if other player
-                xPlayer.removeMoney(cost)
-            elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
-                xPlayer.removeMoney(cost) -- replace it with your job money
-            end
-            if menu then
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'MENU - Upgrade has been Installed')
-            else
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
-            end
-            if shop and not Config.JobPermissionAll and not menu then
-                if Config.UseRenzu_jobs then
-                    addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
-                else
-                    Society(Config.Customs[shop].job,tonumber(t.cost),'add')
-                end
-            elseif shop and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
-                if Config.UseRenzu_jobs then
-                    removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
-                else
-                    Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
-                end
-            end
-            cb(true)
-        elseif not Config.OwnedVehiclesOnly or menu then
-            CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
-                ['@'..vehiclemod..''] = json.encode(prop),
-                ['@plate'] = prop.plate:upper()
-            })
-            if shop and not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
+            if result[1] or menu then
+                CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
+                    ['@'..vehiclemod..''] = json.encode(prop),
+                    ['@plate'] = prop.plate:upper()
+                })
                 if not Config.JobPermissionAll and not menu then --if other player
                     xPlayer.removeMoney(cost)
-                -- elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
-                --     xPlayer.removeMoney(cost) -- replace it with your job money
+                elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
+                    xPlayer.removeMoney(cost) -- replace it with your job money
                 end
-                if shop and not Config.JobPermissionAll  and not menu then
+                if menu then
+                    TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'MENU - Upgrade has been Installed')
+                else
+                    TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+                end
+                if shop and not Config.JobPermissionAll and not menu then
                     if Config.UseRenzu_jobs then
                         addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
                     else
@@ -197,31 +173,59 @@ RegisterServerCallBack_('renzu_customs:pay', function (source, cb, t, shop, vcla
                         Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
                     end
                 end
-                TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
                 cb(true)
+            elseif not Config.OwnedVehiclesOnly or menu then
+                CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
+                    ['@'..vehiclemod..''] = json.encode(prop),
+                    ['@plate'] = prop.plate:upper()
+                })
+                if shop and not Config.JobPermissionAll and xPlayer.getMoney() >= tonumber(t.cost) or Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and Jobmoney(xPlayer.job.name,xPlayer) >= tonumber(t.cost) then
+                    if not Config.JobPermissionAll and not menu then --if other player
+                        xPlayer.removeMoney(cost)
+                    -- elseif Config.JobPermissionAll and not Config.UseRenzu_jobs and not menu then -- job owned without renzu_jobs
+                    --     xPlayer.removeMoney(cost) -- replace it with your job money
+                    end
+                    if shop and not Config.JobPermissionAll  and not menu then
+                        if Config.UseRenzu_jobs then
+                            addmoney = exports.renzu_jobs:addMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                        else
+                            Society(Config.Customs[shop].job,tonumber(t.cost),'add')
+                        end
+                    elseif shop and Config.JobPermissionAll and Config.Customs[shop].job == xPlayer.job.name and not menu then
+                        if Config.UseRenzu_jobs then
+                            removemoney = exports.renzu_jobs:removeMoney(tonumber(t.cost),Config.Customs[shop].job,source,'money',true)
+                        else
+                            Society(Config.Customs[shop].job,tonumber(t.cost),'remove')
+                        end
+                    end
+                    TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'Payment Success - Upgrade has been Installed')
+                    cb(true)
+                else
+                    TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+                    cb(false)
+                end
             else
-                TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+                TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Vehicle is not Owned')
                 cb(false)
             end
-        else
-            TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Vehicle is not Owned')
-            cb(false)
-        end
-    elseif Config.FreeUpgradeToClass[vclass] then
-        TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'FREE Upgrade has been Installed')
-        local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
-            ['@plate'] = prop.plate:upper()
-        })
-        if result[1] then
-            CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
-                ['@'..vehiclemod..''] = json.encode(prop),
+        elseif Config.FreeUpgradeToClass[vclass] then
+            TriggerClientEvent('renzu_notify:Notify', src, 'success','Customs', 'FREE Upgrade has been Installed')
+            local result = CustomsSQL(Config.Mysql,'fetchAll','SELECT * FROM '..vehicletable..' WHERE UPPER(plate) = @plate', {
                 ['@plate'] = prop.plate:upper()
             })
+            if result[1] then
+                CustomsSQL(Config.Mysql,'execute','UPDATE '..vehicletable..' SET `'..vehiclemod..'` = @'..vehiclemod..' WHERE UPPER(plate) = @plate', {
+                    ['@'..vehiclemod..''] = json.encode(prop),
+                    ['@plate'] = prop.plate:upper()
+                })
+            end
+            cb(true)
+        else
+            TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
+            cb(false)
         end
-        cb(true)
     else
-        TriggerClientEvent('renzu_notify:Notify', src, 'error','Customs', 'Not Enough Money Cabron')
-        cb(false)
+        -- Ban Player
     end
     menu = false
 end)
