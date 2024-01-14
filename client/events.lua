@@ -20,16 +20,16 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                         ['title'] = 'Press [E] Open Paint Menu',
                         ['server_event'] = false, -- server event or client
                         ['unpack_arg'] = true, -- send args as unpack 1,2,3,4 order
-                        ['fa'] = '<i class="fas fa-garage"></i>',
+                        ['fa'] = 'fas fa-garage',
                         ['invehicle_title'] = 'Press [E] Open Stock Room',
                         ['custom_arg'] = {k,v}, -- example: {1,2,3,4}
                     }
-                    TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                    showTextUI(table)
                     while distance < 3 do
                         distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.paintmenu.coord.x,v.paintmenu.coord.y,v.paintmenu.coord.z))
                         Wait(500)
                     end
-                    TriggerEvent('renzu_popui:closeui')
+                    closeTextUI()
                 end
                 if v.mod then
                     for k,v in pairs(v.mod) do
@@ -50,12 +50,12 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                                     ['invehicle_title'] = 'Press [E] Upgrade Menu',
                                     ['custom_arg'] = {}, -- example: {1,2,3,4}
                                 }
-                                TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                                showTextUI(table)
                                 while distance < 3 and IsPedInAnyVehicle(PlayerPedId()) do
                                     distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.coord.x,v.coord.y,v.coord.z))
                                     Wait(500)
                                 end
-                                TriggerEvent('renzu_popui:closeui')
+                                closeTextUI()
                             end
                         end
                     end
@@ -75,12 +75,12 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                         ['invehicle_title'] = 'Press [E] Open Stock Room',
                         ['custom_arg'] = {k,v}, -- example: {1,2,3,4}
                     }
-                    TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                    showTextUI(table)
                     while distance < 3 do
                         distance = #(GetEntityCoords(PlayerPedId()) - vector3(v.stockroom.coord.x,v.stockroom.coord.y,v.stockroom.coord.z))
                         Wait(500)
                     end
-                    TriggerEvent('renzu_popui:closeui')
+                    closeTextUI()
                 end
             end
             local nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.000, 0, 70)
@@ -89,7 +89,7 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     stats_show = nearveh
                     CreateThread(function()
                         while nearveh ~= 0 do
-                            ShowFloatingHelpNotification('Press [E] to See Vehicle Parts', GetEntityCoords(nearveh)+vec3(0,0,1.0))
+                            ShowFloatingHelpNotification('Press ~g~[E]~s~ to See Vehicle Parts', GetEntityCoords(nearveh)+vec3(0,0,1.0))
                             if IsControlPressed(0,38) then
                                 TriggerEvent('renzu_customs:vehiclemod',nearveh)
                                 Wait(100)
@@ -123,12 +123,12 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                     ['invehicle_title'] = 'Press [E] Open Inventory',
                     ['custom_arg'] = {currentprivate,activeshare}, -- example: {1,2,3,4}
                 }
-                TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                showTextUI(table)
                 while inventorydis < 3 and not carrymode do
                     inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.coord.x,inv.coord.y,inv.coord.z))
                     Wait(500)
                 end
-                TriggerEvent('renzu_popui:closeui')
+                closeTextUI()
             elseif Config.InteractiveFeature['garage_inventory'] and not carrymode and carrymod and inventorydis < 2 and ShopPermmision(currentprivate,'garage_inventory') then
                 if inventorydis < 2 and ShopPermmision(currentprivate,'garage_inventory') and Config.showmarker then
                     DrawMarkerInput(vector3(inv.coord.x,inv.coord.y,inv.coord.z),'Press [E] Store','renzu_customs:storemod',false,'store_mod',{currentprivate,Config.VehicleMod[tostore[1]],tostore[2],false,false,true},true)
@@ -145,12 +145,12 @@ AddEventHandler('renzu_customs:ingarage', function(garage,garage_id)
                         --{index,lvl,k,nearveh,Config.VehicleMod[index]}
                         ['custom_arg'] = {currentprivate,Config.VehicleMod[tostore[1]],tostore[2],false,false,true}, -- example: {1,2,3,4}
                     }
-                    TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                    showTextUI(table)
                     while inventorydis < 3 and not carrymode and carrymod do
                         inventorydis = #(GetEntityCoords(PlayerPedId()) - vector3(inv.coord.x,inv.coord.y,inv.coord.z))
                         Wait(500)
                     end
-                    TriggerEvent('renzu_popui:closeui')
+                    closeTextUI()
                 end
             end
             Wait(1000)
@@ -187,7 +187,7 @@ AddEventHandler('renzu_customs:openinventory', function(current)
             TriggerEvent('renzu_contextmenu:insertmulti',multimenu,"Vehicle Parts",false,"<i class='fad fa-inventory'></i> Mod Inventory")
             TriggerEvent('renzu_contextmenu:show')
         else
-            TriggerEvent('renzu_notify:Notify', 'error','Customs', 'Inventory is Empty')
+            SendNotification('error','Customs', 'Inventory is Empty')
         end
     end,current,activeshare)
 end)
@@ -297,14 +297,14 @@ AddEventHandler('renzu_customs:getmodfromstockroom', function(index,lvl,name,veh
                     ['fa'] = '<i class="fas fa-car"></i>',
                     ['custom_arg'] = {index,lvl,k,nearveh,Config.VehicleMod[index]}, -- example: {1,2,3,4}
                 }
-                TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                showTextUI(table)
                 while dist < 9 do
                     newprop = GetVehicleProperties(nearveh)
                     nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 2.000, 0, 70)
                     dist = #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(nearveh))
                     Wait(500)
                 end
-                TriggerEvent('renzu_popui:closeui')
+                closeTextUI()
             end
         end
         Wait(500)
@@ -333,7 +333,7 @@ AddEventHandler('renzu_customs:installmod', function(index,lvl,k,vehicle,mod)
         ClearPedTasks(PlayerPedId())
         TriggerServerEvent('renzu_customs:syncdel',NetworkGetNetworkIdFromEntity(object))
     else
-        TriggerEvent('renzu_notify:Notify', 'error','Garage', 'This Parts is not compatible with this vehicle')
+        SendNotification('error','Garage', 'This Parts is not compatible with this vehicle')
     end
 end)
 
@@ -359,20 +359,20 @@ AddEventHandler('renzu_customs:getmod', function(index,lvl,k)
                             ['fa'] = '<i class="fas fa-car"></i>',
                             ['custom_arg'] = {index,lvl,k,nearveh,Config.VehicleMod[index]}, -- example: {1,2,3,4}
                         }
-                        TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                        showTextUI(table)
                         while dist < 9 do
                             newprop = GetVehicleProperties(nearveh)
                             nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 2.000, 0, 70)
                             dist = #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(nearveh))
                             Wait(500)
                         end
-                        TriggerEvent('renzu_popui:closeui')
+                        closeTextUI()
                     end
                 end
                 Wait(500)
             end
         else
-            TriggerEvent('renzu_notify:Notify', 'error','Garage', 'This Parts Does not exist')
+            SendNotification('error','Garage', 'This Parts Does not exist')
         end
     end,currentprivate,k,activeshare)
 end)
@@ -410,13 +410,13 @@ AddEventHandler('renzu_customs:removevehiclemod', function(mod,lvl,vehicle)
                         ['fa'] = '<i class="fas fa-car"></i>',
                         ['custom_arg'] = {currentprivate,mod,lvl,newprop}, -- example: {1,2,3,4}
                     }
-                    TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                    showTextUI(table)
                     while distance < 3 do
                         newprop = GetVehicleProperties(vehicle)
                         distance = #(GetEntityCoords(PlayerPedId()) - vector3(vec.coord.x,vec.coord.y,vec.coord.z))
                         Wait(500)
                     end
-                    TriggerEvent('renzu_popui:closeui')
+                    closeTextUI()
                 end
             end
             Wait(500)
@@ -456,7 +456,7 @@ AddEventHandler('renzu_customs:vehiclemod', function(vehicle)
             TriggerEvent('renzu_contextmenu:insertmulti',multimenu,"Vehicle Parts",false,"Vehicle Mods")
             TriggerEvent('renzu_contextmenu:show')
         else
-            TriggerEvent('renzu_notify:Notify', 'error','Customs', 'Vehicle is Stock')
+            SendNotification('error','Customs', 'Vehicle is Stock')
         end
     end
 end)
@@ -655,13 +655,13 @@ AddEventHandler('renzu_customs:paint', function(color,spray)
                         ['fa'] = '<i class="fas fa-car"></i>',
                         ['custom_arg'] = {color,true}, -- example: {1,2,3,4}
                     }
-                    TriggerEvent('renzu_popui:drawtextuiwithinput',table)
+                    showTextUI(table)
                     while tospray do
                         nearveh = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 2.000, 0, 70)
                         dist = #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(nearveh))
                         Wait(500)
                     end
-                    TriggerEvent('renzu_popui:closeui')
+                    closeTextUI()
                 end
             end
             Wait(500)

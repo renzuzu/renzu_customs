@@ -3,9 +3,14 @@ lua54 'on'
 game 'gta5'
 ui_page 'html/index.html'
 
-shared_script '@renzu_shield/init.lua'
+shared_scripts {
+	--'@renzu_shield/init.lua',
+    '@ox_lib/init.lua',
+}
+
 server_scripts {
-	'@mysql-async/lib/MySQL.lua', -- uncomment if ghmatti and oxmysql
+	--'@mysql-async/lib/MySQL.lua', -- uncomment if ghmatti and oxmysql
+	'@oxmysql/lib/MySQL.lua',
 	'config.lua',
 	'framework/sv_wrapper.lua',
 	'server/server.lua'
@@ -21,18 +26,12 @@ client_scripts {
 }
 
 files {
-	'html/design.css',
-	'html/index.html',
-	'html/*.js',
-	'html/fonts/*',	
-	'html/img/*.svg',
-	'imgs/uploads/*.jpg',
-	'html/audio/*.ogg',
+	'html/*',
+	'html/**/*',
 	'handling.min.json',
 	"data/carcols_gen9.meta",
     "data/carmodcols_gen9.meta",
-    "data/carmodcols.ymt",
-    "stream/vehicle_paint_ramps.ytd"
+    "data/carmodcols.ymt"
 }
 
 data_file "CARCOLS_GEN9_FILE" "data/carcols_gen9.meta"
