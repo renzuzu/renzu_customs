@@ -10,7 +10,7 @@ shared_scripts {
 
 server_scripts {
 	--'@mysql-async/lib/MySQL.lua', -- uncomment if ghmatti and oxmysql
-	'@oxmysql/lib/MySQL.lua'
+	'@oxmysql/lib/MySQL.lua',
 	'config.lua',
 	'framework/sv_wrapper.lua',
 	'server/server.lua'
